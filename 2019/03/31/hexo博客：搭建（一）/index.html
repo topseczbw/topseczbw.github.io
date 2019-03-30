@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <title>hexo博客：搭建（一） - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="https://topseczbw.github.io/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"hexo通过编写markdown文件，hexo帮我们生成静态的html页面，然后将生成的html上传到我们的服务器\n\n开始搭建\n官网\n\n安装node、git、hexo\n1sudo npm i hexo -g\n\n初始化仓库\n执行下述命令，然后通过http://localhost:4000查看本地博客\n12345sudo npm install -g hexomkdir blog &amp;&amp; cd bloghexo init\t#初始化hexo仓库，如果依赖没有安装，需要npm installhexo g\t\t#可以理解为编译markdown文件为html,生成缓存和静态文件hexo s\t\t#本地起服务调试dada\n\n关联个人github\n注册并登陆GitHub账号后，新建仓库，名称必须为topseczbw.github.io（用户名）\n\n修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：\n1234deploy:  type: git  repository: https://github.com/topseczbw/topseczbw.github.io.git  branch: master\n\n安装git与hexo仓库关联依赖，重新编译并上传github\n若未关联GitHub，执行hexo d时会提示输入GitHub账号用户名和密码。\n123npm i hexo-deployer-git --save\t\t#安装推送工具hexo ghexo d\t\t#重新部署到服务器\n\n\n\n添加ssh keys到github\n添加ssh key后不需要每次更新博客再输入用户名和密码。首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key\n\n执行下述命令生成新的ssh key，将`your_email@example.com改成自己注册的GitHub邮箱地址。默认会在~/.ssh/id_rsa.pub中生成id_rsa和id_rsa.pub`文件\n1ssh-keygen -t rsa -C &quot;your_email@exampl&quot;\n\nMac下利用open ~/.ssh打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加\n\n此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过hexo g和hexo d便可更新到GitHub之中，通过 https://topseczbw.github.io/ 访问便可看到更新内容\n\n\n\n\n\n参考原文地址：Mac+Hexo+GitHub博客搭建教程\n\n","dateCreated":"2019-03-31T04:25:13+08:00","dateModified":"2019-03-31T04:25:13+08:00","datePublished":"2019-03-31T04:25:13+08:00","description":"hexo通过编写markdown文件，hexo帮我们生成静态的html页面，然后将生成的html上传到我们的服务器","headline":"hexo博客：搭建（一）","image":["http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://topseczbw.github.io/2019/03/31/hexo博客：搭建（一）/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://topseczbw.github.io/2019/03/31/hexo博客：搭建（一）/","keywords":"hexo, github","thumbnailUrl":"http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip"}</script>
+    <meta name="description" content="hexo通过编写markdown文件，hexo帮我们生成静态的html页面，然后将生成的html上传到我们的服务器">
+<meta name="keywords" content="hexo,github">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="hexo博客：搭建（一）">
+<meta property="og:url" content="https://topseczbw.github.io/2019/03/31/hexo博客：搭建（一）/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="hexo通过编写markdown文件，hexo帮我们生成静态的html页面，然后将生成的html上传到我们的服务器">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-03-30T20:25:13.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hexo博客：搭建（一）">
+<meta name="twitter:description" content="hexo通过编写markdown文件，hexo帮我们生成静态的html页面，然后将生成的html上传到我们的服务器">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://topseczbw.github.io/assets/images/avatar.png"/>
+    
+    
+        <meta property="og:image" content="http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip" />
+    
+    
+        <meta property="og:image" content="https://topseczbw.github.io/2019/03/31/hexo博客：搭建（一）/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://topseczbw.github.io/2019/03/31/hexo博客：搭建（一）/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>乐观看待未来<br> 不抱怨只自省<br> 超越常人的坚持</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="邮箱">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/03/31/hexo博客：搭建（一）/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            hexo博客：搭建（一）
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>hexo通过编写markdown文件，hexo帮我们生成静态的html页面，然后将生成的html上传到我们的服务器<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#开始搭建"><span class="toc-text">开始搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加ssh-keys到github"><span class="toc-text">添加ssh keys到github</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考原文地址：Mac-Hexo-GitHub博客搭建教程"><span class="toc-text">参考原文地址：Mac+Hexo+GitHub博客搭建教程</span></a></li></ol><p></p>
+<ul>
+<li><h4 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h4><ul>
+<li><p><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">官网</a></p>
+</li>
+<li><p>安装node、git、hexo</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm i hexo -g</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化仓库</p>
+<p>执行下述命令，然后通过<a href="https://link.jianshu.com/?t=http%3A%2F%2Flocalhost%3A4000" target="_blank" rel="noopener">http://localhost:4000</a>查看本地博客</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo</span><br><span class="line">mkdir blog &amp;&amp; cd blog</span><br><span class="line">hexo init	#初始化hexo仓库，如果依赖没有安装，需要npm install</span><br><span class="line">hexo g		#可以理解为编译markdown文件为html,生成缓存和静态文件</span><br><span class="line">hexo s		#本地起服务调试dada</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关联个人github</p>
+<p>注册并登陆GitHub账号后，新建仓库，名称必须为<code>topseczbw.github.io</code>（用户名）</p>
+</li>
+<li><p>修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="attr">https://github.com/topseczbw/topseczbw.github.io.git</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装git与hexo仓库关联依赖，重新编译并上传github</p>
+<p>若未关联GitHub，执行<code>hexo d</code>时会提示输入GitHub账号用户名和密码。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-deployer-git --save		#安装推送工具</span><br><span class="line">hexo g</span><br><span class="line">hexo d		#重新部署到服务器</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="添加ssh-keys到github"><a href="#添加ssh-keys到github" class="headerlink" title="添加ssh keys到github"></a>添加ssh keys到github</h4><ul>
+<li><p>添加ssh key后不需要每次更新博客再输入用户名和密码。首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key</p>
+</li>
+<li><p>执行下述命令生成新的ssh key，将<a href="mailto:`your_email@example.com" target="_blank" rel="noopener">`your_email@example.com</a><code>改成自己注册的GitHub邮箱地址。默认会在</code>~/.ssh/id_rsa.pub<code>中生成</code>id_rsa<code>和</code>id_rsa.pub`文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;your_email@exampl&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Mac下利用<code>open ~/.ssh</code>打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key<code>路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key</code>中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加</p>
+</li>
+<li><p>此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过<code>hexo g</code>和<code>hexo d</code>便可更新到GitHub之中，通过 <a href="https://topseczbw.github.io/">https://topseczbw.github.io/</a> 访问便可看到更新内容</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h4 id="参考原文地址：Mac-Hexo-GitHub博客搭建教程"><a href="#参考原文地址：Mac-Hexo-GitHub博客搭建教程" class="headerlink" title="参考原文地址：Mac+Hexo+GitHub博客搭建教程"></a>参考原文地址：<a href="https://www.jianshu.com/p/cbf8ba8af532" target="_blank" rel="noopener">Mac+Hexo+GitHub博客搭建教程</a></h4></li>
+</ul>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/github/">github</a> <a class="tag tag--primary tag--small t-link" href="/tags/hexo/">hexo</a>
+
+            </div>
+        
+        
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>乐观看待未来<br> 不抱怨只自省<br> 超越常人的坚持</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('http://pov6tpkt4.bkt.clouddn.com/bg4.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    </body>
+</html>
