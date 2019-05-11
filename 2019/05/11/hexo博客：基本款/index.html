@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。\n开始搭建\n安装依赖 在node、git前提下，全局安装hexo。\n 1sudo npm i hexo -g\n\n初始化仓库执行下述命令，然后通过  localhost:4000  查看。\n 1234mkdir blog &amp;&amp; cd bloghexo init\t#初始化hexo仓库，默认安装依赖，如果没有，需要手动 npm installhexo g\t\t#生成缓存和静态文件，可以理解为编译markdown为htmlhexo s\t\t#开发环境调试博客\n\n关联个人github注册并登陆GitHub账号后，新建public仓库，名称必须是  topseczbw.github.io（前缀是用户名）  。\n修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：\n 1234deploy:  type: git  repository: https://github.com/topseczbw/topseczbw.github.io.git  branch: master\n\n安装hexo-deployer-gitgit与hexo仓库关联所依赖的推送工具，重新编译并上传github。\n若未关联GitHub，执行hexo d时会提示输入GitHub账号用户名和密码。\n12npm i hexo-deployer-git -S\t #安装推送工具hexo g &amp;&amp; hexo d\t\t\t #重新部署到服务器\n\n\n添加ssh keys到github\n为什么设置？添加ssh key后不需要每次更新博客再输入用户名和密码。\n\n如何设置？首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key。\n执行下述命令生成新的ssh key，将  your_email@exampl  改成自己注册的GitHub邮箱地址。默认会在  ~/.ssh/id_rsa.pub  中生成  id_rsa  和  id_rsa.pub  文件\n  1ssh-keygen -t rsa -C \"your_email@exampl\"\nMac下利用  open ~/.ssh  打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key  路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key  中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加\n此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过  hexo g  和  hexo d  便可更新到GitHub之中，通过 https://topseczbw.github.io/ 访问便可看到更新内容\n\n\n参考内容\nhexo官网\nMac+Hexo+GitHub博客搭建教程\n\n","dateCreated":"2019-03-31T04:50:39+08:00","dateModified":"2019-03-31T14:46:22+08:00","datePublished":"2019-03-31T04:50:39+08:00","description":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。","headline":"hexo博客：基本款","image":["http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://topseczbw.github.io/2019/03/31/hexo博客：基本款/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://topseczbw.github.io/2019/03/31/hexo博客：基本款/","keywords":"hexo, github","thumbnailUrl":"http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。\n开始搭建\n安装依赖 在node、git前提下，全局安装hexo。\n 1sudo npm i hexo -g\n\n初始化仓库执行下述命令，然后通过  localhost:4000  查看。\n 1234mkdir blog &amp;&amp; cd bloghexo init\t#初始化hexo仓库，默认安装依赖，如果没有，需要手动 npm installhexo g\t\t#生成缓存和静态文件，可以理解为编译markdown为htmlhexo s\t\t#开发环境调试博客\n\n关联个人github注册并登陆GitHub账号后，新建public仓库，名称必须是  topseczbw.github.io（前缀是用户名）  。\n修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：\n 1234deploy:  type: git  repository: https://github.com/topseczbw/topseczbw.github.io.git  branch: master\n\n安装hexo-deployer-gitgit与hexo仓库关联所依赖的推送工具，重新编译并上传github。\n若未关联GitHub，执行hexo d时会提示输入GitHub账号用户名和密码。\n12npm i hexo-deployer-git -S\t #安装推送工具hexo g &amp;&amp; hexo d\t\t\t #重新部署到服务器\n\n\n添加ssh keys到github\n为什么设置？添加ssh key后不需要每次更新博客再输入用户名和密码。\n\n如何设置？首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key。\n执行下述命令生成新的ssh key，将  your_email@exampl  改成自己注册的GitHub邮箱地址。默认会在  ~/.ssh/id_rsa.pub  中生成  id_rsa  和  id_rsa.pub  文件\n  1ssh-keygen -t rsa -C \"your_email@exampl\"\nMac下利用  open ~/.ssh  打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key  路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key  中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加\n此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过  hexo g  和  hexo d  便可更新到GitHub之中，通过 https://topseczbw.github.io/ 访问便可看到更新内容\n\n\n参考内容\nhexo官网\nMac+Hexo+GitHub博客搭建教程\n\n","dateCreated":"2019-05-11T14:02:42+08:00","dateModified":"2019-05-11T14:02:42+08:00","datePublished":"2019-05-11T14:02:42+08:00","description":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。","headline":"hexo博客：基本款","image":["http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://topseczbw.github.io/2019/05/11/hexo博客：基本款/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://topseczbw.github.io/2019/05/11/hexo博客：基本款/","keywords":"hexo, github","thumbnailUrl":"http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D"}</script>
     <meta name="description" content="hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。">
 <meta name="keywords" content="hexo,github">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="hexo博客：基本款">
-<meta property="og:url" content="https://topseczbw.github.io/2019/03/31/hexo博客：基本款/index.html">
+<meta property="og:url" content="https://topseczbw.github.io/2019/05/11/hexo博客：基本款/index.html">
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-03-31T06:46:22.134Z">
+<meta property="og:updated_time" content="2019-05-11T06:02:42.039Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo博客：基本款">
 <meta name="twitter:description" content="hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。">
@@ -36,12 +36,12 @@
         <meta property="og:image" content="https://topseczbw.github.io/assets/images/avatar.png"/>
     
     
-        <meta property="og:image" content="http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://pov6tpkt4.bkt.clouddn.com/hexo.jpeg-imgzip" />
+        <meta property="og:image" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&amp;OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&amp;Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&amp;OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&amp;Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D" />
     
     
-        <meta property="og:image" content="https://topseczbw.github.io/2019/03/31/hexo博客：基本款/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://topseczbw.github.io/2019/03/31/hexo博客：基本款/cover.png" />
+        <meta property="og:image" content="https://topseczbw.github.io/2019/05/11/hexo博客：基本款/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://topseczbw.github.io/2019/05/11/hexo博客：基本款/cover.png" />
     
     
     <!--STYLES-->
@@ -195,7 +195,7 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/03/31/hexo博客：基本款/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/05/11/hexo博客：基本款/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
@@ -275,7 +275,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="上一篇: hexo博客：主题篇">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/干法/" data-tooltip="《干法》" aria-label="上一篇: 《干法》">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -283,7 +283,8 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="下一篇: hexo博客：主题篇">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -293,7 +294,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -360,7 +361,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="上一篇: hexo博客：主题篇">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/干法/" data-tooltip="《干法》" aria-label="上一篇: 《干法》">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -368,7 +369,8 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="下一篇: hexo博客：主题篇">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -378,7 +380,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -450,7 +452,7 @@
 
         
         
-<div id="cover" style="background-image:url('http://pov6tpkt4.bkt.clouddn.com/bg4.jpg');"></div>
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
         <!--SCRIPTS-->
 <script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
 <!--SCRIPTS END-->
@@ -458,9 +460,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://topseczbw.github.io/2019/03/31/hexo博客：基本款/';
+                 this.page.url = 'https://topseczbw.github.io/2019/05/11/hexo博客：基本款/';
                  
-                    this.page.identifier = '2019/03/31/hexo博客：基本款/';
+                    this.page.identifier = '2019/05/11/hexo博客：基本款/';
                  
              };
             (function() {

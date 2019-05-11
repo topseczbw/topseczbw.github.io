@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"Tranquilpeak（宁静）是hexo的一款相比于next更美观，更加图文并茂的主题。\n\n\n主题_config.yml文件设置1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556# 图片资源位置image_dir: assets/images# 侧导航设置sidebar:  menu:    home:      title: global.home      url: /      icon: fa fa-home    categories:      title: global.categories      url: /all-categories      icon: fa fa-bookmark    tags:      title: global.tags      url: /all-tags      icon: fa fa-tags    archives:      title: global.archives      url: /all-archives      icon: fa fa-archive    about:      title: global.about      url: /#about      icon: fa fa-question    github:      title: global.github      url: https://github.com/topseczbw      icon: fab fa-github    mail:      title: global.mail      url: mailto      icon: fa fa-envelope # 作者相关 author:      email: 569119225@qq.com      location: 北京-海淀 # 个性化定制 # 侧边栏状态123456 sidebar_behavior: 2 # 阅读时侧边栏状态是否收起 clear_reading: true # 缩略图设置 thumbnail_image: true thumbnail_image_position: left auto_thumbnail_image: true # 缩略图设置 cover_image: http://pov6tpkt4.bkt.clouddn.com/bg4.jpg favicon: avatar.png image_gallery: true # 分类、标签、归档是否分页 archive_pagination: true category_pagination: true tag_pagination: true # 评论系统 disqus_shortname: zbwblog\n主题languages/zh-cn设置12345author:  # 你的个人简介 (支持 Markdown 和 HTML 语法)  bio: \"&gt; 乐观看待未来&lt;br&gt; 不抱怨只自省&lt;br&gt; 超越常人的坚持\"  # 你的工作简介  job: \"TALFE\"\n文章中Front-matter常用设置123456789101112131415161718192021222324# 隐藏所有文章页面上的侧边栏，让文章全宽以提高阅读，并享受宽图像和封面图像clearReading: true# 文章缩略图地址 主题/source/assets/images/ 或者 在线地址thumbnailImage: image-1.png# 缩略图定位：right left bottomthumbnailImagePosition: bottom# 如果没有缩略图，自动选择封面图像或文章图库中的第一张照片作为缩略图autoThumbnailImage: yes# 标题、日期、类别对齐方式metaAlignment: center# 在帖子视图（封面）中，以全尺寸显示在帖子顶部的图像coverImage: image-2.png# 给封面加标题coverCaption: \"A beautiful sunrise\"# 给封面加帖子元(标题、日期、类别)coverMeta: out# 封面占比：partial fullcoverSize: full# 禁用评论comments: false# 禁用帖子元meta: false# 禁用发布操作actions: false\n常用操作\n标签插件\n1234567&#123;% alert danger no-icon %&#125;\t警告内容&#123;% endalert %&#125;&#123;% hl_text danger %&#125;\t高亮文本&#123;% endhl_text %&#125;class： danger success warning info\n class： danger success warning info \n\n\n\n踩过的坑\n开发环境样式丢失  \n\n博客搭建完成后，尝试通过github管理本blog项目（是hexo搭建的本项目，而非username.github.io托管的静态html项目），几天之后，在另外一台电脑git clone本项目，本以为根据根目录和主题目录的package.json安装依赖完成后可以直接运行并编辑博客，运行起来后发现，样式丢失了。\n\n找了很多资料，有人说是url和root路径的问题，尝试修改了很多次，仍然不行。\n\n最后定位到问题，是因为第一次搭建Tranquilpeak主题时，作者推荐直接下载生产版压缩包（里面包含压缩好的css和node_modules），而不是从仓库master分支拉开发版本项目。是因为即使是在开发环境中，主题项目引用的仍然是压缩过后的css。所以由于开发环境主题项目没有压缩css，而经过hexo编译的markdown文件引入的又是生产环境压缩过后的css，导致样式丢失。\n\n解决方法：进入主题目录，执行  npm run build  命令，再启动hexo就正常了。\n\n\n","dateCreated":"2019-04-05T12:13:03+08:00","dateModified":"2019-04-05T12:13:03+08:00","datePublished":"2019-04-05T12:13:03+08:00","description":"Tranquilpeak（宁静）是hexo的一款相比于next更美观，更加图文并茂的主题。","headline":"hexo博客：主题篇","image":["http://pov6tpkt4.bkt.clouddn.com/bg4.jpg","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://topseczbw.github.io/2019/04/05/hexo博客：主题篇/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://topseczbw.github.io/2019/04/05/hexo博客：主题篇/","keywords":"hexo, tranquilpeak","thumbnailUrl":"http://pov6tpkt4.bkt.clouddn.com/bg4.jpg"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"Tranquilpeak（宁静）是hexo的一款相比于next更美观，更加图文并茂的主题。\n\n\n主题_config.yml文件设置1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556# 图片资源位置image_dir: assets/images# 侧导航设置sidebar:  menu:    home:      title: global.home      url: /      icon: fa fa-home    categories:      title: global.categories      url: /all-categories      icon: fa fa-bookmark    tags:      title: global.tags      url: /all-tags      icon: fa fa-tags    archives:      title: global.archives      url: /all-archives      icon: fa fa-archive    about:      title: global.about      url: /#about      icon: fa fa-question    github:      title: global.github      url: https://github.com/topseczbw      icon: fab fa-github    mail:      title: global.mail      url: mailto      icon: fa fa-envelope # 作者相关 author:      email: 569119225@qq.com      location: 北京-海淀 # 个性化定制 # 侧边栏状态123456 sidebar_behavior: 2 # 阅读时侧边栏状态是否收起 clear_reading: true # 缩略图设置 thumbnail_image: true thumbnail_image_position: left auto_thumbnail_image: true # 缩略图设置 cover_image: http://pov6tpkt4.bkt.clouddn.com/bg4.jpg favicon: avatar.png image_gallery: true # 分类、标签、归档是否分页 archive_pagination: true category_pagination: true tag_pagination: true # 评论系统 disqus_shortname: zbwblog\n主题languages/zh-cn设置12345author:  # 你的个人简介 (支持 Markdown 和 HTML 语法)  bio: \"&gt; 乐观看待未来&lt;br&gt; 不抱怨只自省&lt;br&gt; 超越常人的坚持\"  # 你的工作简介  job: \"TALFE\"\n文章中Front-matter常用设置123456789101112131415161718192021222324# 隐藏所有文章页面上的侧边栏，让文章全宽以提高阅读，并享受宽图像和封面图像clearReading: true# 文章缩略图地址 主题/source/assets/images/ 或者 在线地址thumbnailImage: image-1.png# 缩略图定位：right left bottomthumbnailImagePosition: bottom# 如果没有缩略图，自动选择封面图像或文章图库中的第一张照片作为缩略图autoThumbnailImage: yes# 标题、日期、类别对齐方式metaAlignment: center# 在帖子视图（封面）中，以全尺寸显示在帖子顶部的图像coverImage: image-2.png# 给封面加标题coverCaption: \"A beautiful sunrise\"# 给封面加帖子元(标题、日期、类别)coverMeta: out# 封面占比：partial fullcoverSize: full# 禁用评论comments: false# 禁用帖子元meta: false# 禁用发布操作actions: false\n常用操作\n标签插件\n1234567&#123;% alert danger no-icon %&#125;\t警告内容&#123;% endalert %&#125;&#123;% hl_text danger %&#125;\t高亮文本&#123;% endhl_text %&#125;class： danger success warning info\n class： danger success warning info \n\n\n\n踩过的坑\n开发环境样式丢失  \n\n博客搭建完成后，尝试通过github管理本blog项目（是hexo搭建的本项目，而非username.github.io托管的静态html项目），几天之后，在另外一台电脑git clone本项目，本以为根据根目录和主题目录的package.json安装依赖完成后可以直接运行并编辑博客，运行起来后发现，样式丢失了。\n\n找了很多资料，有人说是url和root路径的问题，尝试修改了很多次，仍然不行。\n\n最后定位到问题，是因为第一次搭建Tranquilpeak主题时，作者推荐直接下载生产版压缩包（里面包含压缩好的css和node_modules），而不是从仓库master分支拉开发版本项目。是因为即使是在开发环境中，主题项目引用的仍然是压缩过后的css。所以由于开发环境主题项目没有压缩css，而经过hexo编译的markdown文件引入的又是生产环境压缩过后的css，导致样式丢失。\n\n解决方法：进入主题目录，执行  npm run build  命令，再启动hexo就正常了。\n\n\n","dateCreated":"2019-05-11T14:02:42+08:00","dateModified":"2019-05-11T14:02:42+08:00","datePublished":"2019-05-11T14:02:42+08:00","description":"Tranquilpeak（宁静）是hexo的一款相比于next更美观，更加图文并茂的主题。","headline":"hexo博客：主题篇","image":["http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://topseczbw.github.io/2019/05/11/hexo博客：主题篇/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://topseczbw.github.io/2019/05/11/hexo博客：主题篇/","keywords":"hexo, tranquilpeak","thumbnailUrl":"http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D"}</script>
     <meta name="description" content="Tranquilpeak（宁静）是hexo的一款相比于next更美观，更加图文并茂的主题。">
 <meta name="keywords" content="hexo,tranquilpeak">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="hexo博客：主题篇">
-<meta property="og:url" content="https://topseczbw.github.io/2019/04/05/hexo博客：主题篇/index.html">
+<meta property="og:url" content="https://topseczbw.github.io/2019/05/11/hexo博客：主题篇/index.html">
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="Tranquilpeak（宁静）是hexo的一款相比于next更美观，更加图文并茂的主题。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-04-05T04:13:03.784Z">
+<meta property="og:updated_time" content="2019-05-11T06:02:42.033Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo博客：主题篇">
 <meta name="twitter:description" content="Tranquilpeak（宁静）是hexo的一款相比于next更美观，更加图文并茂的主题。">
@@ -36,12 +36,12 @@
         <meta property="og:image" content="https://topseczbw.github.io/assets/images/avatar.png"/>
     
     
-        <meta property="og:image" content="http://pov6tpkt4.bkt.clouddn.com/bg4.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://pov6tpkt4.bkt.clouddn.com/bg4.jpg" />
+        <meta property="og:image" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&amp;OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&amp;Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg?Expires=1557558148&amp;OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&amp;Signature=3%2FYQRe8orxTO1sME7XeXizUmcyA%3D" />
     
     
-        <meta property="og:image" content="https://topseczbw.github.io/2019/04/05/hexo博客：主题篇/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://topseczbw.github.io/2019/04/05/hexo博客：主题篇/cover.png" />
+        <meta property="og:image" content="https://topseczbw.github.io/2019/05/11/hexo博客：主题篇/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://topseczbw.github.io/2019/05/11/hexo博客：主题篇/cover.png" />
     
     
     <!--STYLES-->
@@ -195,7 +195,7 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/04/05/hexo博客：主题篇/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/05/11/hexo博客：主题篇/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
@@ -269,7 +269,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/rollup从0到1/" data-tooltip="Rollup快速入门" aria-label="上一篇: Rollup快速入门">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/hexo博客：基本款/" data-tooltip="hexo博客：基本款" aria-label="上一篇: hexo博客：基本款">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -278,7 +278,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/31/hexo博客：基本款/" data-tooltip="hexo博客：基本款" aria-label="下一篇: hexo博客：基本款">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/rollup从0到1/" data-tooltip="Rollup快速入门" aria-label="下一篇: Rollup快速入门">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -288,7 +288,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -355,7 +355,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/rollup从0到1/" data-tooltip="Rollup快速入门" aria-label="上一篇: Rollup快速入门">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/hexo博客：基本款/" data-tooltip="hexo博客：基本款" aria-label="上一篇: hexo博客：基本款">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -364,7 +364,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/31/hexo博客：基本款/" data-tooltip="hexo博客：基本款" aria-label="下一篇: hexo博客：基本款">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/rollup从0到1/" data-tooltip="Rollup快速入门" aria-label="下一篇: Rollup快速入门">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -374,7 +374,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -446,7 +446,7 @@
 
         
         
-<div id="cover" style="background-image:url('http://pov6tpkt4.bkt.clouddn.com/bg4.jpg');"></div>
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
         <!--SCRIPTS-->
 <script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
 <!--SCRIPTS END-->
@@ -454,9 +454,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://topseczbw.github.io/2019/04/05/hexo博客：主题篇/';
+                 this.page.url = 'https://topseczbw.github.io/2019/05/11/hexo博客：主题篇/';
                  
-                    this.page.identifier = '2019/04/05/hexo博客：主题篇/';
+                    this.page.identifier = '2019/05/11/hexo博客：主题篇/';
                  
              };
             (function() {

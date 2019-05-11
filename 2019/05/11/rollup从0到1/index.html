@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"解读官网，通俗易懂地学习Rollup。\n介绍\n是什么Rollup 是一个 JavaScript 模块打包器，可以将小块代码编译成大块复杂的代码，例如 library 或应用程序。\n告别生撸前端代码，使用es6新语法，模块化等技术优雅写前端代码。\n\nRollup 对代码模块使用新的标准化格式，这些标准都包含在 JavaScript 的 ES6 版本中，而不是以前的特殊解决方案，如 CommonJS 和 AMD。\n在使用rollup构建时，代码中引入模块只遵守ES模块规范。\n\n\n与webpack对比webpack：\n\n适合构建应用\n支持代码拆分，支持代码异步加载、按需加载，支持热加载、开发环境本地服务调试\n\nrollup：\n\n适合构建lib库\n打包出来的bundle比较干净，执行快，没有冗余代码\n不支持代码拆分（最新的版本引入插件已经支持）、热加载、开发环境本地服务调试、不支持代码异步加载、按需加载\n所有资源放在同一个地方，一次性加载\n\n\n两者都支持Tree-shaking，但这个概念最初是由rollup引入的。\nrollup并不支持代码拆分、热加载、开发环境本地服务调试\n对于类库开发，只有 js，而没有其他的静态资源文件，webpack有些大材小用，使用rollup更合适\n两者都支持导出时都支持各种模块规范\n如果你的项目中引入了许多CommonJs规范的模块，也推荐使用webpack\n\n\n\n\n常见问题\n什么是 ‘tree-shaking’?\n\n打包过程中自动删除代码中为引用的冗余代码\n删除部分逻辑简单的计算代码，如：var a = 1; var b =2; var c = a + b;  打包结果：var c = 3\n\n\n\n如果执行命令行参数和配置文件存在相同参数配置，优先选择哪一方？\n优先选择命令行\n\n\n自己写lib库时，可以引入的模块类型都有哪些，如何引入？\n首先说一下整体流程：rollup将所有的模块代码引入方式改成import，然后在使用babel编译出兼容代码\n所有模块类型都可以引入，包括：\n\n自己写的ES模块：直接引入\nnode_modules中的第三方模块：见下个问题\n\n\n\n源代码中如何引入node_modules中的模块？\n不管是以require方式还是import方式导入，打包出来的bundle中都还是原本的require/import语句，并且打包结果并未引入到node_modules中的第三方资源。\n此时我们需要先想办法将node_Module中的资源先提取出来，放到最后的打包的bundle中。（先不考虑在如何浏览器中运行）\nrollup并不知道如何打破常规去处理node_modules中的依赖，需要使用  rollup-plugin-node-resolve  插件，告诉rollup如何去查找外部模块(node_modules中的模块)  找到之后，再去解析。\n\n至此，我们仅仅将允许以ES模块（如：the-answer 模块）类型引入的第三方依赖资源打包到bundle中。\n但是目前，npm中的大多数包都是以CommonJS模块的形式出现的。 在它们更改之前，我们需要将CommonJS模块转换为 ES2015 供 Rollup 处理。\n比如我们此时自己打包出一个只遵守Commonjs规范的包mock-lib。\n在源代码中使用import语法引入 ，然后打包，会报错。\n因为此时这个第三方包只能通过require方式引入。\n即使改成require方式引入 ，打包完成，也只能在node中运行 。 \n如果我们自己打包出一个只遵守umd规范的包 mock-lib，结果同上。\n那我们到底如果引入外部的只支持CommonJs规范的模块呢？\n\n需要一个插件  rollup-plugin-commonjs  ，帮我们解析，我们源代码中引入的，只遵循commonjs规范的第三方包，此时源代码中，我们只需使用import语法引入即可。\n注意：我们源代码中，只支持ES模块规范，导入只用import\n\n\n为什么ES模块比CommonJS更好?\nES模块是一个官方标准，也是JavaScript代码结构的明确前进之路，而CommonJS模块是一种特殊的临时解决方案，作为ES模块被提出之前作为权宜之计。ES模块允许静态分析，这有助于tree-shaking等优化，并提供循环引用和实时绑定等高级功能。\n\n\nUMD规范内部实现？\n先判断运行环境是否支持cjs，然后判断是否支持amd，如果都不支持，则使用iife规范，生成一个全局变量\n\n\n\n基本使用\n快速上手1cnpm install rollup -g\n默认假设应用程序入口起点的名称为 main.js，并且你想要所有 import 的依赖(all imports)都编译到一个名为 bundle.js 的单个文件中。\n浏览器：  rollup main.js --file bundle.js --format iife  \nNode：    rollup main.js --file bundle.js --format cjs\n通用：      rollup main.js --file bundle.js --format umd --name &quot;myBundle&quot;\n\n一句话总结：以谁为入口文件，以哪种模块规范输出，输出名字为谁的文件。\n浏览器环境下，还不识别import语法，所以将打包出来的lib，以iife形式输出一个挂载在window上的全局对象。\nNode环境下，只支持CommonJs规范，所以以cjs类型输出。\n\n\n\n使用方式\n使用命令行\n使用配置文件\n使用Javascript API 调用\n\n你必须使用配置文件才能执行以下操作：\n\n把一个项目打包，然后输出多个文件\n\n使用Rollup插件\n\n\n\n\n常用插件\nrollup-plugin-json： 从json文件中读取数据\nrollup-plugin-node-resolve：解析外部模块\nrollup-plugin-commonjs：解析只遵循CommonJs规范的模块\nrollup-plugin-typescript：打包ts\n\n\n核心功能input、output、plugin、external详见官网\n\n\nES模块使用导入导出是两码事儿，没有任何对应的关系\n导入的模块不能被重新分配（不能被修改 ） 否则打包编译不过去\n\n\n导入\n命名导入:  \nimport { something } from &#39;./module.js&#39;;\nimport { something as somethingElse } from &#39;./module.js&#39;;\n\n命名空间导入:\n  import * as module from &#39;./module.js&#39;\n\n默认导入：\n  import something from &#39;./module.js&#39;; \n\n空导入：\n  import &#39;./module.js&#39;;\n应用于腻子脚本`，这些脚本或工具只需要自执行，并且通常都是在我们的业务代码之前引入\n\n\n\n导出\n命名导出\nexport { something };\nexport { something as somethingElse };\nexport const something = true;\n\n默认导出，仅当源模块只有一个导出时，才建议使用这种方法\nexport default something;\n\n\n\n\n集成其他工具\nnpm\n\nBabel\n技术更新太快，详见英文官网\n\nGulp\nRollup 返回 Gulp 能明白的 promise，所以集成是很容易的。\n1234567891011121314151617const gulp = require('gulp');const rollup = require('rollup');const rollupTypescript = require('rollup-plugin-typescript');gulp.task('build', async function () &#123;  const bundle = await rollup.rollup(&#123;    input: './src/main.ts',    plugins: [      rollupTypescript()    ]  &#125;);  await bundle.write(&#123;    file: './dist/library.js',    format: 'umd',    name: 'library',    sourcemap: true  &#125;);&#125;);\n\nPeer dependencies\n对等依赖关系：以Lodash为例\n有一种情况是，虽然我们引用了Loadsh的方法，但是不希望打包ladash代码，期待的是告知用户，我这个lib，需要依赖loadsh，你自己去下载（原因是用户的项目中可能也依赖loadsh，为避免最后打包上线的代码存在两份lodash）。\n指出应将哪些模块视为外部模块：  external: [&#39;lodash&#39;]\n\n\nJavascript API\nRollup.rollup：如供gulp使用\nRollup.watch：监听文件变化，实时打包（不常用）\n\n基本款模板format代表着打包完成后以哪种类型的模块规范输出，如果是umd或iife，需要指定name属性，即生成全局变量的名称\n\n123456789101112131415161718192021222324import json from 'rollup-plugin-json'import resolve from 'rollup-plugin-node-resolve';import commonjs from 'rollup-plugin-commonjs';import babel from 'rollup-plugin-babel';export default &#123;  input: 'src/main.js',  output: &#123;    file: 'lib/bundle.js',    format: 'umd',    name: 'zbw'  &#125;,  plugins: [    commonjs(),    json(),    resolve(&#123;      jsnext: true,      main: true    &#125;),    babel(&#123;      exclude: 'node_modules/**',    &#125;)  ],  external: ['lodash']&#125;;\n参考资料\n由于中英文官网两者版本差距过大，墙裂推荐去英文官网：Rollup官网\ndemo\n\n","dateCreated":"2019-04-05T14:57:37+08:00","dateModified":"2019-04-05T14:57:37+08:00","datePublished":"2019-04-05T14:57:37+08:00","description":"解读官网，通俗易懂地学习Rollup。","headline":"Rollup快速入门","image":["http://pov6tpkt4.bkt.clouddn.com/rollup.png","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://topseczbw.github.io/2019/04/05/rollup从0到1/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://topseczbw.github.io/2019/04/05/rollup从0到1/","keywords":"rollup, node, 自动化构建, 模块化, 前端工程化","thumbnailUrl":"http://pov6tpkt4.bkt.clouddn.com/rollup.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"解读官网，通俗易懂地学习Rollup。\n介绍\n是什么Rollup 是一个 JavaScript 模块打包器，可以将小块代码编译成大块复杂的代码，例如 library 或应用程序。\n告别生撸前端代码，使用es6新语法，模块化等技术优雅写前端代码。\n\nRollup 对代码模块使用新的标准化格式，这些标准都包含在 JavaScript 的 ES6 版本中，而不是以前的特殊解决方案，如 CommonJS 和 AMD。\n在使用rollup构建时，代码中引入模块只遵守ES模块规范。\n\n\n与webpack对比webpack：\n\n适合构建应用\n支持代码拆分，支持代码异步加载、按需加载，支持热加载、开发环境本地服务调试\n\nrollup：\n\n适合构建lib库\n打包出来的bundle比较干净，执行快，没有冗余代码\n不支持代码拆分（最新的版本引入插件已经支持）、热加载、开发环境本地服务调试、不支持代码异步加载、按需加载\n所有资源放在同一个地方，一次性加载\n\n\n两者都支持Tree-shaking，但这个概念最初是由rollup引入的。\nrollup并不支持代码拆分、热加载、开发环境本地服务调试\n对于类库开发，只有 js，而没有其他的静态资源文件，webpack有些大材小用，使用rollup更合适\n两者都支持导出时都支持各种模块规范\n如果你的项目中引入了许多CommonJs规范的模块，也推荐使用webpack\n\n\n\n\n常见问题\n什么是 ‘tree-shaking’?\n\n打包过程中自动删除代码中为引用的冗余代码\n删除部分逻辑简单的计算代码，如：var a = 1; var b =2; var c = a + b;  打包结果：var c = 3\n\n\n\n如果执行命令行参数和配置文件存在相同参数配置，优先选择哪一方？\n优先选择命令行\n\n\n自己写lib库时，可以引入的模块类型都有哪些，如何引入？\n首先说一下整体流程：rollup将所有的模块代码引入方式改成import，然后在使用babel编译出兼容代码\n所有模块类型都可以引入，包括：\n\n自己写的ES模块：直接引入\nnode_modules中的第三方模块：见下个问题\n\n\n\n源代码中如何引入node_modules中的模块？\n不管是以require方式还是import方式导入，打包出来的bundle中都还是原本的require/import语句，并且打包结果并未引入到node_modules中的第三方资源。\n此时我们需要先想办法将node_Module中的资源先提取出来，放到最后的打包的bundle中。（先不考虑在如何浏览器中运行）\nrollup并不知道如何打破常规去处理node_modules中的依赖，需要使用  rollup-plugin-node-resolve  插件，告诉rollup如何去查找外部模块(node_modules中的模块)  找到之后，再去解析。\n\n至此，我们仅仅将允许以ES模块（如：the-answer 模块）类型引入的第三方依赖资源打包到bundle中。\n但是目前，npm中的大多数包都是以CommonJS模块的形式出现的。 在它们更改之前，我们需要将CommonJS模块转换为 ES2015 供 Rollup 处理。\n比如我们此时自己打包出一个只遵守Commonjs规范的包mock-lib。\n在源代码中使用import语法引入 ，然后打包，会报错。\n因为此时这个第三方包只能通过require方式引入。\n即使改成require方式引入 ，打包完成，也只能在node中运行 。 \n如果我们自己打包出一个只遵守umd规范的包 mock-lib，结果同上。\n那我们到底如果引入外部的只支持CommonJs规范的模块呢？\n\n需要一个插件  rollup-plugin-commonjs  ，帮我们解析，我们源代码中引入的，只遵循commonjs规范的第三方包，此时源代码中，我们只需使用import语法引入即可。\n注意：我们源代码中，只支持ES模块规范，导入只用import\n\n\n为什么ES模块比CommonJS更好?\nES模块是一个官方标准，也是JavaScript代码结构的明确前进之路，而CommonJS模块是一种特殊的临时解决方案，作为ES模块被提出之前作为权宜之计。ES模块允许静态分析，这有助于tree-shaking等优化，并提供循环引用和实时绑定等高级功能。\n\n\nUMD规范内部实现？\n先判断运行环境是否支持cjs，然后判断是否支持amd，如果都不支持，则使用iife规范，生成一个全局变量\n\n\n\n基本使用\n快速上手1cnpm install rollup -g\n默认假设应用程序入口起点的名称为 main.js，并且你想要所有 import 的依赖(all imports)都编译到一个名为 bundle.js 的单个文件中。\n浏览器：  rollup main.js --file bundle.js --format iife  \nNode：    rollup main.js --file bundle.js --format cjs\n通用：      rollup main.js --file bundle.js --format umd --name &quot;myBundle&quot;\n\n一句话总结：以谁为入口文件，以哪种模块规范输出，输出名字为谁的文件。\n浏览器环境下，还不识别import语法，所以将打包出来的lib，以iife形式输出一个挂载在window上的全局对象。\nNode环境下，只支持CommonJs规范，所以以cjs类型输出。\n\n\n\n使用方式\n使用命令行\n使用配置文件\n使用Javascript API 调用\n\n你必须使用配置文件才能执行以下操作：\n\n把一个项目打包，然后输出多个文件\n\n使用Rollup插件\n\n\n\n\n常用插件\nrollup-plugin-json： 从json文件中读取数据\nrollup-plugin-node-resolve：解析外部模块\nrollup-plugin-commonjs：解析只遵循CommonJs规范的模块\nrollup-plugin-typescript：打包ts\n\n\n核心功能input、output、plugin、external详见官网\n\n\nES模块使用导入导出是两码事儿，没有任何对应的关系\n导入的模块不能被重新分配（不能被修改 ） 否则打包编译不过去\n\n\n导入\n命名导入:  \nimport { something } from &#39;./module.js&#39;;\nimport { something as somethingElse } from &#39;./module.js&#39;;\n\n命名空间导入:\n  import * as module from &#39;./module.js&#39;\n\n默认导入：\n  import something from &#39;./module.js&#39;; \n\n空导入：\n  import &#39;./module.js&#39;;\n应用于腻子脚本`，这些脚本或工具只需要自执行，并且通常都是在我们的业务代码之前引入\n\n\n\n导出\n命名导出\nexport { something };\nexport { something as somethingElse };\nexport const something = true;\n\n默认导出，仅当源模块只有一个导出时，才建议使用这种方法\nexport default something;\n\n\n\n\n集成其他工具\nnpm\n\nBabel\n技术更新太快，详见英文官网\n\nGulp\nRollup 返回 Gulp 能明白的 promise，所以集成是很容易的。\n1234567891011121314151617const gulp = require('gulp');const rollup = require('rollup');const rollupTypescript = require('rollup-plugin-typescript');gulp.task('build', async function () &#123;  const bundle = await rollup.rollup(&#123;    input: './src/main.ts',    plugins: [      rollupTypescript()    ]  &#125;);  await bundle.write(&#123;    file: './dist/library.js',    format: 'umd',    name: 'library',    sourcemap: true  &#125;);&#125;);\n\nPeer dependencies\n对等依赖关系：以Lodash为例\n有一种情况是，虽然我们引用了Loadsh的方法，但是不希望打包ladash代码，期待的是告知用户，我这个lib，需要依赖loadsh，你自己去下载（原因是用户的项目中可能也依赖loadsh，为避免最后打包上线的代码存在两份lodash）。\n指出应将哪些模块视为外部模块：  external: [&#39;lodash&#39;]\n\n\nJavascript API\nRollup.rollup：如供gulp使用\nRollup.watch：监听文件变化，实时打包（不常用）\n\n基本款模板format代表着打包完成后以哪种类型的模块规范输出，如果是umd或iife，需要指定name属性，即生成全局变量的名称\n\n123456789101112131415161718192021222324import json from 'rollup-plugin-json'import resolve from 'rollup-plugin-node-resolve';import commonjs from 'rollup-plugin-commonjs';import babel from 'rollup-plugin-babel';export default &#123;  input: 'src/main.js',  output: &#123;    file: 'lib/bundle.js',    format: 'umd',    name: 'zbw'  &#125;,  plugins: [    commonjs(),    json(),    resolve(&#123;      jsnext: true,      main: true    &#125;),    babel(&#123;      exclude: 'node_modules/**',    &#125;)  ],  external: ['lodash']&#125;;\n参考资料\n由于中英文官网两者版本差距过大，墙裂推荐去英文官网：Rollup官网\ndemo\n\n","dateCreated":"2019-05-11T14:00:39+08:00","dateModified":"2019-05-11T14:00:39+08:00","datePublished":"2019-05-11T14:00:39+08:00","description":"解读官网，通俗易懂地学习Rollup。","headline":"Rollup快速入门","image":["http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/rollup.png?Expires=1557558030&OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&Signature=vi9gCD6KVQPrTAFoyJ3Ft46OP7Y%3D","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://topseczbw.github.io/2019/05/11/rollup从0到1/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://topseczbw.github.io/2019/05/11/rollup从0到1/","keywords":"rollup, node, 自动化构建, 模块化, 前端工程化","thumbnailUrl":"http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/rollup.png?Expires=1557558030&OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&Signature=vi9gCD6KVQPrTAFoyJ3Ft46OP7Y%3D"}</script>
     <meta name="description" content="解读官网，通俗易懂地学习Rollup。">
 <meta name="keywords" content="rollup,node,自动化构建,模块化,前端工程化">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Rollup快速入门">
-<meta property="og:url" content="https://topseczbw.github.io/2019/04/05/rollup从0到1/index.html">
+<meta property="og:url" content="https://topseczbw.github.io/2019/05/11/rollup从0到1/index.html">
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="解读官网，通俗易懂地学习Rollup。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-04-05T06:57:37.272Z">
+<meta property="og:updated_time" content="2019-05-11T06:00:39.407Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rollup快速入门">
 <meta name="twitter:description" content="解读官网，通俗易懂地学习Rollup。">
@@ -36,12 +36,12 @@
         <meta property="og:image" content="https://topseczbw.github.io/assets/images/avatar.png"/>
     
     
-        <meta property="og:image" content="http://pov6tpkt4.bkt.clouddn.com/rollup.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://pov6tpkt4.bkt.clouddn.com/rollup.png" />
+        <meta property="og:image" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/rollup.png?Expires=1557558030&amp;OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&amp;Signature=vi9gCD6KVQPrTAFoyJ3Ft46OP7Y%3D"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/rollup.png?Expires=1557558030&amp;OSSAccessKeyId=TMP.AgF45IJk7uzwHp-EkWrismOhHdWeVf5uv9ET38Rx69Y0kTret2xhCck1QgraADAtAhRLvGB4MSGskEDgZwrueLspda6wzAIVAJNaGzcn0VNXz8l4c-xxgb04ogy7&amp;Signature=vi9gCD6KVQPrTAFoyJ3Ft46OP7Y%3D" />
     
     
-        <meta property="og:image" content="https://topseczbw.github.io/2019/04/05/rollup从0到1/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://topseczbw.github.io/2019/04/05/rollup从0到1/cover.png" />
+        <meta property="og:image" content="https://topseczbw.github.io/2019/05/11/rollup从0到1/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://topseczbw.github.io/2019/05/11/rollup从0到1/cover.png" />
     
     
     <!--STYLES-->
@@ -195,7 +195,7 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/04/05/rollup从0到1/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/05/11/rollup从0到1/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
@@ -420,7 +420,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/干法/" data-tooltip="《干法》" aria-label="上一篇: 《干法》">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="上一篇: hexo博客：主题篇">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -428,8 +428,7 @@
             </li>
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="下一篇: hexo博客：主题篇">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -439,7 +438,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -506,7 +505,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/干法/" data-tooltip="《干法》" aria-label="上一篇: 《干法》">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/11/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="上一篇: hexo博客：主题篇">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -514,8 +513,7 @@
             </li>
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/05/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="下一篇: hexo博客：主题篇">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -525,7 +523,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -597,7 +595,7 @@
 
         
         
-<div id="cover" style="background-image:url('http://pov6tpkt4.bkt.clouddn.com/bg4.jpg');"></div>
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
         <!--SCRIPTS-->
 <script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
 <!--SCRIPTS END-->
@@ -605,9 +603,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://topseczbw.github.io/2019/04/05/rollup从0到1/';
+                 this.page.url = 'https://topseczbw.github.io/2019/05/11/rollup从0到1/';
                  
-                    this.page.identifier = '2019/04/05/rollup从0到1/';
+                    this.page.identifier = '2019/05/11/rollup从0到1/';
                  
              };
             (function() {
