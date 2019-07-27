@@ -5,9 +5,9 @@
   <subtitle>码农界的一股清流</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://topseczbw.github.io/"/>
+  <link href="http://www.zbwblog.com/"/>
   <updated>2019-05-12T05:21:15.701Z</updated>
-  <id>https://topseczbw.github.io/</id>
+  <id>http://www.zbwblog.com/</id>
   
   <author>
     <name>无畏</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>单元测试：jest（三）</title>
-    <link href="https://topseczbw.github.io/2019/05/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%89%EF%BC%89/"/>
-    <id>https://topseczbw.github.io/2019/05/12/单元测试（三）/</id>
+    <link href="http://www.zbwblog.com/2019/05/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%89%EF%BC%89/"/>
+    <id>http://www.zbwblog.com/2019/05/12/单元测试（三）/</id>
     <published>2019-05-12T05:21:15.701Z</published>
     <updated>2019-05-12T05:21:15.701Z</updated>
     
@@ -31,23 +31,23 @@
     
     </summary>
     
-      <category term="技术分享" scheme="https://topseczbw.github.io/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+      <category term="技术分享" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
     
     
-      <category term="node" scheme="https://topseczbw.github.io/tags/node/"/>
+      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
     
-      <category term="jest" scheme="https://topseczbw.github.io/tags/jest/"/>
+      <category term="jest" scheme="http://www.zbwblog.com/tags/jest/"/>
     
-      <category term="自动化测试" scheme="https://topseczbw.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+      <category term="自动化测试" scheme="http://www.zbwblog.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="单元测试" scheme="https://topseczbw.github.io/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+      <category term="单元测试" scheme="http://www.zbwblog.com/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
   <entry>
     <title>单元测试：jest（一）</title>
-    <link href="https://topseczbw.github.io/2019/05/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>https://topseczbw.github.io/2019/05/12/单元测试（一）/</id>
+    <link href="http://www.zbwblog.com/2019/05/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://www.zbwblog.com/2019/05/12/单元测试（一）/</id>
     <published>2019-05-12T05:21:15.698Z</published>
     <updated>2019-05-12T05:50:37.873Z</updated>
     
@@ -59,23 +59,23 @@
     
     </summary>
     
-      <category term="技术分享" scheme="https://topseczbw.github.io/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+      <category term="技术分享" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
     
     
-      <category term="node" scheme="https://topseczbw.github.io/tags/node/"/>
+      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
     
-      <category term="jest" scheme="https://topseczbw.github.io/tags/jest/"/>
+      <category term="jest" scheme="http://www.zbwblog.com/tags/jest/"/>
     
-      <category term="自动化测试" scheme="https://topseczbw.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+      <category term="自动化测试" scheme="http://www.zbwblog.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="单元测试" scheme="https://topseczbw.github.io/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+      <category term="单元测试" scheme="http://www.zbwblog.com/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
   <entry>
     <title>单元测试：jest（二）</title>
-    <link href="https://topseczbw.github.io/2019/05/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>https://topseczbw.github.io/2019/05/12/单元测试（二）/</id>
+    <link href="http://www.zbwblog.com/2019/05/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+    <id>http://www.zbwblog.com/2019/05/12/单元测试（二）/</id>
     <published>2019-05-12T05:21:15.693Z</published>
     <updated>2019-05-12T05:21:15.694Z</updated>
     
@@ -87,23 +87,23 @@
     
     </summary>
     
-      <category term="技术分享" scheme="https://topseczbw.github.io/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+      <category term="技术分享" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
     
     
-      <category term="node" scheme="https://topseczbw.github.io/tags/node/"/>
+      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
     
-      <category term="jest" scheme="https://topseczbw.github.io/tags/jest/"/>
+      <category term="jest" scheme="http://www.zbwblog.com/tags/jest/"/>
     
-      <category term="自动化测试" scheme="https://topseczbw.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+      <category term="自动化测试" scheme="http://www.zbwblog.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="单元测试" scheme="https://topseczbw.github.io/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+      <category term="单元测试" scheme="http://www.zbwblog.com/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
   <entry>
     <title>Rollup快速入门</title>
-    <link href="https://topseczbw.github.io/2019/05/12/rollup%E4%BB%8E0%E5%88%B01/"/>
-    <id>https://topseczbw.github.io/2019/05/12/rollup从0到1/</id>
+    <link href="http://www.zbwblog.com/2019/05/12/rollup%E4%BB%8E0%E5%88%B01/"/>
+    <id>http://www.zbwblog.com/2019/05/12/rollup从0到1/</id>
     <published>2019-05-12T04:43:14.082Z</published>
     <updated>2019-05-12T04:43:14.082Z</updated>
     
@@ -115,25 +115,25 @@
     
     </summary>
     
-      <category term="技术分享" scheme="https://topseczbw.github.io/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+      <category term="技术分享" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
     
     
-      <category term="rollup" scheme="https://topseczbw.github.io/tags/rollup/"/>
+      <category term="rollup" scheme="http://www.zbwblog.com/tags/rollup/"/>
     
-      <category term="node" scheme="https://topseczbw.github.io/tags/node/"/>
+      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
     
-      <category term="自动化构建" scheme="https://topseczbw.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA/"/>
+      <category term="自动化构建" scheme="http://www.zbwblog.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA/"/>
     
-      <category term="模块化" scheme="https://topseczbw.github.io/tags/%E6%A8%A1%E5%9D%97%E5%8C%96/"/>
+      <category term="模块化" scheme="http://www.zbwblog.com/tags/%E6%A8%A1%E5%9D%97%E5%8C%96/"/>
     
-      <category term="前端工程化" scheme="https://topseczbw.github.io/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/"/>
+      <category term="前端工程化" scheme="http://www.zbwblog.com/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/"/>
     
   </entry>
   
   <entry>
     <title>《干法》</title>
-    <link href="https://topseczbw.github.io/2019/05/12/%E5%B9%B2%E6%B3%95/"/>
-    <id>https://topseczbw.github.io/2019/05/12/干法/</id>
+    <link href="http://www.zbwblog.com/2019/05/12/%E5%B9%B2%E6%B3%95/"/>
+    <id>http://www.zbwblog.com/2019/05/12/干法/</id>
     <published>2019-05-12T04:43:04.354Z</published>
     <updated>2019-05-12T04:43:04.354Z</updated>
     
@@ -145,21 +145,21 @@
     
     </summary>
     
-      <category term="书籍阅读" scheme="https://topseczbw.github.io/categories/%E4%B9%A6%E7%B1%8D%E9%98%85%E8%AF%BB/"/>
+      <category term="书籍阅读" scheme="http://www.zbwblog.com/categories/%E4%B9%A6%E7%B1%8D%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="生活感悟" scheme="https://topseczbw.github.io/tags/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/"/>
+      <category term="生活感悟" scheme="http://www.zbwblog.com/tags/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/"/>
     
   </entry>
   
   <entry>
     <title>hexo博客：基本款</title>
-    <link href="https://topseczbw.github.io/2019/05/12/hexo%E5%8D%9A%E5%AE%A2%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%AC%BE/"/>
-    <id>https://topseczbw.github.io/2019/05/12/hexo博客：基本款/</id>
+    <link href="http://www.zbwblog.com/2019/05/12/hexo%E5%8D%9A%E5%AE%A2%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%AC%BE/"/>
+    <id>http://www.zbwblog.com/2019/05/12/hexo博客：基本款/</id>
     <published>2019-05-12T04:42:48.039Z</published>
     <updated>2019-05-12T04:42:48.039Z</updated>
     
-    <content type="html"><![CDATA[<p>hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。<br><a id="more"></a><br><!-- toc --></p><h4 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h4><ol><li><h5 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h5><p> 在node、git前提下，全局安装hexo。</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm i hexo -g</span><br></pre></td></tr></table></figure></li><li><h5 id="初始化仓库"><a href="#初始化仓库" class="headerlink" title="初始化仓库"></a>初始化仓库</h5><p>执行下述命令，然后通过  localhost:4000  查看。</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir blog &amp;&amp; cd blog</span><br><span class="line">hexo init#初始化hexo仓库，默认安装依赖，如果没有，需要手动 npm install</span><br><span class="line">hexo g#生成缓存和静态文件，可以理解为编译markdown为html</span><br><span class="line">hexo s#开发环境调试博客</span><br></pre></td></tr></table></figure></li><li><h5 id="关联个人github"><a href="#关联个人github" class="headerlink" title="关联个人github"></a>关联个人github</h5><p>注册并登陆GitHub账号后，新建public仓库，名称必须是  <span class="highlight-text danger">topseczbw.github.io（前缀是用户名）</span>  。</p><p>修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：</p> <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="attr">https://github.com/topseczbw/topseczbw.github.io.git</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure></li><li><h5 id="安装hexo-deployer-git"><a href="#安装hexo-deployer-git" class="headerlink" title="安装hexo-deployer-git"></a>安装hexo-deployer-git</h5><p>git与hexo仓库关联所依赖的推送工具，重新编译并上传github。</p><p>若未关联GitHub，执行<code>hexo d</code>时会提示输入GitHub账号用户名和密码。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-deployer-git -S #安装推送工具</span><br><span class="line">hexo g &amp;&amp; hexo d #重新部署到服务器</span><br></pre></td></tr></table></figure></li></ol><h4 id="添加ssh-keys到github"><a href="#添加ssh-keys到github" class="headerlink" title="添加ssh keys到github"></a>添加ssh keys到github</h4><ol><li><h5 id="为什么设置？"><a href="#为什么设置？" class="headerlink" title="为什么设置？"></a>为什么设置？</h5><p>添加ssh key后不需要每次更新博客再输入用户名和密码。</p></li><li><h5 id="如何设置？"><a href="#如何设置？" class="headerlink" title="如何设置？"></a>如何设置？</h5><p>首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key。</p><p>执行下述命令生成新的ssh key，将  <code>your_email@exampl</code>  改成自己注册的GitHub邮箱地址。默认会在  <code>~/.ssh/id_rsa.pub</code>  中生成  <code>id_rsa</code>  和  <code>id_rsa.pub</code>  文件</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C "your_email@exampl"</span><br></pre></td></tr></table></figure><p>Mac下利用  <code>open ~/.ssh</code>  打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key  <code>路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key</code>  中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加</p><p>此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过  <code>hexo g</code>  和  <code>hexo d</code>  便可更新到GitHub之中，通过 <a href="https://topseczbw.github.io/">https://topseczbw.github.io/</a> 访问便可看到更新内容</p></li></ol><h4 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h4><ul><li><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo官网</a></li><li><a href="https://www.jianshu.com/p/cbf8ba8af532" target="_blank" rel="noopener">Mac+Hexo+GitHub博客搭建教程</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<p>hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。<br><a id="more"></a><br><!-- toc --></p><h4 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h4><ol><li><h5 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h5><p> 在node、git前提下，全局安装hexo。</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm i hexo -g</span><br></pre></td></tr></table></figure></li><li><h5 id="初始化仓库"><a href="#初始化仓库" class="headerlink" title="初始化仓库"></a>初始化仓库</h5><p>执行下述命令，然后通过  localhost:4000  查看。</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir blog &amp;&amp; cd blog</span><br><span class="line">hexo init#初始化hexo仓库，默认安装依赖，如果没有，需要手动 npm install</span><br><span class="line">hexo g#生成缓存和静态文件，可以理解为编译markdown为html</span><br><span class="line">hexo s#开发环境调试博客</span><br></pre></td></tr></table></figure></li><li><h5 id="关联个人github"><a href="#关联个人github" class="headerlink" title="关联个人github"></a>关联个人github</h5><p>注册并登陆GitHub账号后，新建public仓库，名称必须是  <span class="highlight-text danger">topseczbw.github.io（前缀是用户名）</span>  。</p><p>修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：</p> <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="attr">https://github.com/topseczbw/topseczbw.github.io.git</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure></li><li><h5 id="安装hexo-deployer-git"><a href="#安装hexo-deployer-git" class="headerlink" title="安装hexo-deployer-git"></a>安装hexo-deployer-git</h5><p>git与hexo仓库关联所依赖的推送工具，重新编译并上传github。</p><p>若未关联GitHub，执行<code>hexo d</code>时会提示输入GitHub账号用户名和密码。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-deployer-git -S #安装推送工具</span><br><span class="line">hexo g &amp;&amp; hexo d #重新部署到服务器</span><br></pre></td></tr></table></figure></li></ol><h4 id="添加ssh-keys到github"><a href="#添加ssh-keys到github" class="headerlink" title="添加ssh keys到github"></a>添加ssh keys到github</h4><ol><li><h5 id="为什么设置？"><a href="#为什么设置？" class="headerlink" title="为什么设置？"></a>为什么设置？</h5><p>添加ssh key后不需要每次更新博客再输入用户名和密码。</p></li><li><h5 id="如何设置？"><a href="#如何设置？" class="headerlink" title="如何设置？"></a>如何设置？</h5><p>首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key。</p><p>执行下述命令生成新的ssh key，将  <code>your_email@exampl</code>  改成自己注册的GitHub邮箱地址。默认会在  <code>~/.ssh/id_rsa.pub</code>  中生成  <code>id_rsa</code>  和  <code>id_rsa.pub</code>  文件</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C "your_email@exampl"</span><br></pre></td></tr></table></figure><p>Mac下利用  <code>open ~/.ssh</code>  打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key  <code>路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key</code>  中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加</p><p>此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过  <code>hexo g</code>  和  <code>hexo d</code>  便可更新到GitHub之中，通过 <a href="https://topseczbw.github.io/" target="_blank" rel="noopener">https://topseczbw.github.io/</a> 访问便可看到更新内容</p></li></ol><h4 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h4><ul><li><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo官网</a></li><li><a href="https://www.jianshu.com/p/cbf8ba8af532" target="_blank" rel="noopener">Mac+Hexo+GitHub博客搭建教程</a></li></ul>]]></content>
     
     <summary type="html">
     
@@ -167,19 +167,19 @@
     
     </summary>
     
-      <category term="基础教程" scheme="https://topseczbw.github.io/categories/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
+      <category term="基础教程" scheme="http://www.zbwblog.com/categories/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
     
     
-      <category term="hexo" scheme="https://topseczbw.github.io/tags/hexo/"/>
+      <category term="hexo" scheme="http://www.zbwblog.com/tags/hexo/"/>
     
-      <category term="github" scheme="https://topseczbw.github.io/tags/github/"/>
+      <category term="github" scheme="http://www.zbwblog.com/tags/github/"/>
     
   </entry>
   
   <entry>
     <title>hexo博客：主题篇</title>
-    <link href="https://topseczbw.github.io/2019/05/12/hexo%E5%8D%9A%E5%AE%A2%EF%BC%9A%E4%B8%BB%E9%A2%98%E7%AF%87/"/>
-    <id>https://topseczbw.github.io/2019/05/12/hexo博客：主题篇/</id>
+    <link href="http://www.zbwblog.com/2019/05/12/hexo%E5%8D%9A%E5%AE%A2%EF%BC%9A%E4%B8%BB%E9%A2%98%E7%AF%87/"/>
+    <id>http://www.zbwblog.com/2019/05/12/hexo博客：主题篇/</id>
     <published>2019-05-12T04:42:48.036Z</published>
     <updated>2019-05-12T04:42:48.036Z</updated>
     
@@ -191,12 +191,12 @@
     
     </summary>
     
-      <category term="基础教程" scheme="https://topseczbw.github.io/categories/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
+      <category term="基础教程" scheme="http://www.zbwblog.com/categories/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
     
     
-      <category term="hexo" scheme="https://topseczbw.github.io/tags/hexo/"/>
+      <category term="hexo" scheme="http://www.zbwblog.com/tags/hexo/"/>
     
-      <category term="tranquilpeak" scheme="https://topseczbw.github.io/tags/tranquilpeak/"/>
+      <category term="tranquilpeak" scheme="http://www.zbwblog.com/tags/tranquilpeak/"/>
     
   </entry>
   
