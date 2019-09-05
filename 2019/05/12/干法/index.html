@@ -337,7 +337,6 @@
 </article>
 
 
-{% elseif theme.gitalk.enable %}
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <div id="gitalk-container"></div>
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
@@ -346,14 +345,13 @@
     clientID: '33220a83fd840aa0ddc4',
     clientSecret: '929b8d21b7407233302b64f5f988cc936466170c',
     id: window.location.pathname,
-    repo: 'zbwblog',
+    repo: 'blog',
     owner: 'topseczbw,',
     admin: 'topseczbw,'
   })
   gitalk.render('gitalk-container')
 </script>
 
-{% endif %}
 
                 <footer id="footer" class="main-content-wrap">
     <div id="disqus_thread"></div>
