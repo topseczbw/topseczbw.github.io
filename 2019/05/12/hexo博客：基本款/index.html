@@ -16,7 +16,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。\n开始搭建\n安装依赖 在node、git前提下，全局安装hexo。\n 1sudo npm i hexo -g\n\n初始化仓库执行下述命令，然后通过  localhost:4000  查看。\n 1234mkdir blog &amp;&amp; cd bloghexo init\t#初始化hexo仓库，默认安装依赖，如果没有，需要手动 npm installhexo g\t\t#生成缓存和静态文件，可以理解为编译markdown为htmlhexo s\t\t#开发环境调试博客\n\n关联个人github注册并登陆GitHub账号后，新建public仓库，名称必须是  topseczbw.github.io（前缀是用户名）  。\n修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：\n 1234deploy:  type: git  repository: https://github.com/topseczbw/topseczbw.github.io.git  branch: master\n\n安装hexo-deployer-gitgit与hexo仓库关联所依赖的推送工具，重新编译并上传github。\n若未关联GitHub，执行hexo d时会提示输入GitHub账号用户名和密码。\n12npm i hexo-deployer-git -S\t #安装推送工具hexo g &amp;&amp; hexo d\t\t\t #重新部署到服务器\n\n\n添加ssh keys到github\n为什么设置？添加ssh key后不需要每次更新博客再输入用户名和密码。\n\n如何设置？首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key。\n执行下述命令生成新的ssh key，将  your_email@exampl  改成自己注册的GitHub邮箱地址。默认会在  ~/.ssh/id_rsa.pub  中生成  id_rsa  和  id_rsa.pub  文件\n  1ssh-keygen -t rsa -C \"your_email@exampl\"\nMac下利用  open ~/.ssh  打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key  路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key  中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加\n此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过  hexo g  和  hexo d  便可更新到GitHub之中，通过 https://topseczbw.github.io/ 访问便可看到更新内容\n\n\n参考内容\nhexo官网\nMac+Hexo+GitHub博客搭建教程\n\n","dateCreated":"2019-05-12T12:42:48+08:00","dateModified":"2019-05-12T12:42:48+08:00","datePublished":"2019-05-12T12:42:48+08:00","description":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。","headline":"hexo博客：基本款","image":["https://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/05/12/hexo博客：基本款/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/05/12/hexo博客：基本款/","keywords":"hexo, github","thumbnailUrl":"https://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。\n开始搭建\n安装依赖 在node、git前提下，全局安装hexo。\n 1sudo npm i hexo -g\n\n初始化仓库执行下述命令，然后通过  localhost:4000  查看。\n 1234mkdir blog &amp;&amp; cd bloghexo init\t#初始化hexo仓库，默认安装依赖，如果没有，需要手动 npm installhexo g\t\t#生成缓存和静态文件，可以理解为编译markdown为htmlhexo s\t\t#开发环境调试博客\n\n关联个人github注册并登陆GitHub账号后，新建public仓库，名称必须是  topseczbw.github.io（前缀是用户名）  。\n修改本地仓库_config.yml文件，打开后到文档最后部分，将deploy配置如下：\n 1234deploy:  type: git  repository: https://github.com/topseczbw/topseczbw.github.io.git  branch: master\n\n安装hexo-deployer-gitgit与hexo仓库关联所依赖的推送工具，重新编译并上传github。\n若未关联GitHub，执行hexo d时会提示输入GitHub账号用户名和密码。\n12npm i hexo-deployer-git -S\t #安装推送工具hexo g &amp;&amp; hexo d\t\t\t #重新部署到服务器\n\n\n添加ssh keys到github\n为什么设置？添加ssh key后不需要每次更新博客再输入用户名和密码。\n\n如何设置？首先检查本地是否包含ssh keys。如果存在则直接将ssh key添加到GitHub之中，否则新生成ssh key。\n执行下述命令生成新的ssh key，将  your_email@exampl  改成自己注册的GitHub邮箱地址。默认会在  ~/.ssh/id_rsa.pub  中生成  id_rsa  和  id_rsa.pub  文件\n  1ssh-keygen -t rsa -C \"your_email@exampl\"\nMac下利用  open ~/.ssh  打开文件夹，打开id_rsa.pub文件，里面的信息即为ssh key，将此信息复制到GitHub的Add ssh key  路径GitHub-&gt;Setting-&gt;SSH keys-&gt;add SSH key  中即可。Title里填写任意标题，将复制的内容粘贴到key中，点击Add key完成添加\n此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过  hexo g  和  hexo d  便可更新到GitHub之中，通过 https://topseczbw.github.io/ 访问便可看到更新内容\n\n\n搭建博客相关资源\nGitHub+Hexo 搭建个人网站详细教程\nCodeing Page\nHexo 从 GitHub 到阿里云\n百度站点管理\n如何配置 SSH 公钥访问 git 仓库？\nCoding Pages 托管\nHexo博客提交百度和Google收录\n腾讯云开发平台 = coding ≈ github\n\n","dateCreated":"2019-05-12T12:42:48+08:00","dateModified":"2019-09-07T01:11:23+08:00","datePublished":"2019-05-12T12:42:48+08:00","description":"hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。","headline":"hexo博客：基本款","image":["https://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/05/12/hexo博客：基本款/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/05/12/hexo博客：基本款/","keywords":"hexo, github","thumbnailUrl":"https://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/hexo.jpeg"}</script>
     <meta name="description" content="hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。">
 <meta name="keywords" content="hexo,github">
 <meta property="og:type" content="blog">
@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-05-12T04:42:48.039Z">
+<meta property="og:updated_time" content="2019-09-06T17:11:23.969Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo博客：基本款">
 <meta name="twitter:description" content="hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。">
@@ -107,7 +107,7 @@
                 <h4 class="sidebar-profile-name">无畏</h4>
                 
                     <h5 class="sidebar-profile-bio"><blockquote>
-<p>赢了自己&nbsp;&nbsp;&nbsp;&nbsp;才赢得江湖</p>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
 </blockquote>
 </h5>
                 
@@ -220,7 +220,7 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#开始搭建"><span class="toc-text">开始搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装依赖"><span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#初始化仓库"><span class="toc-text">初始化仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#关联个人github"><span class="toc-text">关联个人github</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#安装hexo-deployer-git"><span class="toc-text">安装hexo-deployer-git</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加ssh-keys到github"><span class="toc-text">添加ssh keys到github</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么设置？"><span class="toc-text">为什么设置？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#如何设置？"><span class="toc-text">如何设置？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考内容"><span class="toc-text">参考内容</span></a></li></ol><p></p>
+            <p>hexo通过将markdown文件生成静态html，并借助github为服务器，快速搭建属于自己的博客。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#开始搭建"><span class="toc-text">开始搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装依赖"><span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#初始化仓库"><span class="toc-text">初始化仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#关联个人github"><span class="toc-text">关联个人github</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#安装hexo-deployer-git"><span class="toc-text">安装hexo-deployer-git</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加ssh-keys到github"><span class="toc-text">添加ssh keys到github</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么设置？"><span class="toc-text">为什么设置？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#如何设置？"><span class="toc-text">如何设置？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#搭建博客相关资源"><span class="toc-text">搭建博客相关资源</span></a></li></ol><p></p>
 <h4 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h4><ol>
 <li><h5 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h5><p> 在node、git前提下，全局安装hexo。</p>
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm i hexo -g</span><br></pre></td></tr></table></figure>
@@ -247,10 +247,16 @@
 <p>此时本地博客内容便已关联到GitHub之中，本地博客改变之后，通过  <code>hexo g</code>  和  <code>hexo d</code>  便可更新到GitHub之中，通过 <a href="https://topseczbw.github.io/" target="_blank" rel="noopener">https://topseczbw.github.io/</a> 访问便可看到更新内容</p>
 </li>
 </ol>
-<h4 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h4><ul>
-<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo官网</a></li>
-<li><a href="https://www.jianshu.com/p/cbf8ba8af532" target="_blank" rel="noopener">Mac+Hexo+GitHub博客搭建教程</a></li>
-</ul>
+<h4 id="搭建博客相关资源"><a href="#搭建博客相关资源" class="headerlink" title="搭建博客相关资源"></a>搭建博客相关资源</h4><ol>
+<li><a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener">GitHub+Hexo 搭建个人网站详细教程</a></li>
+<li><a href="https://coding.net/pages" target="_blank" rel="noopener">Codeing Page</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/58654392" target="_blank" rel="noopener">Hexo 从 GitHub 到阿里云</a></li>
+<li><a href="https://ziyuan.baidu.com/site/index" target="_blank" rel="noopener">百度站点管理</a></li>
+<li><a href="https://coding.net/help/doc/git/ssh-key.html" target="_blank" rel="noopener">如何配置 SSH 公钥访问 git 仓库？</a></li>
+<li><a href="https://blog.csdn.net/qq_36667170/article/details/79318665" target="_blank" rel="noopener">Coding Pages 托管</a></li>
+<li><a href="https://www.jianshu.com/p/f8ec422ebd52" target="_blank" rel="noopener">Hexo博客提交百度和Google收录</a></li>
+<li><a href="https://dev.tencent.com/u/singlebridge/p/singlebridge/git/pages/settings" target="_blank" rel="noopener">腾讯云开发平台 = coding ≈ github</a></li>
+</ol>
 
             
 
@@ -284,8 +290,7 @@
             </li>
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/12/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="下一篇: hexo博客：主题篇">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -323,7 +328,7 @@
 
 
 <!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 760px;margin: 0 auto">
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
   <script type="text/javascript">
     (function(d, s) {
       var j, e = d.getElementsByTagName(s)[0];
@@ -378,8 +383,7 @@
             </li>
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/12/hexo博客：主题篇/" data-tooltip="hexo博客：主题篇" aria-label="下一篇: hexo博客：主题篇">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -431,7 +435,7 @@
             <h4 id="about-card-name">无畏</h4>
         
             <div id="about-card-bio"><blockquote>
-<p>赢了自己&nbsp;&nbsp;&nbsp;&nbsp;才赢得江湖</p>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
 </blockquote>
 </div>
         
