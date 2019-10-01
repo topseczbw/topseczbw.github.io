@@ -16,16 +16,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"总结一些git常用的指令\n创建创建用户，设置用户名、邮箱\n   git config --global user.name &quot;zhangbowen&quot;\n   git config --global user.email  &quot;zbwbiehua@163.com&quot;\n初始化初始化本地git仓库，并关联远程仓库，有两种方法：\n\n克隆远程仓库到本地，建立本地仓库，并自动建立关联关系\ngit clone [仓库地址]\n\n初始化本地git仓库git init\n关联远程仓库\ngit remote add origin [仓库地址]\n推送master分支，建立远程master分支，-u是添加关联\ngit push -u origin master\n\n\n拉取\n从远程分支获取最新的版本，并merge到本地当前分支\ngit pull orgin [远程分支名称]\n\n对于已经关联远程分支的本地当前分支，可以直接使用\ngit pull\n\n\n分支\n切换分支\ngit checkout [分支名称]\n\n基于当前分支新建一个分支，并切换到新分支\ngit checkout -b [分支名称]\n\n查看分支信息\ngit branch\n\n\n提交\n将当前目录所有文件添加到暂存区\n在WebStorm中文件由红色变为绿色，将文件添加到版本管理\ngit add .\n\n提交暂存区到仓库区（当前分支稳定代码），-m为加注释\n在WebStorm中文件由绿色变为白色，更新当前分支代码\ngit commit -m [描述信息]\n\n查看提交历史\ngit log\n\n显示当前目录文件与暂存区状态变化\n比较当前分支暂存区和仓库区（commit后，当前分支稳定代码）区别\ngit status\n\n对于新建的本地分支，push到远程仓库，-u是添加关联\ngit push -u origin [分支名称]\n\n对于已关联远程分支的本地当前分支，可以直接使用\ngit push\n\n\n合并\n合并其他分支代码到当前分支\ngit merge [其他分支名称]\n\n\n还原、撤销revert：撤销。一般用于删除某个commit，在log中会有记录\n\n撤销某个提交过的commit\ngit revert [commit-id]\n执行这个操作时，git需要一条新的commit记录这次操作\n\n\nreset：回滚。一般在”线上事故”通常需要回滚到想要的版本（分支），再提交到远程分支，解决问题\n\n撤回当前代码到历史某一版本号代码\ngit reset [commit-id]\n\n回滚到某个版本，强推到远程分支，发布。一般用于”线上事故”\ngit reset [commit-id]\n对于已关联的分支：git push -f\n对于未关联的分支：git push origin HEAD:[branch-name] -f\n\n撤销工作目录中所有未提交文件的修改内容\ngit reset --hard HEAD\n\n\n打标签标签是与分支是并行的两个概念，我们可以检出分支，得到指定版本代码，也可以通过检出tag，得到指定版本代码，tag方式一般用于线上发布做标记。\n\n查看tag\ngit tag\n\n删除本地tag\ngit tag -d [tag-name]\n\n给当前版本打一个tag\ngit tag v2019-04-01\ngit tag -a [标签名称] -m [标签描述]\n\n将标签推送到远程仓库\ngit push origin [标签名称]\n\n查看标签详情\ngit show [标签名]\n\n删除远程tag\n先删除本地tag，再推到远程仓库\ngit tag -d [tag-name]\ngit push origin :refs/tags/[标签名]\n\n新建一个本地tag\ngit tag v2019-09-19\n\n\n储藏\n储藏当前状态\ngit stash\n\n查看所有储藏状态列表\ngit stash list\n\n导出指定储藏状态\ngit stash apply stash@{index}\n\n删除指定储藏状态\ngit stash drop stash@{index}\n\n重新应用，并移除储藏\ngit stash pop\n\n\n修改\n修改最后一次改动\ngit commit --amend\n\n\n变基rebase常用两个功能：\n\n合并多次描述冗余的commit为一次精简的commit\n推荐：【Git】rebase 用法小结\n\n保证提交分支图优雅（直线型）展示\n改变当前分支commit基础，在新的基础上追加当前分支自己的commit，当前分支rebase完成后，再合并到其他分支，就不会出现像下方的无意义提交记录了\nMerge branch &#39;$test$&#39; into bugfix\n例：多人协作时，主分支为bugfix，成员A在bugfix_A上完成自己的bug修复，提交commit，切到本地bugfix，pull下了B的commit\n方式一：\n如果直接将bugfix_A分支merge到bugfix，会出现提交记录中多出一条\nMerge branch &#39;bugfix_A&#39; into bugfix\n这并不是我们希望的\n方式二：\n成员A切回到自己的bugfix_A分支，使用 git rebase bugfix ,将自己的commit在此时的bugfix分支代码基础上（此分支已更新有成员B的commit）提交\n完成rebase后，在将bugfix_A分支merge到bugfix分支，此时发现并没有任何无意义的提交记录，push到远程分支\nrebase 过程中可能会遇到冲突，因为相当于把成员B的代码和成员A的代码做了一次整合\n解决完冲突之后，使用 git add .，标记为已解决\n再 git rebase --continue 完成rebase\n\n\nQ&amp;A\n执行 git merge 时分支处于merging状态，提示MERGE_MSG.swp文件报错\n执行 git pull 或者 push 或者 merge 命令操作的时候，当前分支一直处于merging状态\n当打开 git/MERGE_MSG 文件的时候，发现有 git/MERGE_MSG.swp 文件的存在，并且从时间上来看， MERGE_MSG 比 MERGE_MSG.swp 要更新\n关于 MERGE_MSG.swp 文件的说明：\n.swp 文件和 git 无关，在使用 VIM 开始编辑某文件时，都会产生该文件对应的 .swp 文件。正常的退出，VIM 会自动删除此类型文件，非正常退出情况下， VIM 不会删除 ，.swp 文件会作为文件编辑状态的内容备份\n其实多次打开多次不正常关闭，会一直产生 .sw* 文件\n问题解决：\n第一步：回到合并前状态\ngit merge -abort 或者 git reset --hard HEAD\n第二步：删除 vim 非正常关闭产生的文件\nrm .git/.MERGE_MSG.sw*\n第三步：重新合并\ngit merge [分支名称]\n使用:wq正常安全退出\n\n\nCommit命名规范1234567feat：新功能（feature）fix：修补bugdocs：文档（documentation）style： 格式（不影响代码运行的变动）refactor：重构（即不是新增功能，也不是修改bug的代码变动）test：增加测试chore：构建过程或辅助工具的变动\n摘自《阮一峰 Commit message 和 Change log 编写指南》\n资料\n廖雪峰的官方网站\n\n","dateCreated":"2018-08-31T17:54:54+08:00","dateModified":"2019-10-01T12:14:10+08:00","datePublished":"2018-08-31T17:54:54+08:00","description":"总结一些git常用的指令","headline":"git常用指令","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2018/08/31/git常用指令/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2018/08/31/git常用指令/","keywords":"git, git-flow, 版本控制","thumbnailUrl":"cover.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"总结一些git常用的指令\n创建创建用户，设置用户名、邮箱\n   git config --global user.name &quot;zhangbowen&quot;\n   git config --global user.email  &quot;zbwbiehua@163.com&quot;\n初始化初始化本地git仓库，并关联远程仓库，有两种方法：\n\n克隆远程仓库到本地，建立本地仓库，并自动建立关联关系\ngit clone [仓库地址]\n\n初始化本地git仓库git init\n关联远程仓库\ngit remote add origin [仓库地址]\n推送master分支，建立远程master分支，-u是添加关联\ngit push -u origin master\n\n\n拉取\n从远程分支获取最新的版本，并merge到本地当前分支\ngit pull orgin [远程分支名称]\n\n对于已经关联远程分支的本地当前分支，可以直接使用\ngit pull\n\n\n分支\n切换分支\ngit checkout [分支名称]\n\n基于当前分支新建一个分支，并切换到新分支\ngit checkout -b [分支名称]\n\n查看分支信息\ngit branch\n\n\n提交\n将当前目录所有文件添加到暂存区\n在WebStorm中文件由红色变为绿色，将文件添加到版本管理\ngit add .\n\n提交暂存区到仓库区（当前分支稳定代码），-m为加注释\n在WebStorm中文件由绿色变为白色，更新当前分支代码\ngit commit -m [描述信息]\n\n查看提交历史\ngit log\n\n显示当前目录文件与暂存区状态变化\n比较当前分支暂存区和仓库区（commit后，当前分支稳定代码）区别\ngit status\n\n对于新建的本地分支，push到远程仓库，-u是添加关联\ngit push -u origin [分支名称]\n\n对于已关联远程分支的本地当前分支，可以直接使用\ngit push\n\n\n合并\n合并其他分支代码到当前分支\ngit merge [其他分支名称]\n\n\n还原、撤销revert：撤销。一般用于删除某个commit，在log中会有记录\n\n撤销某个提交过的commit\ngit revert [commit-id]\n执行这个操作时，git需要一条新的commit记录这次操作\n\n\nreset：回滚。一般在”线上事故”通常需要回滚到想要的版本（分支），再提交到远程分支，解决问题\n\n撤回当前代码到历史某一版本号代码\ngit reset [commit-id]\n\n回滚到某个版本，强推到远程分支，发布。一般用于”线上事故”\ngit reset [commit-id]\n对于已关联的分支：git push -f\n对于未关联的分支：git push origin HEAD:[branch-name] -f\n\n撤销工作目录中所有未提交文件的修改内容\ngit reset --hard HEAD\n\n\n打标签标签是与分支是并行的两个概念，我们可以检出分支，得到指定版本代码，也可以通过检出tag，得到指定版本代码，tag方式一般用于线上发布做标记。\n\n查看tag\ngit tag\n\n删除本地tag\ngit tag -d [tag-name]\n\n给当前版本打一个tag\ngit tag v2019-04-01\ngit tag -a [标签名称] -m [标签描述]\n\n将标签推送到远程仓库\ngit push origin [标签名称]\n\n查看标签详情\ngit show [标签名]\n\n删除远程tag\n先删除本地tag，再推到远程仓库\ngit tag -d [tag-name]\ngit push origin :refs/tags/[标签名]\n\n新建一个本地tag\ngit tag v2019-09-19\n\n\n储藏\n储藏当前状态\ngit stash\n\n查看所有储藏状态列表\ngit stash list\n\n导出指定储藏状态\ngit stash apply stash@{index}\n\n删除指定储藏状态\ngit stash drop stash@{index}\n\n重新应用，并移除储藏\ngit stash pop\n\n\n修改\n修改最后一次改动\ngit commit --amend\n\n\n变基rebase常用两个功能：\n\n合并多次描述冗余的commit为一次精简的commit\n推荐：【Git】rebase 用法小结\n\n保证提交分支图优雅（直线型）展示\n改变当前分支commit基础，在新的基础上追加当前分支自己的commit，当前分支rebase完成后，再合并到其他分支，就不会出现像下方的无意义提交记录了\nMerge branch &#39;$test$&#39; into bugfix\n例：多人协作时，主分支为bugfix，成员A在bugfix_A上完成自己的bug修复，提交commit，切到本地bugfix，pull下了B的commit\n方式一：\n如果直接将bugfix_A分支merge到bugfix，会出现提交记录中多出一条\nMerge branch &#39;bugfix_A&#39; into bugfix\n这并不是我们希望的\n方式二：\n成员A切回到自己的bugfix_A分支，使用 git rebase bugfix ,将自己的commit在此时的bugfix分支代码基础上（此分支已更新有成员B的commit）提交\n完成rebase后，在将bugfix_A分支merge到bugfix分支，此时发现并没有任何无意义的提交记录，push到远程分支\nrebase 过程中可能会遇到冲突，因为相当于把成员B的代码和成员A的代码做了一次整合\n解决完冲突之后，使用 git add .，标记为已解决\n再 git rebase --continue 完成rebase\n\n\nQ&amp;A\n执行 git merge 时分支处于merging状态，提示MERGE_MSG.swp文件报错\n执行 git pull 或者 push 或者 merge 命令操作的时候，当前分支一直处于merging状态\n当打开 git/MERGE_MSG 文件的时候，发现有 git/MERGE_MSG.swp 文件的存在，并且从时间上来看， MERGE_MSG 比 MERGE_MSG.swp 要更新\n关于 MERGE_MSG.swp 文件的说明：\n.swp 文件和 git 无关，在使用 VIM 开始编辑某文件时，都会产生该文件对应的 .swp 文件。正常的退出，VIM 会自动删除此类型文件，非正常退出情况下， VIM 不会删除 ，.swp 文件会作为文件编辑状态的内容备份\n其实多次打开多次不正常关闭，会一直产生 .sw* 文件\n问题解决：\n第一步：回到合并前状态\ngit merge -abort 或者 git reset --hard HEAD\n第二步：删除 vim 非正常关闭产生的文件\nrm .git/.MERGE_MSG.sw*\n第三步：重新合并\ngit merge [分支名称]\n使用:wq正常安全退出\n\n\nCommit命名规范1234567feat：新功能（feature）fix：修补bugdocs：文档（documentation）style： 格式（不影响代码运行的变动）refactor：重构（即不是新增功能，也不是修改bug的代码变动）test：增加测试chore：构建过程或辅助工具的变动\n摘自《阮一峰 Commit message 和 Change log 编写指南》\n资料\n廖雪峰的官方网站\n\n","dateCreated":"2019-04-21T17:54:54+08:00","dateModified":"2019-10-01T13:16:49+08:00","datePublished":"2019-04-21T17:54:54+08:00","description":"总结一些git常用的指令","headline":"git常用指令","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/04/21/git常用指令/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/04/21/git常用指令/","keywords":"git, git-flow, 版本控制","thumbnailUrl":"cover.png"}</script>
     <meta name="description" content="总结一些git常用的指令">
 <meta name="keywords" content="git,git-flow,版本控制">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="git常用指令">
-<meta property="og:url" content="http://www.zbwblog.com/2018/08/31/git常用指令/index.html">
+<meta property="og:url" content="http://www.zbwblog.com/2019/04/21/git常用指令/index.html">
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="总结一些git常用的指令">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-10-01T04:14:10.742Z">
+<meta property="og:updated_time" content="2019-10-01T05:16:49.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git常用指令">
 <meta name="twitter:description" content="总结一些git常用的指令">
@@ -38,8 +38,8 @@
     
     
     
-        <meta property="og:image" content="http://www.zbwblog.com/2018/08/31/git常用指令/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2018/08/31/git常用指令/cover.png" />
+        <meta property="og:image" content="http://www.zbwblog.com/2019/04/21/git常用指令/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/04/21/git常用指令/cover.png" />
     
     
     <!--STYLES-->
@@ -193,7 +193,7 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2018/08/31/git常用指令/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/04/21/git常用指令/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
@@ -436,7 +436,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -529,7 +529,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
