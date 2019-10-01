@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>ajax交互数据格式 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"总结前后端常用数据交互格式。\n表单格式content-type:application/x-www-form-urlencoded\n格式为：`name=zbw&amp;sex=1&amp;email=569119225@qq.com` 字符串\n示例：\n123456789101112131415let xhr = new XMLHttpRequest()xhr.onreadystatechange = function() &#123;  if(xhr.readyState == 4 &amp;&amp; xhr.status == 200)&#123;    console.log(xhr.response)  &#125;&#125;xhr.open('POST', '/api/entrance/login')const data = 'email=xxxx&amp;password=xxxxx&amp;verifyCode=344&amp;key=123'xhr.setRequestHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");xhr.send(data)\nformData格式content-type:multipart/form-data\n一般用于传输文件、图片。\n示例：\n123456789101112131415let data = new FormData()data.append('srcId', 2)data.append('uId', uId)data.append('envId', envId)data.append('cntrId', cntrId)data.append('dataJson', JSON.stringify(dataJson))axios.post(  url,  data,  &#123;    headers: &#123;      'Content-Type': 'multipart/form-data'    &#125;  &#125;)\njson格式content-type:application/json\n示例：\n1234567891011axios.post(  url,  &#123;    name: 'zbw',    sex: 1  &#125;,  &#123;    headers: &#123;      'Content-Type': 'application/json'    &#125;  &#125;)\n","dateCreated":"2019-09-23T22:05:00+08:00","dateModified":"2019-10-01T12:33:32+08:00","datePublished":"2019-09-23T22:05:00+08:00","description":"总结前后端常用数据交互格式。","headline":"ajax交互数据格式","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/23/ajax交互数据格式/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/23/ajax交互数据格式/","keywords":"http, ajax","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="总结前后端常用数据交互格式。">
+<meta name="keywords" content="http,ajax">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="ajax交互数据格式">
+<meta property="og:url" content="http://www.zbwblog.com/2019/09/23/ajax交互数据格式/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="总结前后端常用数据交互格式。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-10-01T04:33:32.726Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ajax交互数据格式">
+<meta name="twitter:description" content="总结前后端常用数据交互格式。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/09/23/ajax交互数据格式/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/23/ajax交互数据格式/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/09/23/ajax交互数据格式/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            ajax交互数据格式
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>总结前后端常用数据交互格式。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#表单格式"><span class="toc-text">表单格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#formData格式"><span class="toc-text">formData格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#json格式"><span class="toc-text">json格式</span></a></li></ol><p></p>
+<h2 id="表单格式"><a href="#表单格式" class="headerlink" title="表单格式"></a>表单格式</h2><p><code>content-type:application/x-www-form-urlencoded</code></p>
+<p>格式为：<a href="mailto:`name=zbw&amp;sex=1&amp;email=569119225@qq.com" target="_blank" rel="noopener">`name=zbw&amp;sex=1&amp;email=569119225@qq.com</a>` 字符串</p>
+<p>示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line"></span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(xhr.readyState == <span class="number">4</span> &amp;&amp; xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(xhr.response)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">xhr.open(<span class="string">'POST'</span>, <span class="string">'/api/entrance/login'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> data = <span class="string">'email=xxxx&amp;password=xxxxx&amp;verifyCode=344&amp;key=123'</span></span><br><span class="line"></span><br><span class="line">xhr.setRequestHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line"></span><br><span class="line">xhr.send(data)</span><br></pre></td></tr></table></figure>
+<h2 id="formData格式"><a href="#formData格式" class="headerlink" title="formData格式"></a>formData格式</h2><p><code>content-type:multipart/form-data</code></p>
+<p>一般用于传输文件、图片。</p>
+<p>示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = <span class="keyword">new</span> FormData()</span><br><span class="line">data.append(<span class="string">'srcId'</span>, <span class="number">2</span>)</span><br><span class="line">data.append(<span class="string">'uId'</span>, uId)</span><br><span class="line">data.append(<span class="string">'envId'</span>, envId)</span><br><span class="line">data.append(<span class="string">'cntrId'</span>, cntrId)</span><br><span class="line">data.append(<span class="string">'dataJson'</span>, <span class="built_in">JSON</span>.stringify(dataJson))</span><br><span class="line"></span><br><span class="line">axios.post(</span><br><span class="line">  url,</span><br><span class="line">  data,</span><br><span class="line">  &#123;</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'multipart/form-data'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="json格式"><a href="#json格式" class="headerlink" title="json格式"></a>json格式</h2><p><code>content-type:application/json</code></p>
+<p>示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">axios.post(</span><br><span class="line">  url,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">'zbw'</span>,</span><br><span class="line">    sex: <span class="number">1</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/ajax/">ajax</a> <a class="tag tag--primary tag--small t-link" href="/tags/http/">http</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/24/vue项目搭建/" data-tooltip="vue项目搭建" aria-label="上一篇: vue项目搭建">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/使用gulp构建一个模板项目/" data-tooltip="使用gulp构建一个模板项目" aria-label="下一篇: 使用gulp构建一个模板项目">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/24/vue项目搭建/" data-tooltip="vue项目搭建" aria-label="上一篇: vue项目搭建">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/使用gulp构建一个模板项目/" data-tooltip="使用gulp构建一个模板项目" aria-label="下一篇: 使用gulp构建一个模板项目">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

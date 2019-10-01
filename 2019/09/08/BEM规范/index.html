@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>BEM规范 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"强迫症患者还在为css命名发愁吗？\nCSS 的命名规范又叫做BEM规范，为的是结束混乱的命名方式，达到一个语义化的CSS命名方式。 BEM是三个单词的缩写：Block（块）代表更高级别的抽象或组件，Element（元素） Block的后代，以及Modifier（修饰） 不同状态的修饰符。\n123456&lt;form class=\"form form--theme-xmas form--simple\"&gt;  &lt;input class=\"form__input\" type=\"text\" /&gt;  &lt;input    class=\"form__submit form__submit--disabled\"    type=\"submit\" /&gt;&lt;/form&gt;\n123456.form &#123; &#125;.form--theme-xmas &#123; &#125;.form--simple &#123; &#125;.form__input &#123; &#125;.form__submit &#123; &#125;.form__submit--disabled &#123; &#125;\n","dateCreated":"2019-09-08T11:46:00+08:00","dateModified":"2019-10-01T12:48:11+08:00","datePublished":"2019-09-08T11:46:00+08:00","description":"强迫症患者还在为css命名发愁吗？","headline":"BEM规范","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/08/BEM规范/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/08/BEM规范/","keywords":"css, 规范","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="强迫症患者还在为css命名发愁吗？">
+<meta name="keywords" content="css,规范">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="BEM规范">
+<meta property="og:url" content="http://www.zbwblog.com/2019/09/08/BEM规范/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="强迫症患者还在为css命名发愁吗？">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-10-01T04:48:11.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BEM规范">
+<meta name="twitter:description" content="强迫症患者还在为css命名发愁吗？">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/09/08/BEM规范/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/08/BEM规范/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/09/08/BEM规范/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            BEM规范
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>强迫症患者还在为css命名发愁吗？<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><p></p>
+<p>CSS 的命名规范又叫做BEM规范，为的是结束混乱的命名方式，达到一个语义化的CSS命名方式。 BEM是三个单词的缩写：Block（块）代表更高级别的抽象或组件，Element（元素） Block的后代，以及Modifier（修饰） 不同状态的修饰符。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"form form--theme-xmas form--simple"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"form__input"</span> <span class="attr">type</span>=<span class="string">"text"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span></span></span><br><span class="line"><span class="tag">    <span class="attr">class</span>=<span class="string">"form__submit form__submit--disabled"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">"submit"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.form</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form--theme-xmas</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form--simple</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form__input</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form__submit</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form__submit--disabled</span> &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/css/">css</a> <a class="tag tag--primary tag--small t-link" href="/tags/规范/">规范</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/如何调试移动端应用/" data-tooltip="如何调试移动端应用" aria-label="上一篇: 如何调试移动端应用">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/08/08/客户端侧代码中区分环境/" data-tooltip="客户端侧代码中区分环境" aria-label="下一篇: 客户端侧代码中区分环境">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/如何调试移动端应用/" data-tooltip="如何调试移动端应用" aria-label="上一篇: 如何调试移动端应用">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/08/08/客户端侧代码中区分环境/" data-tooltip="客户端侧代码中区分环境" aria-label="下一篇: 客户端侧代码中区分环境">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>git常用指令 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"总结一些git常用的指令\n创建创建用户，设置用户名、邮箱\n   git config --global user.name &quot;zhangbowen&quot;\n   git config --global user.email  &quot;zbwbiehua@163.com&quot;\n初始化初始化本地git仓库，并关联远程仓库，有两种方法：\n\n克隆远程仓库到本地，建立本地仓库，并自动建立关联关系\ngit clone [仓库地址]\n\n初始化本地git仓库git init\n关联远程仓库\ngit remote add origin [仓库地址]\n推送master分支，建立远程master分支，-u是添加关联\ngit push -u origin master\n\n\n拉取\n从远程分支获取最新的版本，并merge到本地当前分支\ngit pull orgin [远程分支名称]\n\n对于已经关联远程分支的本地当前分支，可以直接使用\ngit pull\n\n\n分支\n切换分支\ngit checkout [分支名称]\n\n基于当前分支新建一个分支，并切换到新分支\ngit checkout -b [分支名称]\n\n查看分支信息\ngit branch\n\n\n提交\n将当前目录所有文件添加到暂存区\n在WebStorm中文件由红色变为绿色，将文件添加到版本管理\ngit add .\n\n提交暂存区到仓库区（当前分支稳定代码），-m为加注释\n在WebStorm中文件由绿色变为白色，更新当前分支代码\ngit commit -m [描述信息]\n\n查看提交历史\ngit log\n\n显示当前目录文件与暂存区状态变化\n比较当前分支暂存区和仓库区（commit后，当前分支稳定代码）区别\ngit status\n\n对于新建的本地分支，push到远程仓库，-u是添加关联\ngit push -u origin [分支名称]\n\n对于已关联远程分支的本地当前分支，可以直接使用\ngit push\n\n\n合并\n合并其他分支代码到当前分支\ngit merge [其他分支名称]\n\n\n还原、撤销revert：撤销。一般用于删除某个commit，在log中会有记录\n\n撤销某个提交过的commit\ngit revert [commit-id]\n执行这个操作时，git需要一条新的commit记录这次操作\n\n\nreset：回滚。一般在”线上事故”通常需要回滚到想要的版本（分支），再提交到远程分支，解决问题\n\n撤回当前代码到历史某一版本号代码\ngit reset [commit-id]\n\n回滚到某个版本，强推到远程分支，发布。一般用于”线上事故”\ngit reset [commit-id]\n对于已关联的分支：git push -f\n对于未关联的分支：git push origin HEAD:[branch-name] -f\n\n撤销工作目录中所有未提交文件的修改内容\ngit reset --hard HEAD\n\n\n打标签标签是与分支是并行的两个概念，我们可以检出分支，得到指定版本代码，也可以通过检出tag，得到指定版本代码，tag方式一般用于线上发布做标记。\n\n查看tag\ngit tag\n\n删除本地tag\ngit tag -d [tag-name]\n\n给当前版本打一个tag\ngit tag v2019-04-01\ngit tag -a [标签名称] -m [标签描述]\n\n将标签推送到远程仓库\ngit push origin [标签名称]\n\n查看标签详情\ngit show [标签名]\n\n删除远程tag\n先删除本地tag，再推到远程仓库\ngit tag -d [tag-name]\ngit push origin :refs/tags/[标签名]\n\n新建一个本地tag\ngit tag v2019-09-19\n\n\n储藏\n储藏当前状态\ngit stash\n\n查看所有储藏状态列表\ngit stash list\n\n导出指定储藏状态\ngit stash apply stash@{index}\n\n删除指定储藏状态\ngit stash drop stash@{index}\n\n重新应用，并移除储藏\ngit stash pop\n\n\n修改\n修改最后一次改动\ngit commit --amend\n\n\n变基rebase常用两个功能：\n\n合并多次描述冗余的commit为一次精简的commit\n推荐：【Git】rebase 用法小结\n\n保证提交分支图优雅（直线型）展示\n改变当前分支commit基础，在新的基础上追加当前分支自己的commit，当前分支rebase完成后，再合并到其他分支，就不会出现像下方的无意义提交记录了\nMerge branch &#39;$test$&#39; into bugfix\n例：多人协作时，主分支为bugfix，成员A在bugfix_A上完成自己的bug修复，提交commit，切到本地bugfix，pull下了B的commit\n方式一：\n如果直接将bugfix_A分支merge到bugfix，会出现提交记录中多出一条\nMerge branch &#39;bugfix_A&#39; into bugfix\n这并不是我们希望的\n方式二：\n成员A切回到自己的bugfix_A分支，使用 git rebase bugfix ,将自己的commit在此时的bugfix分支代码基础上（此分支已更新有成员B的commit）提交\n完成rebase后，在将bugfix_A分支merge到bugfix分支，此时发现并没有任何无意义的提交记录，push到远程分支\nrebase 过程中可能会遇到冲突，因为相当于把成员B的代码和成员A的代码做了一次整合\n解决完冲突之后，使用 git add .，标记为已解决\n再 git rebase --continue 完成rebase\n\n\nQ&amp;A\n执行 git merge 时分支处于merging状态，提示MERGE_MSG.swp文件报错\n执行 git pull 或者 push 或者 merge 命令操作的时候，当前分支一直处于merging状态\n当打开 git/MERGE_MSG 文件的时候，发现有 git/MERGE_MSG.swp 文件的存在，并且从时间上来看， MERGE_MSG 比 MERGE_MSG.swp 要更新\n关于 MERGE_MSG.swp 文件的说明：\n.swp 文件和 git 无关，在使用 VIM 开始编辑某文件时，都会产生该文件对应的 .swp 文件。正常的退出，VIM 会自动删除此类型文件，非正常退出情况下， VIM 不会删除 ，.swp 文件会作为文件编辑状态的内容备份\n其实多次打开多次不正常关闭，会一直产生 .sw* 文件\n问题解决：\n第一步：回到合并前状态\ngit merge -abort 或者 git reset --hard HEAD\n第二步：删除 vim 非正常关闭产生的文件\nrm .git/.MERGE_MSG.sw*\n第三步：重新合并\ngit merge [分支名称]\n使用:wq正常安全退出\n\n\nCommit命名规范1234567feat：新功能（feature）fix：修补bugdocs：文档（documentation）style： 格式（不影响代码运行的变动）refactor：重构（即不是新增功能，也不是修改bug的代码变动）test：增加测试chore：构建过程或辅助工具的变动\n摘自《阮一峰 Commit message 和 Change log 编写指南》\n资料\n廖雪峰的官方网站\n\n","dateCreated":"2018-08-31T17:54:54+08:00","dateModified":"2019-10-01T12:14:10+08:00","datePublished":"2018-08-31T17:54:54+08:00","description":"总结一些git常用的指令","headline":"git常用指令","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2018/08/31/git常用指令/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2018/08/31/git常用指令/","keywords":"git, git-flow, 版本控制","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="总结一些git常用的指令">
+<meta name="keywords" content="git,git-flow,版本控制">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="git常用指令">
+<meta property="og:url" content="http://www.zbwblog.com/2018/08/31/git常用指令/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="总结一些git常用的指令">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-10-01T04:14:10.742Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git常用指令">
+<meta name="twitter:description" content="总结一些git常用的指令">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2018/08/31/git常用指令/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2018/08/31/git常用指令/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2018/08/31/git常用指令/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            git常用指令
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>总结一些git常用的指令<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建"><span class="toc-text">创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拉取"><span class="toc-text">拉取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分支"><span class="toc-text">分支</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交"><span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并"><span class="toc-text">合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还原、撤销"><span class="toc-text">还原、撤销</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打标签"><span class="toc-text">打标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#储藏"><span class="toc-text">储藏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改"><span class="toc-text">修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变基"><span class="toc-text">变基</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-amp-A"><span class="toc-text">Q&amp;A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commit命名规范"><span class="toc-text">Commit命名规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资料"><span class="toc-text">资料</span></a></li></ol><p></p>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><p>创建用户，设置用户名、邮箱</p>
+<p>   <code>git config --global user.name &quot;zhangbowen&quot;</code></p>
+<p>   <code>git config --global user.email  &quot;zbwbiehua@163.com&quot;</code></p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化本地git仓库，并关联远程仓库，有两种方法：</p>
+<ol>
+<li><p>克隆远程仓库到本地，建立本地仓库，并自动建立关联关系</p>
+<p><code>git clone [仓库地址]</code></p>
+</li>
+<li><p>初始化本地git仓库<br><code>git init</code></p>
+<p>关联远程仓库</p>
+<p><code>git remote add origin [仓库地址]</code></p>
+<p>推送master分支，建立远程master分支，-u是添加关联</p>
+<p><code>git push -u origin master</code></p>
+</li>
+</ol>
+<h2 id="拉取"><a href="#拉取" class="headerlink" title="拉取"></a>拉取</h2><ol>
+<li><p>从远程分支获取最新的版本，并merge到本地当前分支</p>
+<p><code>git pull orgin [远程分支名称]</code></p>
+</li>
+<li><p>对于已经关联远程分支的本地当前分支，可以直接使用</p>
+<p><code>git pull</code></p>
+</li>
+</ol>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><ol>
+<li><p>切换分支</p>
+<p><code>git checkout [分支名称]</code></p>
+</li>
+<li><p>基于当前分支新建一个分支，并切换到新分支</p>
+<p><code>git checkout -b [分支名称]</code></p>
+</li>
+<li><p>查看分支信息</p>
+<p><code>git branch</code></p>
+</li>
+</ol>
+<h2 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h2><ol>
+<li><p>将当前目录所有文件添加到暂存区</p>
+<p>在WebStorm中文件由红色变为绿色，将文件添加到版本管理</p>
+<p><code>git add .</code></p>
+</li>
+<li><p>提交暂存区到仓库区（当前分支稳定代码），-m为加注释</p>
+<p>在WebStorm中文件由绿色变为白色，更新当前分支代码</p>
+<p><code>git commit -m [描述信息]</code></p>
+</li>
+<li><p>查看提交历史</p>
+<p><code>git log</code></p>
+</li>
+<li><p>显示当前目录文件与暂存区状态变化</p>
+<p>比较当前分支暂存区和仓库区（commit后，当前分支稳定代码）区别</p>
+<p><code>git status</code></p>
+</li>
+<li><p>对于新建的本地分支，push到远程仓库，-u是添加关联</p>
+<p><code>git push -u origin [分支名称]</code></p>
+</li>
+<li><p>对于已关联远程分支的本地当前分支，可以直接使用</p>
+<p><code>git push</code></p>
+</li>
+</ol>
+<h2 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h2><ol>
+<li><p>合并其他分支代码到当前分支</p>
+<p><code>git merge [其他分支名称]</code></p>
+</li>
+</ol>
+<h2 id="还原、撤销"><a href="#还原、撤销" class="headerlink" title="还原、撤销"></a>还原、撤销</h2><p>revert：撤销。一般用于删除某个commit，在log中会有记录</p>
+<ol>
+<li><p>撤销某个提交过的commit</p>
+<p><code>git revert [commit-id]</code></p>
+<p>执行这个操作时，git需要一条新的commit记录这次操作</p>
+</li>
+</ol>
+<p>reset：回滚。一般在”线上事故”通常需要回滚到想要的版本（分支），再提交到远程分支，解决问题</p>
+<ol>
+<li><p>撤回当前代码到历史某一版本号代码</p>
+<p><code>git reset [commit-id]</code></p>
+</li>
+<li><p>回滚到某个版本，强推到远程分支，发布。一般用于”线上事故”</p>
+<p><code>git reset [commit-id]</code></p>
+<p>对于已关联的分支：<code>git push -f</code></p>
+<p>对于未关联的分支：<code>git push origin HEAD:[branch-name] -f</code></p>
+</li>
+<li><p>撤销工作目录中所有未提交文件的修改内容</p>
+<p><code>git reset --hard HEAD</code></p>
+</li>
+</ol>
+<h2 id="打标签"><a href="#打标签" class="headerlink" title="打标签"></a>打标签</h2><p>标签是与分支是并行的两个概念，我们可以检出分支，得到指定版本代码，也可以通过检出tag，得到指定版本代码，tag方式一般用于线上发布做标记。</p>
+<ol>
+<li><p>查看tag</p>
+<p><code>git tag</code></p>
+</li>
+<li><p>删除本地tag</p>
+<p><code>git tag -d [tag-name]</code></p>
+</li>
+<li><p>给当前版本打一个tag</p>
+<p><code>git tag v2019-04-01</code></p>
+<p><code>git tag -a [标签名称] -m [标签描述]</code></p>
+</li>
+<li><p>将标签推送到远程仓库</p>
+<p><code>git push origin [标签名称]</code></p>
+</li>
+<li><p>查看标签详情</p>
+<p><code>git show [标签名]</code></p>
+</li>
+<li><p>删除远程tag</p>
+<p>先删除本地tag，再推到远程仓库</p>
+<p><code>git tag -d [tag-name]</code></p>
+<p><code>git push origin :refs/tags/[标签名]</code></p>
+</li>
+<li><p>新建一个本地tag</p>
+<p><code>git tag v2019-09-19</code></p>
+</li>
+</ol>
+<h2 id="储藏"><a href="#储藏" class="headerlink" title="储藏"></a>储藏</h2><ol>
+<li><p>储藏当前状态</p>
+<p><code>git stash</code></p>
+</li>
+<li><p>查看所有储藏状态列表</p>
+<p><code>git stash list</code></p>
+</li>
+<li><p>导出指定储藏状态</p>
+<p><code>git stash apply stash@{index}</code></p>
+</li>
+<li><p>删除指定储藏状态</p>
+<p><code>git stash drop stash@{index}</code></p>
+</li>
+<li><p>重新应用，并移除储藏</p>
+<p><code>git stash pop</code></p>
+</li>
+</ol>
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><ol>
+<li><p>修改最后一次改动</p>
+<p><code>git commit --amend</code></p>
+</li>
+</ol>
+<h2 id="变基"><a href="#变基" class="headerlink" title="变基"></a>变基</h2><p>rebase常用两个功能：</p>
+<ol>
+<li><p>合并多次描述冗余的commit为一次精简的commit</p>
+<p>推荐：<a href="https://www.jianshu.com/p/4a8f4af4e803" target="_blank" rel="noopener">【Git】rebase 用法小结</a></p>
+</li>
+<li><p>保证提交分支图优雅（直线型）展示</p>
+<p>改变当前分支commit基础，在新的基础上追加当前分支自己的commit，当前分支rebase完成后，再合并到其他分支，就不会出现像下方的无意义提交记录了</p>
+<p><code>Merge branch &#39;$test$&#39; into bugfix</code></p>
+<p>例：多人协作时，主分支为bugfix，成员A在bugfix_A上完成自己的bug修复，提交commit，切到本地bugfix，pull下了B的commit</p>
+<p>方式一：</p>
+<p>如果直接将bugfix_A分支merge到bugfix，会出现提交记录中多出一条</p>
+<p><code>Merge branch &#39;bugfix_A&#39; into bugfix</code></p>
+<p>这并不是我们希望的</p>
+<p>方式二：</p>
+<p>成员A切回到自己的bugfix_A分支，使用 <code>git rebase bugfix</code> ,将自己的commit在此时的bugfix分支代码基础上（此分支已更新有成员B的commit）提交</p>
+<p>完成rebase后，在将bugfix_A分支merge到bugfix分支，此时发现并没有任何无意义的提交记录，push到远程分支</p>
+<p>rebase 过程中可能会遇到冲突，因为相当于把成员B的代码和成员A的代码做了一次整合</p>
+<p>解决完冲突之后，使用 <code>git add .</code>，标记为已解决</p>
+<p>再 <code>git rebase --continue</code> 完成rebase</p>
+</li>
+</ol>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><ol>
+<li><p><strong>执行 git merge 时分支处于merging状态，提示MERGE_MSG.swp文件报错</strong></p>
+<p>执行 git pull 或者 push 或者 merge 命令操作的时候，当前分支一直处于merging状态</p>
+<p>当打开 git/MERGE_MSG 文件的时候，发现有 git/MERGE_MSG.swp 文件的存在，并且从时间上来看， MERGE_MSG 比 MERGE_MSG.swp 要更新</p>
+<p><strong>关于 MERGE_MSG.swp 文件的说明：</strong></p>
+<p>.swp 文件和 git 无关，在使用 VIM 开始编辑某文件时，都会产生该文件对应的 .swp 文件。正常的退出，VIM 会自动删除此类型文件，非正常退出情况下， VIM 不会删除 ，.swp 文件会作为文件编辑状态的内容备份</p>
+<p>其实多次打开多次不正常关闭，会一直产生 .sw* 文件</p>
+<p><strong>问题解决：</strong></p>
+<p>第一步：回到合并前状态</p>
+<p><code>git merge -abort</code> 或者 <code>git reset --hard HEAD</code></p>
+<p>第二步：删除 vim 非正常关闭产生的文件</p>
+<p>rm .git/.MERGE_MSG.sw*</p>
+<p>第三步：重新合并</p>
+<p><code>git merge [分支名称]</code></p>
+<p>使用<code>:wq</code>正常安全退出</p>
+</li>
+</ol>
+<h2 id="Commit命名规范"><a href="#Commit命名规范" class="headerlink" title="Commit命名规范"></a>Commit命名规范</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">feat：新功能（feature）</span><br><span class="line">fix：修补bug</span><br><span class="line">docs：文档（documentation）</span><br><span class="line">style： 格式（不影响代码运行的变动）</span><br><span class="line">refactor：重构（即不是新增功能，也不是修改bug的代码变动）</span><br><span class="line">test：增加测试</span><br><span class="line">chore：构建过程或辅助工具的变动</span><br></pre></td></tr></table></figure>
+<p>摘自<a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html" target="_blank" rel="noopener">《阮一峰 Commit message 和 Change log 编写指南》</a></p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://www.liaoxuefeng.com/wiki/896043488029600" target="_blank" rel="noopener">廖雪峰的官方网站</a></li>
+</ul>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/git/">git</a> <a class="tag tag--primary tag--small t-link" href="/tags/git-flow/">git-flow</a> <a class="tag tag--primary tag--small t-link" href="/tags/版本控制/">版本控制</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/01/hexo博客：基本款/" data-tooltip="hexo博客：基本款" aria-label="上一篇: hexo博客：基本款">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/01/hexo博客：基本款/" data-tooltip="hexo博客：基本款" aria-label="上一篇: hexo博客：基本款">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

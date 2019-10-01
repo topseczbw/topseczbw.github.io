@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>代码检查和格式化 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"了解各种代码检查工具。\n1. 格式化相关的工具有哪些\nEditorConfig\nPrettier\nEslint\nTslint\nVetur（vsCode插件）\n编辑器默认\n\n2. 工具介绍2.1. EditorConfig官网\nEditorConfig有助于为跨越各种编辑器和IDE的同一项目的多个开发人员维护一致的编码样式。 EditorConfig项目由用于定义编码样式的文件格式和一组文本编辑器插件组成，这些插件使编辑器能够读取文件格式并遵循定义的样式。 EditorConfig文件易于阅读，与版本控制系统配合使用。\n配置文件命名：.editorconfig\n使用前置条件：\n\n安装 editorconfig 第三方包于 node_modules\n在根目录下配置 .editorconfig 文件\n编辑器开启支持 editorconfig 配置（如vscode就是安装EditorConfig for VS Code扩展插件）\n\n示例：\n12345678910// editorconfig有些格式化生效条件是在保存时// 未格式化状态function add(num1, num2) &#123; \\s\\s  return num1 + num2&#125;// 保存后，格式化完毕后状态：清空多余空白，末尾增加换行function add(num1, num2) &#123;  return num1 + num2&#125;\n此后编辑器默认格式化程序，会按照editorconfig配置格式化，在保存时也会走相关配置。\n2.2. Prettier官网\nPrettier是一个固执己见的代码格式化程序。它通过解析您的代码并使用自己的规则重新打印它来实施一致的样式，这些规则考虑到了最大的行长度，必要时包装代码。\n它删除所有原始样式，并确保所有输出的代码符合一致的样式。\nPrettier 在整个代码库中强制执行一致的代码样式（即不会影响AST的代码格式），因为它通过解析它来忽略原始样式*并使用自己的规则重新打印解析的AST，该规则采用最大行长度考虑到，必要时包装代码。\n配置文件命名：.prettierrc\n示例：\n12345678910111213141516// 由于长度满足，它适合一行，所以它将保持原样。foo(arg1, arg2, arg3, arg4);// 长度不满足，它不适合一行，所以格式化foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());// Prettier格式化结果foo(  reallyLongArg(),  omgSoManyParameters(),  IShouldRefactorThis(),  isThereSeriouslyAnotherOne());// 在对象文字中打印括号之间的空格。&#123;foo: bar&#125;  =&gt; &#123; foo: bar &#125;\n美化语法书写格式\n只关注格式化，并不具有eslint检查语法等能力，只关心格式化文件(最大长度、混合标签和空格、引用样式等)，包括JavaScript · Flow · TypeScript · CSS · SCSS · Less · JSX · Vue · GraphQL · JSON · Markdown\n2.3. EslintESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。\n12345npm install eslint --save-dev./node_modules/.bin/eslint --init./node_modules/.bin/eslint yourfile.js\n配置文件命名：.eslintrc.js\n检查语法书写是否错误\neslint 检查出的多为代码错误或优化，因此需要手动修正\n开启编辑器相关插件后（ESLint），则会提示相关语法错误，如变量定义未使用，const变量被修改\n![示例/assets/images/images/eslint-example.png)\n2.4. TslintTSLint是一种可扩展的静态分析工具，可检查TypeScript代码的可读性，可维护性和功能性错误。 它在现代编辑器和构建系统中得到广泛支持，可以使用您自己的lint规则，配置和格式化程序进行自定义。\n12345678yarn global add tslint typescriptcd path/to/projecttslint --init// 以tslint.json配置为规范，检查src/**/*.ts文件tslint -c tslint.json 'src/**/*.ts'\n同理eslint\n2.5. Vetur官网\n可以格式化html、标准css（有分号 、大括号的那种）、标准js（有分号 、双引号的那种）、vue文件。\n但是！格式化的标准js文件不符合ESlint规范，会给你加上双引号、分号等，像这样。Vetur只有一个“整个文档格式化程序”，不能格式化任意范围。因此，只有Format Document命令可用。该Format Selection命令不起作用。\n这些格式化程序可用：prettier：对于css / scss / less / js / ts。prettier-eslint：对于js。跑prettier和eslint –fix。prettyhtml：对于HTML。stylus-supremacy：对于手写笔。vscode-typescript：对于js / ts。VS Code的js / ts格式化程序相同。\nVetur捆绑了格式化程序。当Vetur观察到格式化程序的本地安装时，它更喜欢使用本地版本。\n您可以在VS Code config中选择每种语言的默认格式化程序vetur.format.defaultFormatter。 设置语言的格式化程序以none禁用该语言的格式化程序。\n","dateCreated":"2019-07-07T22:01:33+08:00","dateModified":"2019-10-01T12:56:46+08:00","datePublished":"2019-07-07T22:01:33+08:00","description":"了解各种代码检查工具。","headline":"代码检查和格式化","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/07/07/代码检查和格式化/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/07/07/代码检查和格式化/","keywords":"静态代码检查, eslint, tslint, prettier, editorConfig","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="了解各种代码检查工具。">
+<meta name="keywords" content="静态代码检查,eslint,tslint,prettier,editorConfig">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="代码检查和格式化">
+<meta property="og:url" content="http://www.zbwblog.com/2019/07/07/代码检查和格式化/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="了解各种代码检查工具。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-10-01T04:56:46.640Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代码检查和格式化">
+<meta name="twitter:description" content="了解各种代码检查工具。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/07/07/代码检查和格式化/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/07/07/代码检查和格式化/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/07/07/代码检查和格式化/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            代码检查和格式化
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>了解各种代码检查工具。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-格式化相关的工具有哪些"><span class="toc-text">1. 格式化相关的工具有哪些</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-工具介绍"><span class="toc-text">2. 工具介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-EditorConfig"><span class="toc-text">2.1. EditorConfig</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Prettier"><span class="toc-text">2.2. Prettier</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Eslint"><span class="toc-text">2.3. Eslint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Tslint"><span class="toc-text">2.4. Tslint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Vetur"><span class="toc-text">2.5. Vetur</span></a></li></ol></li></ol><p></p>
+<h2 id="1-格式化相关的工具有哪些"><a href="#1-格式化相关的工具有哪些" class="headerlink" title="1. 格式化相关的工具有哪些"></a>1. 格式化相关的工具有哪些</h2><ul>
+<li>EditorConfig</li>
+<li>Prettier</li>
+<li>Eslint</li>
+<li>Tslint</li>
+<li>Vetur（vsCode插件）</li>
+<li>编辑器默认</li>
+</ul>
+<h2 id="2-工具介绍"><a href="#2-工具介绍" class="headerlink" title="2. 工具介绍"></a>2. 工具介绍</h2><h3 id="2-1-EditorConfig"><a href="#2-1-EditorConfig" class="headerlink" title="2.1. EditorConfig"></a>2.1. EditorConfig</h3><p><a href="https://editorconfig.org/" target="_blank" rel="noopener">官网</a></p>
+<p>EditorConfig有助于为跨越各种编辑器和IDE的同一项目的多个开发人员维护一致的编码样式。 EditorConfig项目由用于定义编码样式的文件格式和一组文本编辑器插件组成，这些插件使编辑器能够读取文件格式并遵循定义的样式。 EditorConfig文件易于阅读，与版本控制系统配合使用。</p>
+<p>配置文件命名：<code>.editorconfig</code></p>
+<p>使用前置条件：</p>
+<ol>
+<li>安装 <code>editorconfig</code> 第三方包于 <code>node_modules</code></li>
+<li>在根目录下配置 <code>.editorconfig</code> 文件</li>
+<li>编辑器开启支持 <code>editorconfig</code> 配置（如vscode就是安装EditorConfig for VS Code扩展插件）</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// editorconfig有些格式化生效条件是在保存时</span></span><br><span class="line"><span class="comment">// 未格式化状态</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num1, num2</span>) </span>&#123; \s\s</span><br><span class="line">  <span class="keyword">return</span> num1 + num2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 保存后，格式化完毕后状态：清空多余空白，末尾增加换行</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num1 + num2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此后编辑器默认格式化程序，会按照editorconfig配置格式化，在保存时也会走相关配置。</p>
+<h3 id="2-2-Prettier"><a href="#2-2-Prettier" class="headerlink" title="2.2. Prettier"></a>2.2. Prettier</h3><p><a href="https://github.com/prettier/prettier" target="_blank" rel="noopener">官网</a></p>
+<p>Prettier是一个固执己见的代码格式化程序。它通过解析您的代码并使用自己的规则重新打印它来实施一致的样式，这些规则考虑到了最大的行长度，必要时包装代码。</p>
+<p>它删除所有原始样式，并确保所有输出的代码符合一致的样式。</p>
+<p>Prettier 在整个代码库中强制执行一致的代码样式（即不会影响AST的代码格式），因为它通过解析它来忽略原始样式*并使用自己的规则重新打印解析的AST，该规则采用最大行长度考虑到，必要时包装代码。</p>
+<p>配置文件命名：<code>.prettierrc</code></p>
+<p>示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由于长度满足，它适合一行，所以它将保持原样。</span></span><br><span class="line">foo(arg1, arg2, arg3, arg4);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 长度不满足，它不适合一行，所以格式化</span></span><br><span class="line">foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());</span><br><span class="line"></span><br><span class="line"><span class="comment">// Prettier格式化结果</span></span><br><span class="line">foo(</span><br><span class="line">  reallyLongArg(),</span><br><span class="line">  omgSoManyParameters(),</span><br><span class="line">  IShouldRefactorThis(),</span><br><span class="line">  isThereSeriouslyAnotherOne()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在对象文字中打印括号之间的空格。</span></span><br><span class="line">&#123;<span class="attr">foo</span>: bar&#125;  =&gt; &#123; <span class="attr">foo</span>: bar &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>美化</strong>语法书写格式</p>
+<p>只关注<strong>格式化</strong>，并<strong>不具有eslint检查语法等能力</strong>，只关心格式化文件(最大长度、混合标签和空格、引用样式等)，包括JavaScript · Flow · TypeScript · CSS · SCSS · Less · JSX · Vue · GraphQL · JSON · Markdown</p>
+<h3 id="2-3-Eslint"><a href="#2-3-Eslint" class="headerlink" title="2.3. Eslint"></a>2.3. Eslint</h3><p>ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install eslint --save-dev</span><br><span class="line"></span><br><span class="line">./node_modules/.bin/eslint --init</span><br><span class="line"></span><br><span class="line">./node_modules/.bin/eslint yourfile.js</span><br></pre></td></tr></table></figure>
+<p>配置文件命名：<code>.eslintrc.js</code></p>
+<p><strong>检查</strong>语法书写是否<strong>错误</strong></p>
+<p>eslint 检查出的多为代码<strong>错误或优化</strong>，因此需要<strong>手动修正</strong></p>
+<p>开启编辑器相关插件后（ESLint），则会提示相关语法错误，如变量定义未使用，const变量被修改</p>
+<p>![示例/assets/images/images/eslint-example.png)</p>
+<h3 id="2-4-Tslint"><a href="#2-4-Tslint" class="headerlink" title="2.4. Tslint"></a>2.4. Tslint</h3><p>TSLint是一种可扩展的静态分析工具，可检查TypeScript代码的可读性，可维护性和功能性错误。 它在现代编辑器和构建系统中得到广泛支持，可以使用您自己的lint规则，配置和格式化程序进行自定义。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yarn global add tslint typescript</span><br><span class="line"></span><br><span class="line">cd path/to/project</span><br><span class="line"></span><br><span class="line">tslint --init</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以tslint.json配置为规范，检查src/**/*.ts文件</span></span><br><span class="line">tslint -c tslint.json <span class="string">'src/**/*.ts'</span></span><br></pre></td></tr></table></figure>
+<p>同理eslint</p>
+<h3 id="2-5-Vetur"><a href="#2-5-Vetur" class="headerlink" title="2.5. Vetur"></a>2.5. Vetur</h3><p><a href="https://vuejs.github.io/vetur/formatting.html#formatters" target="_blank" rel="noopener">官网</a></p>
+<p>可以格式化html、标准css（有分号 、大括号的那种）、标准js（有分号 、双引号的那种）、vue文件。</p>
+<p>但是！格式化的标准js文件不符合ESlint规范，会给你加上双引号、分号等，像这样。<br>Vetur只有一个“整个文档格式化程序”，不能格式化任意范围。因此，只有Format Document命令可用。该Format Selection命令不起作用。</p>
+<p>这些格式化程序可用：<br>prettier：对于css / scss / less / js / ts。<br>prettier-eslint：对于js。跑prettier和eslint –fix。<br>prettyhtml：对于HTML。<br>stylus-supremacy：对于手写笔。<br>vscode-typescript：对于js / ts。VS Code的js / ts格式化程序相同。</p>
+<p>Vetur捆绑了格式化程序。当Vetur观察到格式化程序的本地安装时，它更喜欢使用本地版本。</p>
+<p>您可以在VS Code config中选择每种语言的默认格式化程序vetur.format.defaultFormatter。 设置语言的格式化程序以none禁用该语言的格式化程序。</p>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/editorConfig/">editorConfig</a> <a class="tag tag--primary tag--small t-link" href="/tags/eslint/">eslint</a> <a class="tag tag--primary tag--small t-link" href="/tags/prettier/">prettier</a> <a class="tag tag--primary tag--small t-link" href="/tags/tslint/">tslint</a> <a class="tag tag--primary tag--small t-link" href="/tags/静态代码检查/">静态代码检查</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/08/08/客户端侧代码中区分环境/" data-tooltip="客户端侧代码中区分环境" aria-label="上一篇: 客户端侧代码中区分环境">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（三）/" data-tooltip="单元测试：jest（三）" aria-label="下一篇: 单元测试：jest（三）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/08/08/客户端侧代码中区分环境/" data-tooltip="客户端侧代码中区分环境" aria-label="上一篇: 客户端侧代码中区分环境">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（三）/" data-tooltip="单元测试：jest（三）" aria-label="下一篇: 单元测试：jest（三）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

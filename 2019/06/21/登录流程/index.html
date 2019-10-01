@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>登录流程实现 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"介绍常见的登录功能实现方式。\n常见的两种方式。\n\n使用token客户端把username和password，提交到服务端的登录api。\n服务端验证正确后，生成一个token，并把token和userId，存在缓存里（推荐redis数据库），然后把token返回给前端。\n前端每次的请求头中带token，这样就能够轻松的实现。\n\n使用cookie客户端发送username和password到server。\nserver验证成功后, 写入cookie到客户端，返回200的response，其中cookie的key要存储在redis中，value就是用户信息，并且要设置key的超时时间，如:60分钟。\nclient收到200后，进行相应的业务操作，并且设置以后每次请求server都会自动带上cookie, 不用你写代码\nserver端的filter(你肯定用filter来实现)中会每次验证传过来的cookie的key在redis中是否存在, 有就代表登录成功过可以操作, 没有就返回错误标识注意: 在登录成功后, 每次调用服务器接口时候, 都要为redis的key进行续期,如60分钟\n当redis的key超过60分钟, 自己会删除这个key, 那么再次请求server时, 就会收到需要登录的返回值\n当用户主动退出系统的时候, 也要在server中删除redis的key。\n示例12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758// webpack.dev.config.jsvar host = 'devtk.aibeike.com'var backendPort = 443// 后台登录接口配置var options = &#123;  hostname: host,  port: backendPort,  path: '/entrance/login',  method: 'POST',  headers: &#123;    'Content-Type': 'application/x-www-form-urlencoded',    'Content-Length': postData.length  &#125;&#125;// 当前cookievar currentCookie// 上次请求时间纪录，每8分钟重新登录一次，后台设置cookie时效为10分钟var lastRquestTime = 0var setCookie = function(cb) &#123;  if (Date.now() - lastRquestTime &gt;= 4 * 60 * 1000) &#123;    var req = https.request(options, (res) =&gt; &#123;      res.setEncoding('utf8')      res.on('data', (chunk) =&gt; &#123;        console.log(`BODY: $&#123;chunk&#125;`);      &#125;)      res.on('end', () =&gt; &#123;        currentCookie = res.headers['set-cookie'][0]        lastRquestTime = Date.now()        console.log('cookie 获取成功：' + currentCookie + ' cookie获取时间为：' + lastRquestTime)        cb()      &#125;)    &#125;)    req.on('error', (e) =&gt; &#123;      console.log(`problem with request: $&#123;e.message&#125;`)    &#125;)    // write data to request body    req.write(postData)    req.end()  &#125; else &#123;    cb()  &#125;&#125;setCookie(function()&#123;&#125;)// 在webpack的配置中设置proxy: &#123;  '/': &#123;    target: `https://$&#123;host&#125;:$&#123;backendPort&#125;/`,    changeOrigin: true,    onProxyReq: function(proxyReq, req, res) &#123;        proxyReq.setHeader('Cookie', currentCookie)    &#125;  &#125;&#125;\n\n\n","dateCreated":"2019-06-21T22:08:00+08:00","dateModified":"2019-10-01T12:51:55+08:00","datePublished":"2019-06-21T22:08:00+08:00","description":"介绍常见的登录功能实现方式。","headline":"登录流程实现","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/06/21/登录流程/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/06/21/登录流程/","keywords":"业务功能, 权限","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="介绍常见的登录功能实现方式。">
+<meta name="keywords" content="业务功能,权限">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="登录流程实现">
+<meta property="og:url" content="http://www.zbwblog.com/2019/06/21/登录流程/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="介绍常见的登录功能实现方式。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-10-01T04:51:55.786Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="登录流程实现">
+<meta name="twitter:description" content="介绍常见的登录功能实现方式。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/06/21/登录流程/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/06/21/登录流程/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/06/21/登录流程/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            登录流程实现
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>介绍常见的登录功能实现方式。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用token"><span class="toc-text">使用token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用cookie"><span class="toc-text">使用cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#示例"><span class="toc-text">示例</span></a></li></ol></li></ol><p></p>
+<p>常见的两种方式。</p>
+<ol>
+<li><h2 id="使用token"><a href="#使用token" class="headerlink" title="使用token"></a>使用token</h2><p>客户端把username和password，提交到服务端的登录api。</p>
+<p>服务端验证正确后，生成一个token，并把token和userId，存在缓存里（推荐redis数据库），然后把token返回给前端。</p>
+<p>前端每次的请求头中带token，这样就能够轻松的实现。</p>
+</li>
+<li><h2 id="使用cookie"><a href="#使用cookie" class="headerlink" title="使用cookie"></a>使用cookie</h2><p>客户端发送username和password到server。</p>
+<p>server验证成功后, 写入cookie到客户端，返回200的response，其中cookie的key要存储在redis中，value就是用户信息，并且要设置key的超时时间，如:60分钟。</p>
+<p>client收到200后，进行相应的业务操作，并且设置以后每次请求server都会自动带上cookie, 不用你写代码</p>
+<p>server端的filter(你肯定用filter来实现)中会每次验证传过来的cookie的key在redis中是否存在, 有就代表登录成功过可以操作, 没有就返回错误标识注意: 在登录成功后, 每次调用服务器接口时候, 都要为redis的key进行续期,如60分钟</p>
+<p>当redis的key超过60分钟, 自己会删除这个key, 那么再次请求server时, 就会收到需要登录的返回值</p>
+<p>当用户主动退出系统的时候, 也要在server中删除redis的key。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.dev.config.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> host = <span class="string">'devtk.aibeike.com'</span></span><br><span class="line"><span class="keyword">var</span> backendPort = <span class="number">443</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 后台登录接口配置</span></span><br><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">  hostname: host,</span><br><span class="line">  port: backendPort,</span><br><span class="line">  path: <span class="string">'/entrance/login'</span>,</span><br><span class="line">  method: <span class="string">'POST'</span>,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    <span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>,</span><br><span class="line">    <span class="string">'Content-Length'</span>: postData.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当前cookie</span></span><br><span class="line"><span class="keyword">var</span> currentCookie</span><br><span class="line"><span class="comment">// 上次请求时间纪录，每8分钟重新登录一次，后台设置cookie时效为10分钟</span></span><br><span class="line"><span class="keyword">var</span> lastRquestTime = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> setCookie = <span class="function"><span class="keyword">function</span>(<span class="params">cb</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Date</span>.now() - lastRquestTime &gt;= <span class="number">4</span> * <span class="number">60</span> * <span class="number">1000</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> req = https.request(options, (res) =&gt; &#123;</span><br><span class="line">      res.setEncoding(<span class="string">'utf8'</span>)</span><br><span class="line">      res.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`BODY: <span class="subst">$&#123;chunk&#125;</span>`</span>);</span><br><span class="line">      &#125;)</span><br><span class="line">      res.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">        currentCookie = res.headers[<span class="string">'set-cookie'</span>][<span class="number">0</span>]</span><br><span class="line">        lastRquestTime = <span class="built_in">Date</span>.now()</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'cookie 获取成功：'</span> + currentCookie + <span class="string">' cookie获取时间为：'</span> + lastRquestTime)</span><br><span class="line">        cb()</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    req.on(<span class="string">'error'</span>, (e) =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`problem with request: <span class="subst">$&#123;e.message&#125;</span>`</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// write data to request body</span></span><br><span class="line">    req.write(postData)</span><br><span class="line">    req.end()</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    cb()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">setCookie(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在webpack的配置中设置</span></span><br><span class="line">proxy: &#123;</span><br><span class="line">  <span class="string">'/'</span>: &#123;</span><br><span class="line">    target: <span class="string">`https://<span class="subst">$&#123;host&#125;</span>:<span class="subst">$&#123;backendPort&#125;</span>/`</span>,</span><br><span class="line">    changeOrigin: <span class="literal">true</span>,</span><br><span class="line">    onProxyReq: <span class="function"><span class="keyword">function</span>(<span class="params">proxyReq, req, res</span>) </span>&#123;</span><br><span class="line">        proxyReq.setHeader(<span class="string">'Cookie'</span>, currentCookie)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/业务功能/">业务功能</a> <a class="tag tag--primary tag--small t-link" href="/tags/权限/">权限</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（一）/" data-tooltip="单元测试：jest（一）" aria-label="上一篇: 单元测试：jest（一）">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/30/干法/" data-tooltip="《干法》" aria-label="下一篇: 《干法》">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（一）/" data-tooltip="单元测试：jest（一）" aria-label="上一篇: 单元测试：jest（一）">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/30/干法/" data-tooltip="《干法》" aria-label="下一篇: 《干法》">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

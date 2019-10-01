@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>使用gulp构建一个模板项目 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"使用gulp从0搭建一个简单的应用模板项目。包括：压缩混淆js、处理es6语法、css预处理、解决跨域问题等。\n目标使用gulp从零构建一个登录页面\n步骤\nnpm init -y\ngit init 建立git仓库\n设置 .gitignore\n12node_modules.idea\n\n安装gulp\n123npm install --global gulp-clinpm i -D gulp\n\n创建一个简单的gulpfile\n123456789const &#123; series, src, dest &#125; = require('gulp');function jsTask() &#123; return src('src/**/*.js')         .pipe(dest('dist'))&#125;exports.default = series(jsTask);\n\n\ngulp命令\n查看帮助\ngulp -h\n\n查看所有任务\ngulp --tasks\n\n执行任务\ngulp [任务名称]\n\n\ngulp插件删除dist目录npm i -D del\n12345const del = require('del');function cleanTask(done) &#123;  del.sync('dist')    done()&#125;\n压缩、混淆npm i -D gulp-uglify\n123const uglify = require('gulp-uglify'); .pipe(uglify())  // 压缩、混淆\n使用es6npm i -D @babel/core @babel/preset-env gulp-babel\n12345const babel = require('gulp-babel'); .pipe(babel(&#123;            presets: ['@babel/env']          &#125;))\n文件重命名npm i -D gulp-rename\n1234567891011121314151617const rename = require(\"gulp-rename\");.pipe(rename('zbw.js')).pipe(rename(function (path) &#123;    path.dirname += \"/ciao\";    path.basename += \"-goodbye\";    path.extname = \".md\";  &#125;)).pipe(rename(&#123;    dirname: \"main/text/ciao\",    basename: \"aloha\",    prefix: \"bonjour-\",    suffix: \"-hola\",    extname: \".md\"  &#125;))\n合并多文件，输出单一文件npm i -D gulp-concat\n123const concat = require(\"gulp-concat\"); .pipe(concat('all.js'))\n处理css浏览器兼容性前缀npm i -D gulp-autoprefixer\n1234567891011const autoprefixer = require('gulp-autoprefixer'); .pipe(autoprefixer(&#123;            cascade: false,            remove: false // 删除过时的prefixer          &#125;)) \"browserslist\": [    \"last 2 version\",    \"&gt; 2%\"  ]\n处理sass，编译压缩npm i -D gulp-sass\n12345const sass = require('gulp-sass');.pipe(sass(&#123;          outputStyle: 'compressed'        &#125;))\n起一个本地服务，开始调接口吧browser-syncnpm i -D browser-sync\n1234567891011121314151617181920212223const browserSync = require('browser-sync').create();const reload = browserSync.reload;// 在js任务后.pipe(dest('./dist/js/'))  // 输出到根目录下dist文件夹.pipe(reload(&#123; stream: true &#125;))// 在css任务后.pipe(dest('./dist')).pipe(reload(&#123; stream: true &#125;))function server(done) &#123;  browserSync.init(&#123;    server: &#123;      baseDir: './'  // 指定根目录    &#125;  &#125;)  done()&#125;const buildTask = series([cleanTask, jsTask, cssTask, server, watcherTask])exports.default = buildTask;\ngulp-connect + http-proxy-middlewaregulp-connect 用来起服务，配合 http-proxy-middleware 做代理，解决跨域问题\nnpm i -D gulp-connect http-proxy-middleware\n1234567891011121314151617181920212223242526272829303132333435363738394041const connect = require('gulp-connect');const proxy = require('http-proxy-middleware');/** * @description 起服务 */function serverTask() &#123;  connect.server(&#123;    root: './dist',    port: 8888,    livereload: true,    middleware: function(connect, opt) &#123;        return [            proxy('/api/',  &#123;                target: 'https://devtk.aibeike.com',                changeOrigin:true,                pathRewrite: &#123;  // 覆写路径                  '^/api/': ''                &#125;            &#125;)        ]    &#125;  &#125;)&#125;/** * @description 处理html任务 * @returns */function htmlTask() &#123;  return src('src/index.html')          .pipe(dest('dist'))          .pipe(connect.reload()) // reload解决热加载问题，js和css资源同理&#125;// serverTask任务和watcherTask任务要并行处理，否则执行到serverTask服务器启动后，任务就自动关闭了，热加载功能会丢失const assetsTask = series(cleanTask, htmlTask, jsTask, cssTask, serverTask)const buildTask = parallel(assetsTask, watcherTask)exports.default = buildTask;\nbrowser-sync 与 gulp-connect 区别browser-sync 没有配合使用的代理插件，在解决跨域问题有些鸡肋\ngulp-connect 配合 http-proxy-middleware 使用可以很方便的解决跨域问题\n注意return 和 done() 有什么区别return 是当返回promise时\ndone回调方法比较通用，比如热刷新reload时，return就不好使了\n为什么热刷新不好使这段代码不可以写成return，只能写成done\n做代理解决跨域问题时，遇到404问题遇到404的一种很常见的情况是，在proxy时，使用了 /api 作为请求接口的前缀链接，但是真正的接口地址中是不存在 /api 这样的路径的，此处需要使用 pathRewrite 覆写删除 /api。\n同样的问题，参考资料：http-proxy-middleware配合gulp使用时的一些坑\n为什么引入第三方依赖包如jquery后，源代码找不到$处理js资源时，src方法读取js文件的顺序是有要求的。\n1234567891011121314151617/** * @description 处理js任务 * @returns */function jsTask() &#123;  // 读取src文件夹下所有js文件  // 注意js文件打包引入的先后顺序，先导入lib，再导入应用代码  return src(['src/lib/*.js', 'src/js/*.js'])          .pipe(babel(&#123; // 编译es6            presets: ['@babel/env']          &#125;))          .pipe(uglify())  // 压缩、混淆          .pipe(concat('bundle.js')) // 合并所有文件，输出all.js文件          // .pipe(rename('bundle.js')) // 重命名为zbw.js          .pipe(dest('./dist/js/'))  // 输出到根目录下dist文件夹          .pipe(connect.reload()) // 热加载&#125;\n","dateCreated":"2019-09-22T23:49:00+08:00","dateModified":"2019-10-01T12:33:32+08:00","datePublished":"2019-09-22T23:49:00+08:00","description":"使用gulp从0搭建一个简单的应用模板项目。包括：压缩混淆js、处理es6语法、css预处理、解决跨域问题等。","headline":"使用gulp构建一个模板项目","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/22/使用gulp构建一个模板项目/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/22/使用gulp构建一个模板项目/","keywords":"自动化构建, 前端工程化, gulp","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="使用gulp从0搭建一个简单的应用模板项目。包括：压缩混淆js、处理es6语法、css预处理、解决跨域问题等。">
+<meta name="keywords" content="自动化构建,前端工程化,gulp">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="使用gulp构建一个模板项目">
+<meta property="og:url" content="http://www.zbwblog.com/2019/09/22/使用gulp构建一个模板项目/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="使用gulp从0搭建一个简单的应用模板项目。包括：压缩混淆js、处理es6语法、css预处理、解决跨域问题等。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-10-01T04:33:32.728Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用gulp构建一个模板项目">
+<meta name="twitter:description" content="使用gulp从0搭建一个简单的应用模板项目。包括：压缩混淆js、处理es6语法、css预处理、解决跨域问题等。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/09/22/使用gulp构建一个模板项目/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/22/使用gulp构建一个模板项目/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/09/22/使用gulp构建一个模板项目/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            使用gulp构建一个模板项目
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>使用gulp从0搭建一个简单的应用模板项目。<br>包括：压缩混淆js、处理es6语法、css预处理、解决跨域问题等。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目标"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp命令"><span class="toc-text">gulp命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp插件"><span class="toc-text">gulp插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#删除dist目录"><span class="toc-text">删除dist目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩、混淆"><span class="toc-text">压缩、混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用es6"><span class="toc-text">使用es6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件重命名"><span class="toc-text">文件重命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并多文件，输出单一文件"><span class="toc-text">合并多文件，输出单一文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理css浏览器兼容性前缀"><span class="toc-text">处理css浏览器兼容性前缀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理sass，编译压缩"><span class="toc-text">处理sass，编译压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#起一个本地服务，开始调接口吧"><span class="toc-text">起一个本地服务，开始调接口吧</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#browser-sync"><span class="toc-text">browser-sync</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gulp-connect-http-proxy-middleware"><span class="toc-text">gulp-connect + http-proxy-middleware</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#browser-sync-与-gulp-connect-区别"><span class="toc-text">browser-sync 与 gulp-connect 区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-text">注意</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#return-和-done-有什么区别"><span class="toc-text">return 和 done() 有什么区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么热刷新不好使"><span class="toc-text">为什么热刷新不好使</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#做代理解决跨域问题时，遇到404问题"><span class="toc-text">做代理解决跨域问题时，遇到404问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么引入第三方依赖包如jquery后，源代码找不到"><span class="toc-text">为什么引入第三方依赖包如jquery后，源代码找不到$</span></a></li></ol></li></ol><p></p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>使用gulp从零构建一个登录页面</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li><code>npm init -y</code></li>
+<li><p><code>git init</code> 建立git仓库</p>
+<p>设置 <code>.gitignore</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node_modules</span><br><span class="line">.idea</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装gulp</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --global gulp-cli</span><br><span class="line"></span><br><span class="line">npm i -D gulp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个简单的gulpfile</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; series, src, dest &#125; = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsTask</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">return</span> src(<span class="string">'src/**/*.js'</span>)</span><br><span class="line">         .pipe(dest(<span class="string">'dist'</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">exports.default = series(jsTask);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="gulp命令"><a href="#gulp命令" class="headerlink" title="gulp命令"></a>gulp命令</h2><ol>
+<li><p>查看帮助</p>
+<p><code>gulp -h</code></p>
+</li>
+<li><p>查看所有任务</p>
+<p><code>gulp --tasks</code></p>
+</li>
+<li><p>执行任务</p>
+<p><code>gulp [任务名称]</code></p>
+</li>
+</ol>
+<h2 id="gulp插件"><a href="#gulp插件" class="headerlink" title="gulp插件"></a>gulp插件</h2><h3 id="删除dist目录"><a href="#删除dist目录" class="headerlink" title="删除dist目录"></a>删除dist目录</h3><p><code>npm i -D del</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> del = <span class="built_in">require</span>(<span class="string">'del'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cleanTask</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">  del.sync(<span class="string">'dist'</span>)</span><br><span class="line">    done()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="压缩、混淆"><a href="#压缩、混淆" class="headerlink" title="压缩、混淆"></a>压缩、混淆</h3><p><code>npm i -D gulp-uglify</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>);</span><br><span class="line"></span><br><span class="line"> .pipe(uglify())  <span class="comment">// 压缩、混淆</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用es6"><a href="#使用es6" class="headerlink" title="使用es6"></a>使用es6</h3><p><code>npm i -D @babel/core @babel/preset-env gulp-babel</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> babel = <span class="built_in">require</span>(<span class="string">'gulp-babel'</span>);</span><br><span class="line"></span><br><span class="line"> .pipe(babel(&#123;</span><br><span class="line">            presets: [<span class="string">'@babel/env'</span>]</span><br><span class="line">          &#125;))</span><br></pre></td></tr></table></figure>
+<h3 id="文件重命名"><a href="#文件重命名" class="headerlink" title="文件重命名"></a>文件重命名</h3><p><code>npm i -D gulp-rename</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rename = <span class="built_in">require</span>(<span class="string">"gulp-rename"</span>);</span><br><span class="line"></span><br><span class="line">.pipe(rename(<span class="string">'zbw.js'</span>))</span><br><span class="line"></span><br><span class="line">.pipe(rename(<span class="function"><span class="keyword">function</span> (<span class="params">path</span>) </span>&#123;</span><br><span class="line">    path.dirname += <span class="string">"/ciao"</span>;</span><br><span class="line">    path.basename += <span class="string">"-goodbye"</span>;</span><br><span class="line">    path.extname = <span class="string">".md"</span>;</span><br><span class="line">  &#125;))</span><br><span class="line"></span><br><span class="line">.pipe(rename(&#123;</span><br><span class="line">    dirname: <span class="string">"main/text/ciao"</span>,</span><br><span class="line">    basename: <span class="string">"aloha"</span>,</span><br><span class="line">    prefix: <span class="string">"bonjour-"</span>,</span><br><span class="line">    suffix: <span class="string">"-hola"</span>,</span><br><span class="line">    extname: <span class="string">".md"</span></span><br><span class="line">  &#125;))</span><br></pre></td></tr></table></figure>
+<h3 id="合并多文件，输出单一文件"><a href="#合并多文件，输出单一文件" class="headerlink" title="合并多文件，输出单一文件"></a>合并多文件，输出单一文件</h3><p><code>npm i -D gulp-concat</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> concat = <span class="built_in">require</span>(<span class="string">"gulp-concat"</span>);</span><br><span class="line"></span><br><span class="line"> .pipe(concat(<span class="string">'all.js'</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="处理css浏览器兼容性前缀"><a href="#处理css浏览器兼容性前缀" class="headerlink" title="处理css浏览器兼容性前缀"></a>处理css浏览器兼容性前缀</h3><p><code>npm i -D gulp-autoprefixer</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> autoprefixer = <span class="built_in">require</span>(<span class="string">'gulp-autoprefixer'</span>);</span><br><span class="line"></span><br><span class="line"> .pipe(autoprefixer(&#123;</span><br><span class="line">            cascade: <span class="literal">false</span>,</span><br><span class="line">            remove: <span class="literal">false</span> <span class="comment">// 删除过时的prefixer</span></span><br><span class="line">          &#125;))</span><br><span class="line"></span><br><span class="line"> <span class="string">"browserslist"</span>: [</span><br><span class="line">    <span class="string">"last 2 version"</span>,</span><br><span class="line">    <span class="string">"&gt; 2%"</span></span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+<h3 id="处理sass，编译压缩"><a href="#处理sass，编译压缩" class="headerlink" title="处理sass，编译压缩"></a>处理sass，编译压缩</h3><p><code>npm i -D gulp-sass</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sass = <span class="built_in">require</span>(<span class="string">'gulp-sass'</span>);</span><br><span class="line"></span><br><span class="line">.pipe(sass(&#123;</span><br><span class="line">          outputStyle: <span class="string">'compressed'</span></span><br><span class="line">        &#125;))</span><br></pre></td></tr></table></figure>
+<h3 id="起一个本地服务，开始调接口吧"><a href="#起一个本地服务，开始调接口吧" class="headerlink" title="起一个本地服务，开始调接口吧"></a>起一个本地服务，开始调接口吧</h3><h4 id="browser-sync"><a href="#browser-sync" class="headerlink" title="browser-sync"></a>browser-sync</h4><p><code>npm i -D browser-sync</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> browserSync = <span class="built_in">require</span>(<span class="string">'browser-sync'</span>).create();</span><br><span class="line"><span class="keyword">const</span> reload = browserSync.reload;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在js任务后</span></span><br><span class="line">.pipe(dest(<span class="string">'./dist/js/'</span>))  <span class="comment">// 输出到根目录下dist文件夹</span></span><br><span class="line">.pipe(reload(&#123; <span class="attr">stream</span>: <span class="literal">true</span> &#125;))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在css任务后</span></span><br><span class="line">.pipe(dest(<span class="string">'./dist'</span>))</span><br><span class="line">.pipe(reload(&#123; <span class="attr">stream</span>: <span class="literal">true</span> &#125;))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">server</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">  browserSync.init(&#123;</span><br><span class="line">    server: &#123;</span><br><span class="line">      baseDir: <span class="string">'./'</span>  <span class="comment">// 指定根目录</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  done()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> buildTask = series([cleanTask, jsTask, cssTask, server, watcherTask])</span><br><span class="line"></span><br><span class="line">exports.default = buildTask;</span><br></pre></td></tr></table></figure>
+<h4 id="gulp-connect-http-proxy-middleware"><a href="#gulp-connect-http-proxy-middleware" class="headerlink" title="gulp-connect + http-proxy-middleware"></a>gulp-connect + http-proxy-middleware</h4><p><code>gulp-connect</code> 用来起服务，配合 <code>http-proxy-middleware</code> 做代理，解决跨域问题</p>
+<p><code>npm i -D gulp-connect http-proxy-middleware</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connect = <span class="built_in">require</span>(<span class="string">'gulp-connect'</span>);</span><br><span class="line"><span class="keyword">const</span> proxy = <span class="built_in">require</span>(<span class="string">'http-proxy-middleware'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @description 起服务</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">serverTask</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  connect.server(&#123;</span><br><span class="line">    root: <span class="string">'./dist'</span>,</span><br><span class="line">    port: <span class="number">8888</span>,</span><br><span class="line">    livereload: <span class="literal">true</span>,</span><br><span class="line">    middleware: <span class="function"><span class="keyword">function</span>(<span class="params">connect, opt</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            proxy(<span class="string">'/api/'</span>,  &#123;</span><br><span class="line">                target: <span class="string">'https://devtk.aibeike.com'</span>,</span><br><span class="line">                changeOrigin:<span class="literal">true</span>,</span><br><span class="line">                pathRewrite: &#123;  <span class="comment">// 覆写路径</span></span><br><span class="line">                  <span class="string">'^/api/'</span>: <span class="string">''</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @description 处理html任务</span></span><br><span class="line"><span class="comment"> * @returns</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlTask</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> src(<span class="string">'src/index.html'</span>)</span><br><span class="line">          .pipe(dest(<span class="string">'dist'</span>))</span><br><span class="line">          .pipe(connect.reload()) <span class="comment">// reload解决热加载问题，js和css资源同理</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// serverTask任务和watcherTask任务要并行处理，否则执行到serverTask服务器启动后，任务就自动关闭了，热加载功能会丢失</span></span><br><span class="line"><span class="keyword">const</span> assetsTask = series(cleanTask, htmlTask, jsTask, cssTask, serverTask)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> buildTask = parallel(assetsTask, watcherTask)</span><br><span class="line"></span><br><span class="line">exports.default = buildTask;</span><br></pre></td></tr></table></figure>
+<h4 id="browser-sync-与-gulp-connect-区别"><a href="#browser-sync-与-gulp-connect-区别" class="headerlink" title="browser-sync 与 gulp-connect 区别"></a>browser-sync 与 gulp-connect 区别</h4><p><code>browser-sync</code> 没有配合使用的代理插件，在解决跨域问题有些鸡肋</p>
+<p><code>gulp-connect</code> 配合 <code>http-proxy-middleware</code> 使用可以很方便的解决跨域问题</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><h3 id="return-和-done-有什么区别"><a href="#return-和-done-有什么区别" class="headerlink" title="return 和 done() 有什么区别"></a>return 和 done() 有什么区别</h3><p>return 是当返回promise时</p>
+<p>done回调方法比较通用，比如热刷新reload时，return就不好使了</p>
+<h3 id="为什么热刷新不好使"><a href="#为什么热刷新不好使" class="headerlink" title="为什么热刷新不好使"></a>为什么热刷新不好使</h3><p>这段代码不可以写成return，只能写成done</p>
+<h3 id="做代理解决跨域问题时，遇到404问题"><a href="#做代理解决跨域问题时，遇到404问题" class="headerlink" title="做代理解决跨域问题时，遇到404问题"></a>做代理解决跨域问题时，遇到404问题</h3><p>遇到404的一种很常见的情况是，在proxy时，使用了 <code>/api</code> 作为请求接口的前缀链接，但是真正的接口地址中是不存在 <code>/api</code> 这样的路径的，此处需要使用 <code>pathRewrite</code> 覆写删除 <code>/api</code>。</p>
+<p>同样的问题，参考资料：<a href="https://ymbo.github.io/2018/01/09/http-proxy-middleware%E9%85%8D%E5%90%88gulp%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" target="_blank" rel="noopener">http-proxy-middleware配合gulp使用时的一些坑</a></p>
+<h3 id="为什么引入第三方依赖包如jquery后，源代码找不到"><a href="#为什么引入第三方依赖包如jquery后，源代码找不到" class="headerlink" title="为什么引入第三方依赖包如jquery后，源代码找不到$"></a>为什么引入第三方依赖包如jquery后，源代码找不到$</h3><p>处理js资源时，src方法读取js文件的顺序是有要求的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @description 处理js任务</span></span><br><span class="line"><span class="comment"> * @returns</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsTask</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 读取src文件夹下所有js文件</span></span><br><span class="line">  <span class="comment">// 注意js文件打包引入的先后顺序，先导入lib，再导入应用代码</span></span><br><span class="line">  <span class="keyword">return</span> src([<span class="string">'src/lib/*.js'</span>, <span class="string">'src/js/*.js'</span>])</span><br><span class="line">          .pipe(babel(&#123; <span class="comment">// 编译es6</span></span><br><span class="line">            presets: [<span class="string">'@babel/env'</span>]</span><br><span class="line">          &#125;))</span><br><span class="line">          .pipe(uglify())  <span class="comment">// 压缩、混淆</span></span><br><span class="line">          .pipe(concat(<span class="string">'bundle.js'</span>)) <span class="comment">// 合并所有文件，输出all.js文件</span></span><br><span class="line">          <span class="comment">// .pipe(rename('bundle.js')) // 重命名为zbw.js</span></span><br><span class="line">          .pipe(dest(<span class="string">'./dist/js/'</span>))  <span class="comment">// 输出到根目录下dist文件夹</span></span><br><span class="line">          .pipe(connect.reload()) <span class="comment">// 热加载</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/gulp/">gulp</a> <a class="tag tag--primary tag--small t-link" href="/tags/前端工程化/">前端工程化</a> <a class="tag tag--primary tag--small t-link" href="/tags/自动化构建/">自动化构建</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/23/ajax交互数据格式/" data-tooltip="ajax交互数据格式" aria-label="上一篇: ajax交互数据格式">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/图片上传后被旋转问题/" data-tooltip="图片上传阿里云后被自动旋转问题" aria-label="下一篇: 图片上传阿里云后被自动旋转问题">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/23/ajax交互数据格式/" data-tooltip="ajax交互数据格式" aria-label="上一篇: ajax交互数据格式">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/图片上传后被旋转问题/" data-tooltip="图片上传阿里云后被自动旋转问题" aria-label="下一篇: 图片上传阿里云后被自动旋转问题">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

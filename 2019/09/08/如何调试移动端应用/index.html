@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>如何调试移动端应用 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"介绍如何调试安卓、ios应用程序。介绍如何使用charles抓包。\n如何在手机上访问开发环境的页面\n手机、电脑处于同一个无线网路中\n通过草料二维码，将电脑端开发环境的页面地址（通过本机id访问）转化成二维码\n手机扫码，通过浏览器打开\n\nchrome控制台模拟调试移动端样式及部分交互事件\n\n调试ios手机\n打开手机——设置——safari浏览器——高级——打开JavaScript、Web检查器\n手机通过数据线连接电脑\n打开电脑端safari浏览器——开发选项，即可显示手机名称标识，及当前手机safari所打开的页面\n\n调试安卓手机\n打开安卓手机设置——开发者选项——打开开发者模式、打开usb调试\n保证手机和电脑在同一网段内\n在手机中的谷歌浏览器中使用ip的方式打开应用页面\n电脑谷歌url输入 chrome://inspect/#devices\n勾选 Discover USB devices\n在下方可以看到目标手机的相关信息，选择目标网址下方的 inspect 开始调试\n\n注意：谷歌浏览器的安卓手机调试页面，需要科学上网才可以打开，否则会出现黑屏的情况。\n调试嵌入式H5\ncharles抓包调试请求Charles - 抓取https包内数据利用 Charles Proxy 下载旧版本 iOS App【转】\nios手机在安装完证书之后，需要设置如下：通用——描述文件通用——关于本机——证书信任\n\n\n相关资料\n论：怎么调试H5手机页面\n\n","dateCreated":"2019-09-08T13:04:00+08:00","dateModified":"2019-10-01T12:56:46+08:00","datePublished":"2019-09-08T13:04:00+08:00","description":"介绍如何调试安卓、ios应用程序。介绍如何使用charles抓包。","headline":"如何调试移动端应用","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/08/如何调试移动端应用/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/08/如何调试移动端应用/","keywords":"移动端, 调试","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="介绍如何调试安卓、ios应用程序。介绍如何使用charles抓包。">
+<meta name="keywords" content="移动端,调试">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="如何调试移动端应用">
+<meta property="og:url" content="http://www.zbwblog.com/2019/09/08/如何调试移动端应用/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="介绍如何调试安卓、ios应用程序。介绍如何使用charles抓包。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://www.zbwblog.com/assets/images/调试移动端H5页面.jpg">
+<meta property="og:updated_time" content="2019-10-01T04:56:46.644Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何调试移动端应用">
+<meta name="twitter:description" content="介绍如何调试安卓、ios应用程序。介绍如何使用charles抓包。">
+<meta name="twitter:image" content="http://www.zbwblog.com/assets/images/调试移动端H5页面.jpg">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/09/08/如何调试移动端应用/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/08/如何调试移动端应用/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/09/08/如何调试移动端应用/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            如何调试移动端应用
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>介绍如何调试安卓、ios应用程序。<br>介绍如何使用charles抓包。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何在手机上访问开发环境的页面"><span class="toc-text">如何在手机上访问开发环境的页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chrome控制台"><span class="toc-text">chrome控制台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试ios手机"><span class="toc-text">调试ios手机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试安卓手机"><span class="toc-text">调试安卓手机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试嵌入式H5"><span class="toc-text">调试嵌入式H5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关资料"><span class="toc-text">相关资料</span></a></li></ol><p></p>
+<h2 id="如何在手机上访问开发环境的页面"><a href="#如何在手机上访问开发环境的页面" class="headerlink" title="如何在手机上访问开发环境的页面"></a>如何在手机上访问开发环境的页面</h2><ol>
+<li>手机、电脑处于同一个无线网路中</li>
+<li>通过草料二维码，将电脑端开发环境的页面地址（通过本机id访问）转化成二维码</li>
+<li>手机扫码，通过浏览器打开</li>
+</ol>
+<h2 id="chrome控制台"><a href="#chrome控制台" class="headerlink" title="chrome控制台"></a>chrome控制台</h2><p>模拟调试移动端样式及部分交互事件</p>
+<p><img src="/assets/images/调试移动端H5页面.jpg" alt="chrome控制台模拟移动端调试样式"></p>
+<h2 id="调试ios手机"><a href="#调试ios手机" class="headerlink" title="调试ios手机"></a>调试ios手机</h2><ol>
+<li>打开手机——设置——safari浏览器——高级——打开JavaScript、Web检查器</li>
+<li>手机通过数据线连接电脑</li>
+<li>打开电脑端safari浏览器——开发选项，即可显示手机名称标识，及当前手机safari所打开的页面</li>
+</ol>
+<h2 id="调试安卓手机"><a href="#调试安卓手机" class="headerlink" title="调试安卓手机"></a>调试安卓手机</h2><ol>
+<li>打开安卓手机设置——开发者选项——打开开发者模式、打开usb调试</li>
+<li>保证手机和电脑在同一网段内</li>
+<li>在手机中的谷歌浏览器中使用ip的方式打开应用页面</li>
+<li>电脑谷歌url输入 <code>chrome://inspect/#devices</code></li>
+<li>勾选 <code>Discover USB devices</code></li>
+<li>在下方可以看到目标手机的相关信息，选择目标网址下方的 <code>inspect</code> 开始调试</li>
+</ol>
+<p><strong>注意</strong>：谷歌浏览器的安卓手机调试页面，需要科学上网才可以打开，否则会出现黑屏的情况。</p>
+<h2 id="调试嵌入式H5"><a href="#调试嵌入式H5" class="headerlink" title="调试嵌入式H5"></a>调试嵌入式H5</h2><ol>
+<li><p><strong>charles抓包调试请求</strong><br><a href="https://www.jianshu.com/p/9d7c4cb14f2c" target="_blank" rel="noopener">Charles - 抓取https包内数据</a><br><a href="https://www.jianshu.com/p/0ed1ed8161f1" target="_blank" rel="noopener">利用 Charles Proxy 下载旧版本 iOS App【转】</a></p>
+<p>ios手机在安装完证书之后，需要设置如下：<br>通用——描述文件<br>通用——关于本机——证书信任</p>
+</li>
+</ol>
+<h2 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h2><ul>
+<li><a href="https://www.jianshu.com/p/ef94d0813b6b" target="_blank" rel="noopener">论：怎么调试H5手机页面</a></li>
+</ul>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/移动端/">移动端</a> <a class="tag tag--primary tag--small t-link" href="/tags/调试/">调试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/vue实战技巧/" data-tooltip="vue实战技巧" aria-label="上一篇: vue实战技巧">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/BEM规范/" data-tooltip="BEM规范" aria-label="下一篇: BEM规范">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/vue实战技巧/" data-tooltip="vue实战技巧" aria-label="上一篇: vue实战技巧">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/BEM规范/" data-tooltip="BEM规范" aria-label="下一篇: BEM规范">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>使用vue-cli3 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"介绍vue-cli3在常见场景下的使用。\n修改webpack配置chainWebpack选项chainWebpack 配置项允许我们更细粒度的控制 webpack 的内部配置，其集成的是 webpack-chain 这一插件，该插件可以让我们能够使用链式操作来修改配置\nconfigureWebpack选项configureWebpack 更倾向于整体替换和修改，该选项可以是一个对象或者函数。\n当为对象时，实际上使用 webpack-merge 插件与原有配置进行合并。\n当为函数时，可以直接使用其 config 参数来修改 webpack 中的配置。此时该函数也可以返回一个对象，与原有配置进行合并操作。\n生产环境sourceMap功能productionSourceMap 控制生产环境是否开启 sourceMap 功能。开启后，在生产环境中，代码报错时，易于调试，同时会暴露应用源代码\n为本项目增加二级目录如果你想要将项目地址加一个二级目录，比如：http://localhost:8080/vue/，那么我们需要在 vue.config.js 里配置 baseurl 这一项。\n其改变的其实是 webpack 配置文件中 output 的 publicPath 项，这时候你重启终端再次打开页面的时候我们首页的 url 就会变成带二级目录的形式。\n区分本地、开发、生产环境摘自：掘金小册-vue项目搭建与开发入门\n通过在不同的环境下注入不同标识区分环境我们可以在根目录下创建以下形式的文件进行不同环境下变量的配置：\n1234.env                # 在所有的环境中被载入.env.local          # 在所有的环境中被载入，但会被 git 忽略.env.[mode]         # 只在指定的模式中被载入.env.[mode].local   # 只在指定的模式中被载入，但会被 git 忽略\n比如我们创建一个名为 .env.stage 的文件，该文件表明其只在 stage 环境下被加载，在这个文件中，我们可以配置如下键值对的变量：\n12NODE_ENV=stageVUE_APP_TITLE=stage mode\n这时候我们怎么在 vue.config.js 中访问这些变量呢？很简单，使用 process.env.[name] 进行访问就可以了，比如：\n123// vue.config.jsconsole.log(process.env.NODE_ENV); // development（在终端输出）\n当你运行 yarn serve 命令后会发现输出的是 development，因为 vue-cli-service serve 命令默认设置的环境是 development，你需要修改 package.json 中的 serve 脚本的命令为：\n123\"scripts\": &#123;    \"serve\": \"vue-cli-service serve --mode stage\",&#125;\n--mode stage 其实就是修改了 webpack 4 中的 mode 配置项为 stage，同时其会读取对应 .env.[model] 文件下的配置，如果没找到对应配置文件，其会使用默认环境 development，同样 vue-cli-service build 会使用默认环境 production。\n这时候如果你再创建一个 .env 的文件，再次配置重复的变量，但是值不同，如：\n123NODE_ENV=stagingVUE_APP_TITLE=staging modeVUE_APP_NAME=project\n因为 .env 文件会被所有环境加载，即公共配置，那么最终我们运行 vue-cli-service serve 打印出来的是哪个呢？答案是 stage，但是如果是 .env.stage.local 文件中配置成上方这样，答案便是 staging，所以 .env.[mode].local 会覆盖 .env.[mode] 下的相同配置。同理 .env.local 会覆盖 .env 下的相同配置。\n由此可以得出结论，相同配置项的权重：\n1.env.[mode].local &gt; .env.[mode] &gt; .env.local &gt; .env\n但是需要注意的是，除了相同配置项权重大的覆盖小的，不同配置项它们会进行合并操作，类似于 Javascript 中的 Object.assign 的用法。\n如何在客户端侧区分环境通过上述配置文件的创建，我们成功使用命令行的形式对项目环境进行了设置并可以自由切换，但是需要注意的是我们在 Vue 的前端代码中打印出的 process.env 与 vue.config.js 中输出的可能是不一样的，这需要普及一个知识点：webpack 通过 DefinePlugin 内置插件将 process.env 注入到客户端代码中。\n1234567891011121314// webpack 配置&#123;    ...    plugins: [        new webpack.DefinePlugin(&#123;            'process.env': &#123;                NODE_ENV: JSON.stringify(process.env.NODE_ENV)            &#125;        &#125;),    ],    ...&#125;\n由于 vue-cli 3.x 封装的 webpack 配置中已经帮我们完成了这个功能，所以我们可以直接在客户端代码中打印出 process.env 的值，该对象可以包含多个键值对，也就是说可以注入多个值，但是经过 CLI 封装后仅支持注入环境配置文件中以 VUE_APP_ 开头的变量，而 NODE_ENV 和 BASE_URL 这两个特殊变量除外。比如我们在权重最高的 .env.stage.local 文件中写入：\n123NODE_ENV=stage2VUE_APP_TITLE=stage mode2NAME=vue\n然后我们尝试在 vue.config.js 中打印 process.env，终端输出：\n1234567891011121314151617&#123;    ...    npm_config_ignore_scripts: '',    npm_config_version_git_sign: '',    npm_config_ignore_optional: '',    npm_config_init_version: '1.0.0',    npm_package_dependencies_vue_router: '^3.0.1',    npm_config_version_tag_prefix: 'v',    npm_node_execpath: '/usr/local/bin/node',    NODE_ENV: 'stage2',    VUE_APP_TITLE: 'stage mode2',    NAME: 'vue',    BABEL_ENV: 'development',    ...&#125;\n可以看到输出内容除了我们环境配置中的变量外还包含了很多 npm 的信息，但是我们在入口文件 main.js 客户端侧代码中打印会发现输出：\n12345&#123;    \"BASE_URL\": \"/vue/\",    \"NODE_ENV\": \"stage2\",    \"VUE_APP_TITLE\": \"stage mode2\"&#125;\n可见注入时过滤调了非 VUE_APP_ 开头的变量，其中多出的 BASE_URL 为你在 vue.config.js 设置的值，默认为 /，其在环境配置文件中设置无效。\n\n","dateCreated":"2019-09-28T12:33:00+08:00","dateModified":"2019-10-01T12:58:29+08:00","datePublished":"2019-09-28T12:33:00+08:00","description":"介绍vue-cli3在常见场景下的使用。","headline":"使用vue-cli3","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/28/使用vue-cli3/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/28/使用vue-cli3/","keywords":"vue, 脚手架, vue-cli3","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="介绍vue-cli3在常见场景下的使用。">
+<meta name="keywords" content="vue,脚手架,vue-cli3">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="使用vue-cli3">
+<meta property="og:url" content="http://www.zbwblog.com/2019/09/28/使用vue-cli3/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="介绍vue-cli3在常见场景下的使用。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://www.zbwblog.com/assets/images/环境区分1.jpg">
+<meta property="og:updated_time" content="2019-10-01T04:58:29.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用vue-cli3">
+<meta name="twitter:description" content="介绍vue-cli3在常见场景下的使用。">
+<meta name="twitter:image" content="http://www.zbwblog.com/assets/images/环境区分1.jpg">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/09/28/使用vue-cli3/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/28/使用vue-cli3/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/09/28/使用vue-cli3/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            使用vue-cli3
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>介绍vue-cli3在常见场景下的使用。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改webpack配置"><span class="toc-text">修改webpack配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#chainWebpack选项"><span class="toc-text">chainWebpack选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#configureWebpack选项"><span class="toc-text">configureWebpack选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生产环境sourceMap功能"><span class="toc-text">生产环境sourceMap功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为本项目增加二级目录"><span class="toc-text">为本项目增加二级目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区分本地、开发、生产环境"><span class="toc-text">区分本地、开发、生产环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过在不同的环境下注入不同标识区分环境"><span class="toc-text">通过在不同的环境下注入不同标识区分环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何在客户端侧区分环境"><span class="toc-text">如何在客户端侧区分环境</span></a></li></ol></li></ol><p></p>
+<h2 id="修改webpack配置"><a href="#修改webpack配置" class="headerlink" title="修改webpack配置"></a>修改webpack配置</h2><h3 id="chainWebpack选项"><a href="#chainWebpack选项" class="headerlink" title="chainWebpack选项"></a>chainWebpack选项</h3><p>chainWebpack 配置项允许我们更细粒度的控制 webpack 的内部配置，其集成的是 webpack-chain 这一插件，该插件可以让我们能够使用链式操作来修改配置</p>
+<h3 id="configureWebpack选项"><a href="#configureWebpack选项" class="headerlink" title="configureWebpack选项"></a>configureWebpack选项</h3><p>configureWebpack 更倾向于整体替换和修改，该选项可以是一个对象或者函数。</p>
+<p>当为对象时，实际上使用 <code>webpack-merge</code> 插件与原有配置进行合并。</p>
+<p>当为函数时，可以直接使用其 config 参数来修改 webpack 中的配置。此时该函数也可以返回一个对象，与原有配置进行合并操作。</p>
+<h2 id="生产环境sourceMap功能"><a href="#生产环境sourceMap功能" class="headerlink" title="生产环境sourceMap功能"></a>生产环境sourceMap功能</h2><p><code>productionSourceMap</code> 控制生产环境是否开启 <code>sourceMap</code> 功能。开启后，在生产环境中，代码报错时，易于调试，同时会暴露应用源代码</p>
+<h2 id="为本项目增加二级目录"><a href="#为本项目增加二级目录" class="headerlink" title="为本项目增加二级目录"></a>为本项目增加二级目录</h2><p>如果你想要将项目地址加一个二级目录，比如：<code>http://localhost:8080/vue/</code>，那么我们需要在 <code>vue.config.js</code> 里配置 <code>baseurl</code> 这一项。</p>
+<p>其改变的其实是 webpack 配置文件中 output 的 publicPath 项，这时候你重启终端再次打开页面的时候我们首页的 url 就会变成带二级目录的形式。</p>
+<h2 id="区分本地、开发、生产环境"><a href="#区分本地、开发、生产环境" class="headerlink" title="区分本地、开发、生产环境"></a>区分本地、开发、生产环境</h2><p>摘自：<a href="https://juejin.im/book/5b23a5aef265da59716fda09/section/5b291904f265da597f1c74ea" target="_blank" rel="noopener">掘金小册-vue项目搭建与开发入门</a></p>
+<h3 id="通过在不同的环境下注入不同标识区分环境"><a href="#通过在不同的环境下注入不同标识区分环境" class="headerlink" title="通过在不同的环境下注入不同标识区分环境"></a>通过在不同的环境下注入不同标识区分环境</h3><p>我们可以在根目录下创建以下形式的文件进行不同环境下变量的配置：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.env                # 在所有的环境中被载入</span><br><span class="line">.env.local          # 在所有的环境中被载入，但会被 git 忽略</span><br><span class="line">.env.[mode]         # 只在指定的模式中被载入</span><br><span class="line">.env.[mode].local   # 只在指定的模式中被载入，但会被 git 忽略</span><br></pre></td></tr></table></figure>
+<p>比如我们创建一个名为 .env.stage 的文件，该文件表明其只在 stage 环境下被加载，在这个文件中，我们可以配置如下键值对的变量：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV=stage</span><br><span class="line">VUE_APP_TITLE=stage mode</span><br></pre></td></tr></table></figure>
+<p>这时候我们怎么在 vue.config.js 中访问这些变量呢？很简单，使用 process.env.[name] 进行访问就可以了，比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue.config.js</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(process.env.NODE_ENV); <span class="comment">// development（在终端输出）</span></span><br></pre></td></tr></table></figure>
+<p>当你运行 yarn serve 命令后会发现输出的是 development，因为 vue-cli-service serve 命令默认设置的环境是 development，你需要修改 package.json 中的 serve 脚本的命令为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"serve"</span>: <span class="string">"vue-cli-service serve --mode stage"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>--mode stage</code> 其实就是修改了 webpack 4 中的 mode 配置项为 stage，同时其会读取对应 <code>.env.[model]</code> 文件下的配置，如果没找到对应配置文件，其会使用默认环境 development，同样 vue-cli-service build 会使用默认环境 production。</p>
+<p>这时候如果你再创建一个 .env 的文件，再次配置重复的变量，但是值不同，如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV=staging</span><br><span class="line">VUE_APP_TITLE=staging mode</span><br><span class="line">VUE_APP_NAME=project</span><br></pre></td></tr></table></figure>
+<p>因为 .env 文件会被所有环境加载，即公共配置，那么最终我们运行 vue-cli-service serve 打印出来的是哪个呢？答案是 stage，但是如果是 .env.stage.local 文件中配置成上方这样，答案便是 staging，所以 .env.[mode].local 会覆盖 .env.[mode] 下的相同配置。同理 .env.local 会覆盖 .env 下的相同配置。</p>
+<p>由此可以得出结论，相同配置项的权重：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.env.[mode].local &gt; .env.[mode] &gt; .env.local &gt; .env</span><br></pre></td></tr></table></figure>
+<p>但是需要注意的是，除了相同配置项权重大的覆盖小的，不同配置项它们会进行合并操作，类似于 Javascript 中的 Object.assign 的用法。</p>
+<h3 id="如何在客户端侧区分环境"><a href="#如何在客户端侧区分环境" class="headerlink" title="如何在客户端侧区分环境"></a>如何在客户端侧区分环境</h3><p>通过上述配置文件的创建，我们成功使用命令行的形式对项目环境进行了设置并可以自由切换，但是需要注意的是我们在 Vue 的前端代码中打印出的 process.env 与 vue.config.js 中输出的可能是不一样的，这需要普及一个知识点：webpack 通过 DefinePlugin 内置插件将 process.env 注入到客户端代码中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack 配置</span></span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">            <span class="string">'process.env'</span>: &#123;</span><br><span class="line">                NODE_ENV: <span class="built_in">JSON</span>.stringify(process.env.NODE_ENV)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;),</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于 vue-cli 3.x 封装的 webpack 配置中已经帮我们完成了这个功能，所以我们可以直接在客户端代码中打印出 process.env 的值，该对象可以包含多个键值对，也就是说可以注入多个值，但是经过 CLI 封装后仅支持注入环境配置文件中以 VUE_APP_ 开头的变量，而 NODE_ENV 和 BASE_URL 这两个特殊变量除外。比如我们在权重最高的 .env.stage.local 文件中写入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV=stage2</span><br><span class="line">VUE_APP_TITLE=stage mode2</span><br><span class="line">NAME=vue</span><br></pre></td></tr></table></figure>
+<p>然后我们尝试在 vue.config.js 中打印 process.env，终端输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    npm_config_ignore_scripts: <span class="string">''</span>,</span><br><span class="line">    npm_config_version_git_sign: <span class="string">''</span>,</span><br><span class="line">    npm_config_ignore_optional: <span class="string">''</span>,</span><br><span class="line">    npm_config_init_version: <span class="string">'1.0.0'</span>,</span><br><span class="line">    npm_package_dependencies_vue_router: <span class="string">'^3.0.1'</span>,</span><br><span class="line">    npm_config_version_tag_prefix: <span class="string">'v'</span>,</span><br><span class="line">    npm_node_execpath: <span class="string">'/usr/local/bin/node'</span>,</span><br><span class="line">    NODE_ENV: <span class="string">'stage2'</span>,</span><br><span class="line">    VUE_APP_TITLE: <span class="string">'stage mode2'</span>,</span><br><span class="line">    NAME: <span class="string">'vue'</span>,</span><br><span class="line">    BABEL_ENV: <span class="string">'development'</span>,</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到输出内容除了我们环境配置中的变量外还包含了很多 npm 的信息，但是我们在入口文件 main.js <strong>客户端侧代码</strong>中打印会发现输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"BASE_URL"</span>: <span class="string">"/vue/"</span>,</span><br><span class="line">    <span class="string">"NODE_ENV"</span>: <span class="string">"stage2"</span>,</span><br><span class="line">    <span class="string">"VUE_APP_TITLE"</span>: <span class="string">"stage mode2"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见注入时过滤调了非 VUE_APP_ 开头的变量，其中多出的 BASE_URL 为你在 vue.config.js 设置的值，默认为 /，其在环境配置文件中设置无效。</p>
+<p><img src="/assets/images/环境区分1.jpg" alt="环境区分"></p>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/vue/">vue</a> <a class="tag tag--primary tag--small t-link" href="/tags/vue-cli3/">vue-cli3</a> <a class="tag tag--primary tag--small t-link" href="/tags/脚手架/">脚手架</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/28/图片资源相关/" data-tooltip="图片资源相关" aria-label="上一篇: 图片资源相关">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/25/关于package.json/" data-tooltip="关于package.json配置项" aria-label="下一篇: 关于package.json配置项">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/28/图片资源相关/" data-tooltip="图片资源相关" aria-label="上一篇: 图片资源相关">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/25/关于package.json/" data-tooltip="关于package.json配置项" aria-label="下一篇: 关于package.json配置项">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

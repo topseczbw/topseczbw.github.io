@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hero never die">
+    <meta name="baidu-site-verification" content="inFbtzgH0n" />
+    <title>vue实战技巧 - hero never die</title>
+    <meta name="author" content="无畏">
+    
+    
+        <link rel="icon" href="http://www.zbwblog.com/assets/images/avatar.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"在vue开发中你不知道的黑科技。\nprovide 与 inject\n是什么？\n是vue中的一种依赖注入的概念api，由父级或祖先级向子级注入数据，子级接收，实现跨越无数层级组件间通讯。\n\n为什么存在？\n简化vue跨多层级组件通讯\n开发独立组件时，代替 vuex 在顶层组件管理状态\n\n注意\n注入的数据并不是可响应的，这是刻意为之的，并且不能修改，会报错：避免直接改变注入的值（基本数据类型和引用数据类型的地址），因为只要提供的组件重新呈现，更改就会被覆盖。\n但是！ 如果你传入了一个可监听的对象，那么其对象的属性还是可响应的。\n 也就是说引用数据类型的属性是可以改变的，并且可以出发响应式变化，利用这一点，我们可以做很多事情。如利用入口模块向下注入核心数据对象，各子模块接收后粒度化拆分功能修改核心数据对象。\nprop 同理，vue 虽然宣扬单向数据流，但是这种类似于 Angular 数据双向绑定概念的操作，拆分核心对象数据到各个粒度化子组件修改，会让你的代码撸到爽到飞起。\n\n在哪里可以使用\n父级组件和子级组件产生了一种隐形的耦合关系，父级不知道最终将数据传给谁，子级不知道数据是从哪里获取到的，因此只建议在封闭度高的高阶组件和组件库中使用，不建议在应用代码中使用。\n由于传入的基本类型数据不可响应，更推荐注入对象的形式。常用于初始化项目（组件）使用的配置，比如年部学科，这些东西一般不会发生变化，子组件又不定时需要。最重要的是，不依赖于vuex，因此成为开发独立插件组件的首选。\n\n示例\n 12345678910111213141516171819202122// 父级、祖先级组件provide() &#123;  return &#123;    List: this.List,    type: this.type  &#125;&#125;// 子组件inject: &#123;// 类型  type: &#123;    default: () =&gt; &#123;      return ''    &#125;  &#125;,// 列表  list: &#123;      default: () =&gt; &#123;        return []      &#125;  &#125;&#125;\n\n\n动态组件\n是什么\n在某个位置，动态切换，加载不同的组件。\n\n为什么存在\n避免出现大量的 v-if , 更优雅处理业务逻辑。\n\n注意\n使用动态组件时，通常会重新创建不同的组件，但是当切换的是同一个组件的时候，如单选题组件和多选题组件，由于公用的是一个组件，vue内部会自动处理，不会再重新创建这个组件，不重新创建组件内的状态就无法清空，引发问题，此时需要加一个key作为唯一标识，保证组件重新创建。\n12345678910111213141516171819const COMPONENT_CONFIG = &#123;  [QS_LOGIC_ID_MAP.SINGLE_CHOICE]: 'Choice',  [QS_LOGIC_ID_MAP.MULTIPLE_CHOICE]: 'Choice',  [QS_LOGIC_ID_MAP.FILL_BLANKS]: 'FillBlank',  [QS_LOGIC_ID_MAP.RESOLVE_ANSWER]: 'ResolveQs',  [QS_LOGIC_ID_MAP.COMPLEX]: 'Complex'&#125;computed: &#123;  // 当前逻辑题型  currentLogicId() &#123;    return this.mainData.logicQuesTypeId  &#125;,  // 当前组件  currentComponent() &#123;    return COMPONENT_CONFIG[this.currentLogicId]  &#125;&#125;,&lt;component :is=\"currentComponent\" :main-data=\"mainData\" :key=\"currentLogicId\"&gt;&lt;/component&gt;\n\n在哪里可以使用\n如根据不同的题型id，切换不同的录题组件。\n\n示例\n12// currentComponent 是已注册组件的名字 或 一个组件的选项对象&lt;component :is=\"currentComponent\"&gt;&lt;/component&gt;\n\n\nwatch   watch监听值/引用地址的变化\nimmediate属性\n是什么？\n让所监听数据初次赋值时就触发 handler ，而非纯异步监听：只有改变时才出发 handler\n\n为什么存在？\n在一些特定的应用场景中，我们试图监听 prop ，而不仅仅是本组件中的状态，但父组件对子组件 prop 的初次赋值我们是监听不到的，所以 immediate 诞生了。\n\n在哪里可以使用？\n监听 prop\n\n示例\n123456789101112131415props: &#123;  mainData: &#123;    type: Object  &#125;&#125;,watch: &#123;  mainData: &#123;    deep: true,      // 保证父组件初始化是对mainData（null）赋值后，子组件立即响应      immediate: true,        handler: function() &#123;          this.$emit('update', this.mainData)        &#125;  &#125;&#125;\n\n\n关于控制组件状态\n背景\n我们经常说粒度化，指将复杂的功能拆解到不同子模块处理。\n经过使用vue了一段时间后，我们发现，由于父组件prop传进来的值/引用地址在无法在子组件中直接改变，于是我们会经常使用prop去初始化子组件中的状态/data，然后去随心所欲操作这份数据。\n有两种方式，可以实现以上目标，一是直接在data中使用prop赋予默认值，二是在created钩子中，有一个初始化状态方法 initStatus(slefData) 。\n我更推荐后者，因为也许有一天我们会遇到父组件需要重置子组件内部状态的场景，比如换一题这样的功能。\n换一题功能的两种解决方案\n\n深度监听试题数据，试题数据发生变化后，重新调用子组件内的 iniSelfData 方法，自己刷新自己。但实际上这是消耗性能，并且不合理的操作。\n考虑到性能**，我们既不希望一个庞大的组件重新创建，又不想要上一题留下的冗余的状态。那么此时我们就可以拿到子组件实例，在获取到下一题数据后，用新的核心数据，去重新调用子组件内部 initSatus(slefData) 方法，达到优雅更新子组件状态的目的。这种操作子组件对外提供一个接口 即 initStatus 方法，将重置组件状态的控制权交给父组件，这样的设计更加合情合理。\n\n\n注意\n我知道很多时候我们需要在 created 钩子函数中异步调接口获取数据初始化。\n但是千万不要写出 async created(){} 这样的钩子函数，因为它会将整个创建函数变成异步函数。\n随之带来的是内部的 initStatus(slefData) 函数也变成了异步，但实际上我们需要的是同步。\n1234567891011121314151617181920// 不好的写法async created() &#123;  // 初始化组件内部，一些由用户操作而改变的状态  initStatus()// 初始化数据  const data = await requestFn()  handlerData(data)&#125;// 好的写法async getData() &#123;  return await requestFn()&#125;created() &#123;  // 初始化组件内部，一些由用户操作而改变的状态  initStatus()// 初始化数据  const data = await getData()  handlerData(data)&#125;\n\n技巧\n重置组件状态：Object.assign(this.$data, this.$options.data())\n\n\nv-show 与 v-ifv-show 与 v-if 有什么区别   v-show 控制元素是否 display: none ，从样式的角度控制元素隐藏显示\n   v-if 控制元素的dom是否存在，通过生成、移除dom元素控制元素隐藏显示\nv-show 与 v-if 实战技巧\n状态控制\n场景：填写表单\n当我们填写表单时，我们可以使用v-show省去写一系列的回显逻辑。\n但与此同时，场景中可能存在取消操作，重置为初始状态，由于v-show不会重置组件、元素状态，所以我们可以在v-show为true时，先保留一份数据的备份，当用户点击取消时，我们使用备份的数据将状态还原。\n\n\n","dateCreated":"2019-09-22T15:52:00+08:00","dateModified":"2019-10-01T12:48:11+08:00","datePublished":"2019-09-22T15:52:00+08:00","description":"在vue开发中你不知道的黑科技。","headline":"vue实战技巧","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/22/vue实战技巧/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/22/vue实战技巧/","keywords":"vue","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="在vue开发中你不知道的黑科技。">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="vue实战技巧">
+<meta property="og:url" content="http://www.zbwblog.com/2019/09/22/vue实战技巧/index.html">
+<meta property="og:site_name" content="hero never die">
+<meta property="og:description" content="在vue开发中你不知道的黑科技。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-10-01T04:48:11.765Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue实战技巧">
+<meta name="twitter:description" content="在vue开发中你不知道的黑科技。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
+    
+    
+    
+        <meta property="og:image" content="http://www.zbwblog.com/2019/09/22/vue实战技巧/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/22/vue实战技巧/cover.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-tcipo5hxtuqrk0pmnvp0cnfac70fjaolq451dn6k3p3caaamdcjhvpgbprao.min.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?60be0d963889523faf9e78ea4cc258bb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">hero never die</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">无畏</h4>
+                
+                    <h5 class="sidebar-profile-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/topseczbw" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/mailto" title="wechat">
+                    
+                        <i class="sidebar-button-icon fa fa-phone" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">wechat</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/friend" title="友链">
+                    
+                        <i class="sidebar-button-icon fa fa-users" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--partial" style="background-image:url('/2019/09/22/vue实战技巧/cover.png');" data-behavior="5">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            vue实战技巧
+        </h1>
+    
+    
+</div>
+
+            
+        </div>
+
+            <div id="main" data-behavior="5"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>在vue开发中你不知道的黑科技。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#provide-与-inject"><span class="toc-text">provide 与 inject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态组件"><span class="toc-text">动态组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#watch"><span class="toc-text">watch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#immediate属性"><span class="toc-text">immediate属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于控制组件状态"><span class="toc-text">关于控制组件状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-show-与-v-if"><span class="toc-text">v-show 与 v-if</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#v-show-与-v-if-有什么区别"><span class="toc-text">v-show 与 v-if 有什么区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#v-show-与-v-if-实战技巧"><span class="toc-text">v-show 与 v-if 实战技巧</span></a></li></ol></li></ol><p></p>
+<h2 id="provide-与-inject"><a href="#provide-与-inject" class="headerlink" title="provide 与 inject"></a>provide 与 inject</h2><ol>
+<li><p>是什么？</p>
+<p>是vue中的一种依赖注入的概念api，由父级或祖先级向子级注入数据，子级接收，实现跨越无数层级组件间通讯。</p>
+</li>
+<li><p>为什么存在？</p>
+<p>简化vue跨多层级组件通讯</p>
+<p>开发独立组件时，代替 <code>vuex</code> 在顶层组件管理状态</p>
+</li>
+<li><p>注意</p>
+<p>注入的数据并不是可响应的，这是刻意为之的，并且不能修改，会报错：避免直接改变注入的值（基本数据类型和引用数据类型的地址），因为只要提供的组件重新呈现，更改就会被覆盖。</p>
+<p>但是！ <code>如果你传入了一个可监听的对象，那么其对象的属性还是可响应的。</code></p>
+<p> 也就是说引用数据类型的属性是可以改变的，并且可以出发响应式变化，利用这一点，我们可以做很多事情。如利用入口模块向下注入核心数据对象，各子模块接收后粒度化拆分功能修改核心数据对象。</p>
+<p><code>prop</code> 同理，<code>vue</code> 虽然宣扬单向数据流，但是这种类似于 <code>Angular</code> 数据双向绑定概念的操作，拆分核心对象数据到各个粒度化子组件修改，会让你的代码撸到爽到飞起。</p>
+</li>
+<li><p>在哪里可以使用</p>
+<p>父级组件和子级组件产生了一种隐形的耦合关系，父级不知道最终将数据传给谁，子级不知道数据是从哪里获取到的，因此只建议在封闭度高的高阶组件和组件库中使用，不建议在应用代码中使用。</p>
+<p>由于传入的基本类型数据不可响应，更推荐注入对象的形式。常用于初始化项目（组件）使用的配置，比如年部学科，这些东西一般不会发生变化，子组件又不定时需要。最重要的是，不依赖于vuex，因此成为开发独立插件组件的首选。</p>
+</li>
+<li><p>示例</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父级、祖先级组件</span></span><br><span class="line">provide() &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    List: <span class="keyword">this</span>.List,</span><br><span class="line">    type: <span class="keyword">this</span>.type</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line">inject: &#123;</span><br><span class="line"><span class="comment">// 类型</span></span><br><span class="line">  type: &#123;</span><br><span class="line">    <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="comment">// 列表</span></span><br><span class="line">  list: &#123;</span><br><span class="line">      <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="动态组件"><a href="#动态组件" class="headerlink" title="动态组件"></a>动态组件</h2><ol>
+<li><p>是什么</p>
+<p>在某个位置，动态切换，加载不同的组件。</p>
+</li>
+<li><p>为什么存在</p>
+<p>避免出现大量的 <code>v-if</code> , 更优雅处理业务逻辑。</p>
+</li>
+<li><p>注意</p>
+<p>使用动态组件时，通常会重新创建不同的组件，但是当切换的是同一个组件的时候，如单选题组件和多选题组件，由于公用的是一个组件，vue内部会自动处理，不会再重新创建这个组件，不重新创建组件内的状态就无法清空，引发问题，此时需要加一个key作为唯一标识，保证组件重新创建。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> COMPONENT_CONFIG = &#123;</span><br><span class="line">  [QS_LOGIC_ID_MAP.SINGLE_CHOICE]: <span class="string">'Choice'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.MULTIPLE_CHOICE]: <span class="string">'Choice'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.FILL_BLANKS]: <span class="string">'FillBlank'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.RESOLVE_ANSWER]: <span class="string">'ResolveQs'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.COMPLEX]: <span class="string">'Complex'</span></span><br><span class="line">&#125;</span><br><span class="line">computed: &#123;</span><br><span class="line">  <span class="comment">// 当前逻辑题型</span></span><br><span class="line">  currentLogicId() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.mainData.logicQuesTypeId</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 当前组件</span></span><br><span class="line">  currentComponent() &#123;</span><br><span class="line">    <span class="keyword">return</span> COMPONENT_CONFIG[<span class="keyword">this</span>.currentLogicId]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&lt;component :is=<span class="string">"currentComponent"</span> :main-data=<span class="string">"mainData"</span> :key=<span class="string">"currentLogicId"</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/component&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在哪里可以使用</p>
+<p>如根据不同的题型id，切换不同的录题组件。</p>
+</li>
+<li><p>示例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// currentComponent 是已注册组件的名字 或 一个组件的选项对象</span></span><br><span class="line">&lt;component :is=<span class="string">"currentComponent"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p>   watch监听值/引用地址的变化</p>
+<h3 id="immediate属性"><a href="#immediate属性" class="headerlink" title="immediate属性"></a>immediate属性</h3><ol>
+<li><p>是什么？</p>
+<p>让所监听数据初次赋值时就触发 <code>handler</code> ，而非纯异步监听：只有改变时才出发 <code>handler</code></p>
+</li>
+<li><p>为什么存在？</p>
+<p>在一些特定的应用场景中，我们试图监听 <code>prop</code> ，而不仅仅是本组件中的状态，但父组件对子组件 <code>prop</code> 的初次赋值我们是监听不到的，所以 <code>immediate</code> 诞生了。</p>
+</li>
+<li><p>在哪里可以使用？</p>
+<p>监听 <code>prop</code></p>
+</li>
+<li><p>示例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  mainData: &#123;</span><br><span class="line">    type: <span class="built_in">Object</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">watch: &#123;</span><br><span class="line">  mainData: &#123;</span><br><span class="line">    deep: <span class="literal">true</span>,</span><br><span class="line">      <span class="comment">// 保证父组件初始化是对mainData（null）赋值后，子组件立即响应</span></span><br><span class="line">      immediate: <span class="literal">true</span>,</span><br><span class="line">        handler: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="keyword">this</span>.$emit(<span class="string">'update'</span>, <span class="keyword">this</span>.mainData)</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="关于控制组件状态"><a href="#关于控制组件状态" class="headerlink" title="关于控制组件状态"></a>关于控制组件状态</h2><ol>
+<li><p>背景</p>
+<p>我们经常说<strong>粒度化</strong>，指将<strong>复杂的功能拆解到不同子模块处理。</strong></p>
+<p>经过使用vue了一段时间后，我们发现，由于父组件prop传进来的<strong>值/引用地址</strong>在<strong>无法在子组件中直接改变</strong>，于是我们会经常使用prop去初始化子组件中的状态/data，然后去<strong>随心所欲</strong>操作这份数据。</p>
+<p>有<strong>两种方式</strong>，可以实现以上目标，一是直接在data中使用prop赋予默认值，二是在created钩子中，有一个初始化状态方法 <code>initStatus(slefData)</code> 。</p>
+<p>我<strong>更推荐后者</strong>，因为也许有一天我们会遇到<strong>父组件需要重置子组件内部状态</strong>的场景，比如<strong>换一题</strong>这样的功能。</p>
+<p><strong>换一题功能的两种解决方案</strong></p>
+<ol>
+<li>深度监听试题数据，试题数据发生变化后，重新调用子组件内的 <code>iniSelfData</code> 方法，自己刷新自己。但实际上这是消耗性能，并且不合理的操作。</li>
+<li>考虑到<strong>性能**</strong>，我们既不希望一个庞大的组件<strong>重新创建</strong>，又不想要<strong>上一题留下的冗余的状态</strong>。那么此时我们就可以拿到子组件实例，在获取到下一题数据后，用新的核心数据，去重新调用子组件内部 <code>initSatus(slefData)</code> 方法，达到<strong>优雅更新子组件状态</strong>的目的。这种操作子组件对外提供一个<strong>接口</strong> 即 <code>initStatus</code> 方法，<strong>将重置组件状态的控制权交给父组件</strong>，这样的设计更加<strong>合情合理</strong>。</li>
+</ol>
+</li>
+<li><p>注意</p>
+<p>我知道很多时候我们需要在 <code>created</code> 钩子函数中异步调接口获取数据初始化。</p>
+<p>但是<strong>千万不要</strong>写出 <code>async created(){}</code> 这样的钩子函数，因为它会将整<strong>个创建函数变成异步函数</strong>。</p>
+<p>随之带来的是内部的 <code>initStatus(slefData)</code> 函数也变成了异步，但实际上我们需要的是同步。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不好的写法</span></span><br><span class="line"><span class="keyword">async</span> created() &#123;</span><br><span class="line">  <span class="comment">// 初始化组件内部，一些由用户操作而改变的状态</span></span><br><span class="line">  initStatus()</span><br><span class="line"><span class="comment">// 初始化数据</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> requestFn()</span><br><span class="line">  handlerData(data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 好的写法</span></span><br><span class="line"><span class="keyword">async</span> getData() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> requestFn()</span><br><span class="line">&#125;</span><br><span class="line">created() &#123;</span><br><span class="line">  <span class="comment">// 初始化组件内部，一些由用户操作而改变的状态</span></span><br><span class="line">  initStatus()</span><br><span class="line"><span class="comment">// 初始化数据</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> getData()</span><br><span class="line">  handlerData(data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>技巧</p>
+<p><strong>重置组件状态</strong>：<code>Object.assign(this.$data, this.$options.data())</code></p>
+</li>
+</ol>
+<h2 id="v-show-与-v-if"><a href="#v-show-与-v-if" class="headerlink" title="v-show 与 v-if"></a>v-show 与 v-if</h2><h3 id="v-show-与-v-if-有什么区别"><a href="#v-show-与-v-if-有什么区别" class="headerlink" title="v-show 与 v-if 有什么区别"></a>v-show 与 v-if 有什么区别</h3><p>   v-show 控制元素是否 <code>display: none</code> ，从样式的角度控制元素隐藏显示</p>
+<p>   v-if 控制元素的dom是否存在，通过生成、移除dom元素控制元素隐藏显示</p>
+<h3 id="v-show-与-v-if-实战技巧"><a href="#v-show-与-v-if-实战技巧" class="headerlink" title="v-show 与 v-if 实战技巧"></a>v-show 与 v-if 实战技巧</h3><ol>
+<li><p>状态控制</p>
+<p>场景：填写表单</p>
+<p>当我们填写表单时，我们可以使用v-show省去写一系列的回显逻辑。</p>
+<p>但与此同时，场景中可能存在取消操作，重置为初始状态，由于v-show不会重置组件、元素状态，所以我们可以在v-show为true时，先保留一份数据的备份，当用户点击取消时，我们使用备份的数据将状态还原。</p>
+</li>
+</ol>
+
+            
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/vue/">vue</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/前端监控/" data-tooltip="前端监控" aria-label="上一篇: 前端监控">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/如何调试移动端应用/" data-tooltip="如何调试移动端应用" aria-label="下一篇: 如何调试移动端应用">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NjUxMy8yMzAyMw==" style="width: 65%;margin: 0 auto">
+  <script type="text/javascript">
+    (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+                <footer id="footer" class="main-content-wrap">
+    <div id="disqus_thread"></div>
+    <script>
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zbwblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <span class="copyrights">
+        Copyrights &copy; 2019 无畏. All Rights Reserved.
+    </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    欢迎你，zbw的第<span id="busuanzi_value_site_uv"></span>位朋友！&nbsp;
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次&nbsp&nbsp&nbsp
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/前端监控/" data-tooltip="前端监控" aria-label="上一篇: 前端监控">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/如何调试移动端应用/" data-tooltip="如何调试移动端应用" aria-label="下一篇: 如何调试移动端应用">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片">
+        
+            <h4 id="about-card-name">无畏</h4>
+        
+            <div id="about-card-bio"><blockquote>
+<p>精诚所至&nbsp;&nbsp;&nbsp;&nbsp;金石为开</p>
+</blockquote>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>TALFE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                北京-海淀
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6vxrluur6b0bbejb2g6dsh5faawz4p6tdhdqoxtazf0iqkgx6swipsehfwmk.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>
