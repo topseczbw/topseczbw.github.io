@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.zbwblog.com/"/>
-  <updated>2019-10-02T17:20:01.362Z</updated>
+  <updated>2019-10-02T18:03:46.192Z</updated>
   <id>http://www.zbwblog.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>菜单权限控制</title>
+    <link href="http://www.zbwblog.com/2019/10/03/%E8%8F%9C%E5%8D%95%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
+    <id>http://www.zbwblog.com/2019/10/03/菜单权限控制/</id>
+    <published>2019-10-02T18:02:00.000Z</published>
+    <updated>2019-10-02T18:03:46.192Z</updated>
+    
+    <content type="html"><![CDATA[<p>如何让不同身份的用户，得到不同的菜单？<br><a id="more"></a><br><!-- toc --></p><p>菜单权限控制是值用户在访问系统时，根据用户的身份限制用户能够访问的菜单项</p><h2 id="如何实现"><a href="#如何实现" class="headerlink" title="如何实现"></a>如何实现</h2><ol><li>前端配置<strong>默认路由列表</strong>、<strong>全部权限路由列表</strong></li><li>默认路由对象一般只配置 * 和 /</li><li>服务器端定义接口，根据用户信息返回该用户的<strong>实际权限路由列表标识</strong></li><li>前端在 <code>main.js</code> 中设置路由的 <code>beforeEach</code> 钩子，在用户访问每个页面时，请求权限校验接口，拿到<strong>实际权限路由列表标识</strong></li><li>处理<strong>实际权限路由列表标识</strong>和<strong>全部权限路由列表</strong>得到<strong>实际权限路由列表</strong></li><li><p>将<strong>实际权限路由列表</strong>动态添加到<strong>默认路由列表</strong>中得到<strong>该用户真实路由列表</strong></p><p><code>router.addRoutes()</code></p><p><code>next({...to, replace:true})</code></p><p>由于addRoute  有可能不会马上成功  所以官方推荐加上replace（消除历史记录）</p></li><li><p>实际权限路由标识列表缓存在 <code>vuex</code> 中一份，减少接口调用次数</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;如何让不同身份的用户，得到不同的菜单？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
+    
+    
+      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+    
+      <category term="业务功能" scheme="http://www.zbwblog.com/tags/%E4%B8%9A%E5%8A%A1%E5%8A%9F%E8%83%BD/"/>
+    
+      <category term="权限控制" scheme="http://www.zbwblog.com/tags/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>实现jwt</title>
@@ -318,9 +344,9 @@
     
       <category term="图片" scheme="http://www.zbwblog.com/tags/%E5%9B%BE%E7%89%87/"/>
     
-      <category term="移动端" scheme="http://www.zbwblog.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/"/>
-    
       <category term="OSS上传" scheme="http://www.zbwblog.com/tags/OSS%E4%B8%8A%E4%BC%A0/"/>
+    
+      <category term="移动端" scheme="http://www.zbwblog.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/"/>
     
       <category term="兼容问题" scheme="http://www.zbwblog.com/tags/%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/"/>
     
@@ -390,9 +416,9 @@
       <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
     
     
-      <category term="调试" scheme="http://www.zbwblog.com/tags/%E8%B0%83%E8%AF%95/"/>
-    
       <category term="移动端" scheme="http://www.zbwblog.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/"/>
+    
+      <category term="调试" scheme="http://www.zbwblog.com/tags/%E8%B0%83%E8%AF%95/"/>
     
   </entry>
   
@@ -486,34 +512,6 @@
     <summary type="html">
     
       &lt;p&gt;使用jest测试vue组件&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
-    
-    
-      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
-    
-      <category term="jest" scheme="http://www.zbwblog.com/tags/jest/"/>
-    
-      <category term="自动化测试" scheme="http://www.zbwblog.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="单元测试" scheme="http://www.zbwblog.com/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>单元测试：jest（二）</title>
-    <link href="http://www.zbwblog.com/2019/06/21/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>http://www.zbwblog.com/2019/06/21/单元测试（二）/</id>
-    <published>2019-06-21T14:45:10.000Z</published>
-    <updated>2019-10-01T04:02:49.324Z</updated>
-    
-    <content type="html"><![CDATA[<p>jest—API分类。<br><a id="more"></a><br><br></p><p><img src="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%86%85%E5%AE%B9/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/jest.png" alt="aaa"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;jest—API分类。&lt;br&gt;
     
     </summary>
     
