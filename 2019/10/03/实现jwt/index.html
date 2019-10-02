@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hero never die">
     <meta name="baidu-site-verification" content="inFbtzgH0n" />
-    <title>单元测试：jest（二） - hero never die</title>
+    <title>实现jwt - hero never die</title>
     <meta name="author" content="无畏">
     
     
@@ -16,21 +16,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"jest—API分类。\n\n","dateCreated":"2019-06-21T22:45:10+08:00","dateModified":"2019-10-01T12:02:49+08:00","datePublished":"2019-06-21T22:45:10+08:00","description":"jest—API分类。","headline":"单元测试：jest（二）","image":["http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/jest.png","cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/06/21/单元测试（二）/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/06/21/单元测试（二）/","keywords":"node, jest, 自动化测试, 单元测试","thumbnailUrl":"http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/jest.png"}</script>
-    <meta name="description" content="jest—API分类。">
-<meta name="keywords" content="node,jest,自动化测试,单元测试">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"一张流程图指导jwt登录权限校验功能的实现。\n什么是jwtjwt 全称 json web token，可以看成是基于token的登录权限控制\njwt流程图\naxios 封装123456789101112131415161718192021222324class AjaxRequest &#123;  constructor() &#123;    this.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'    this.timeout = 2000  &#125;  request(config) &#123;    const instance = axios.create(&#123;      baseURL: this.baseURL,      timeout: this.timeout    &#125;)    // 设置拦截器    instance.interceptors.request.use((config) =&gt; &#123;      config.header.Authorization = localStorage.getItem('token')      return config    &#125;, err =&gt; Promise.reject(err))    instance.interceptors.response.use(res =&gt; res.data, err =&gt; Promise.reject(err))    return instance(config)  &#125;&#125;export default new AjaxRequest()\n","dateCreated":"2019-10-03T01:17:00+08:00","dateModified":"2019-10-03T01:20:01+08:00","datePublished":"2019-10-03T01:17:00+08:00","description":"一张流程图指导jwt登录权限校验功能的实现。","headline":"实现jwt","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/10/03/实现jwt/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/10/03/实现jwt/","keywords":"vue, 业务功能, 权限控制","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="一张流程图指导jwt登录权限校验功能的实现。">
+<meta name="keywords" content="vue,业务功能,权限控制">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="单元测试：jest（二）">
-<meta property="og:url" content="http://www.zbwblog.com/2019/06/21/单元测试（二）/index.html">
+<meta property="og:title" content="实现jwt">
+<meta property="og:url" content="http://www.zbwblog.com/2019/10/03/实现jwt/index.html">
 <meta property="og:site_name" content="hero never die">
-<meta property="og:description" content="jest—API分类。">
+<meta property="og:description" content="一张流程图指导jwt登录权限校验功能的实现。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%86%85%E5%AE%B9/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/jest.png">
-<meta property="og:updated_time" content="2019-10-01T04:02:49.324Z">
+<meta property="og:image" content="http://www.zbwblog.com/assets/images/jwt流程图优化后.png">
+<meta property="og:updated_time" content="2019-10-02T17:20:01.362Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="单元测试：jest（二）">
-<meta name="twitter:description" content="jest—API分类。">
-<meta name="twitter:image" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%86%85%E5%AE%B9/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/jest.png">
+<meta name="twitter:title" content="实现jwt">
+<meta name="twitter:description" content="一张流程图指导jwt登录权限校验功能的实现。">
+<meta name="twitter:image" content="http://www.zbwblog.com/assets/images/jwt流程图优化后.png">
     
     
         
@@ -39,12 +39,9 @@
         <meta property="og:image" content="http://www.zbwblog.com/assets/images/avatar.png"/>
     
     
-        <meta property="og:image" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/jest.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E7%BC%A9%E7%95%A5%E5%9B%BE/jest.png" />
     
-    
-        <meta property="og:image" content="http://www.zbwblog.com/2019/06/21/单元测试（二）/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/06/21/单元测试（二）/cover.png" />
+        <meta property="og:image" content="http://www.zbwblog.com/2019/10/03/实现jwt/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/10/03/实现jwt/cover.png" />
     
     
     <!--STYLES-->
@@ -198,12 +195,12 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/06/21/单元测试（二）/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/10/03/实现jwt/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            单元测试：jest（二）
+            实现jwt
         </h1>
     
     
@@ -222,8 +219,10 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>jest—API分类。<br><a id="more"></a><br><br></p>
-<p><img src="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%86%85%E5%AE%B9/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/jest.png" alt="aaa"></p>
+            <p>一张流程图指导jwt登录权限校验功能的实现。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是jwt"><span class="toc-text">什么是jwt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jwt流程图"><span class="toc-text">jwt流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#axios-封装"><span class="toc-text">axios 封装</span></a></li></ol><p></p>
+<h2 id="什么是jwt"><a href="#什么是jwt" class="headerlink" title="什么是jwt"></a>什么是jwt</h2><p>jwt 全称 json web token，可以看成是基于token的登录权限控制</p>
+<h2 id="jwt流程图"><a href="#jwt流程图" class="headerlink" title="jwt流程图"></a>jwt流程图</h2><p><img src="/assets/images/jwt流程图优化后.png" alt="jwt流程图优化后"></p>
+<h2 id="axios-封装"><a href="#axios-封装" class="headerlink" title="axios 封装"></a>axios 封装</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AjaxRequest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.baseURL = process.env.NODE_ENV === <span class="string">'development'</span> ? <span class="string">'http://localhost:3000'</span> : <span class="string">'/'</span></span><br><span class="line">    <span class="keyword">this</span>.timeout = <span class="number">2000</span></span><br><span class="line">  &#125;</span><br><span class="line">  request(config) &#123;</span><br><span class="line">    <span class="keyword">const</span> instance = axios.create(&#123;</span><br><span class="line">      baseURL: <span class="keyword">this</span>.baseURL,</span><br><span class="line">      timeout: <span class="keyword">this</span>.timeout</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置拦截器</span></span><br><span class="line">    instance.interceptors.request.use(<span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">      config.header.Authorization = localStorage.getItem(<span class="string">'token'</span>)</span><br><span class="line">      <span class="keyword">return</span> config</span><br><span class="line">    &#125;, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    instance.interceptors.response.use(<span class="function"><span class="params">res</span> =&gt;</span> res.data, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> instance(config)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> AjaxRequest()</span><br></pre></td></tr></table></figure>
 
             
 
@@ -238,7 +237,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/jest/">jest</a> <a class="tag tag--primary tag--small t-link" href="/tags/node/">node</a> <a class="tag tag--primary tag--small t-link" href="/tags/单元测试/">单元测试</a> <a class="tag tag--primary tag--small t-link" href="/tags/自动化测试/">自动化测试</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/vue/">vue</a> <a class="tag tag--primary tag--small t-link" href="/tags/业务功能/">业务功能</a> <a class="tag tag--primary tag--small t-link" href="/tags/权限控制/">权限控制</a>
 
             </div>
         
@@ -248,8 +247,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（三）/" data-tooltip="单元测试：jest（三）" aria-label="上一篇: 单元测试：jest（三）">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -258,7 +256,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（一）/" data-tooltip="单元测试：jest（一）" aria-label="下一篇: 单元测试：jest（一）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/02/前端模块化/" data-tooltip="前端模块化" aria-label="下一篇: 前端模块化">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -278,7 +276,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -342,8 +340,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（三）/" data-tooltip="单元测试：jest（三）" aria-label="上一篇: 单元测试：jest（三）">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -352,7 +349,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/21/单元测试（一）/" data-tooltip="单元测试：jest（一）" aria-label="下一篇: 单元测试：jest（一）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/02/前端模块化/" data-tooltip="前端模块化" aria-label="下一篇: 前端模块化">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -372,7 +369,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

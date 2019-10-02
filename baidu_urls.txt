@@ -1,3 +1,4 @@
+http://www.zbwblog.com/2019/10/03/实现jwt/
 http://www.zbwblog.com/2019/10/02/前端模块化/
 http://www.zbwblog.com/2019/10/01/使用postMessage+iframe开发插件式服务/
 http://www.zbwblog.com/2019/10/01/性能优化——http/
@@ -7,4 +8,3 @@ http://www.zbwblog.com/2019/09/25/关于package.json/
 http://www.zbwblog.com/2019/09/24/vue项目搭建/
 http://www.zbwblog.com/2019/09/24/关于webpack配置常见问题/
 http://www.zbwblog.com/2019/09/23/ajax交互数据格式/
-http://www.zbwblog.com/2019/09/22/使用gulp构建一个模板项目/
