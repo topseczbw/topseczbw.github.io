@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.zbwblog.com/"/>
-  <updated>2019-10-02T18:03:46.192Z</updated>
+  <updated>2019-10-05T08:33:04.552Z</updated>
   <id>http://www.zbwblog.com/</id>
   
   <author>
@@ -17,11 +17,63 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>管理一个npm包</title>
+    <link href="http://www.zbwblog.com/2019/10/04/%E7%AE%A1%E7%90%86%E4%B8%80%E4%B8%AAnpm%E5%8C%85/"/>
+    <id>http://www.zbwblog.com/2019/10/04/管理一个npm包/</id>
+    <published>2019-10-04T12:26:00.000Z</published>
+    <updated>2019-10-05T08:33:04.552Z</updated>
+    
+    <content type="html"><![CDATA[<p>学习管理一个属于自己的npm包。<br><a id="more"></a><br><!-- toc --></p><h2 id="发布一个npm包"><a href="#发布一个npm包" class="headerlink" title="发布一个npm包"></a>发布一个npm包</h2><ol><li><p>注册npm官方账号</p><p>执行 <code>npm addUser</code> 或者 去npm官网手动注册。</p><p>注意：注册成功后，需要邮箱验证，否则在发布时，会报403错误。</p></li><li><p>创建一个包项目</p><p>执行 <code>npm init -y</code></p></li><li><p>修改package.json文件</p><p>字段名称 | 含义<br>-|-|-<br>name | 报名<br>private | 是否发布到私有仓库<br>version | 包版本包<br>main | 指定使用者import包时的入口文件，优先级低<br>module | 指定使用者import包时的入口文件，优先级高</p><p>注意：发布到npm上时，name、version、main字段是必须要设置的。</p></li><li><p>登录npm</p><p>执行 <code>npm login</code>，输入之前注册的账号、密码邮箱。</p></li><li><p>使用nrm将npm的源切换到官方源</p></li><li><p>发布</p><p>执行 <code>npm publish</code> 开始发布</p></li><li>123</li><li>123</li></ol><h2 id="更新已有npm包"><a href="#更新已有npm包" class="headerlink" title="更新已有npm包"></a>更新已有npm包</h2><p>更新已有包后，在npm上的 <code>version</code> 中可以查看本包的所有版本</p><ol><li>更新 <strong>package.json</strong> 文件中的版本号</li><li>执行 <code>npm publish</code> 开始发布</li></ol><h2 id="删除npm包"><a href="#删除npm包" class="headerlink" title="删除npm包"></a>删除npm包</h2><p>删除指定版本：执行 <code>npm unpublish 包名@版本号</code></p><p>删除整个包：执行 <code>npm unpublish 包名 --force</code></p><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol><li>增加 .gitignore 文件忽略提交无效文件</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;学习管理一个属于自己的npm包。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
+    
+    
+      <category term="npm" scheme="http://www.zbwblog.com/tags/npm/"/>
+    
+      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>手写一个简版promise</title>
+    <link href="http://www.zbwblog.com/2019/10/04/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E7%89%88promise/"/>
+    <id>http://www.zbwblog.com/2019/10/04/手写一个简版promise/</id>
+    <published>2019-10-03T18:20:00.000Z</published>
+    <updated>2019-10-05T08:33:31.406Z</updated>
+    
+    <content type="html"><![CDATA[<p>记住四句话，学会手写一个简版promise。<br><a id="more"></a><br><!-- toc --></p><h2 id="promise-是什么"><a href="#promise-是什么" class="headerlink" title="promise 是什么"></a>promise 是什么</h2><p>promise是一个构造函数/类</p><h2 id="promise-存在的价值"><a href="#promise-存在的价值" class="headerlink" title="promise 存在的价值"></a>promise 存在的价值</h2><p>解决并发问题，多个异步任务的执行结果</p><p>解决链式问题，第二个接口依赖于第一个接口，解决回调地狱问题</p><h2 id="promise-特点"><a href="#promise-特点" class="headerlink" title="promise 特点"></a>promise 特点</h2><ol><li><p>每次new一个promise实例时，都需要传递一个执行器函数executor，并且执行器函数会立即执行</p></li><li><p>执行器函数有两个参数 resolve reject</p></li><li><p>每个promise都有一个状态标识，有三种状态类型：</p><p>pending =&gt; resolve 成功了</p><p>pending =&gt; reject 失败了</p></li><li><p>状态可以改变，一旦改变不可以再次更改</p><p>一旦成功了，不能再变成失败，一旦失败了，不能再变成成功<br> （什么时候可以改变状态呢？ ）</p></li><li><p>如果执行器函数在执行时，抛出异常如 <code>throw new Error(&#39;自定义错误&#39;)</code> ，那promise应该变成失败状态，会被.then时的 <code>onRejected</code> 处理错误的函数接收</p></li></ol><h2 id="如何手写一个简版-promise"><a href="#如何手写一个简版-promise" class="headerlink" title="如何手写一个简版 promise"></a>如何手写一个简版 promise</h2><h3 id="既然-promise-是一个构造函数-类，那么它-new-时可以传递哪些参数，这些参数又是做什么用的"><a href="#既然-promise-是一个构造函数-类，那么它-new-时可以传递哪些参数，这些参数又是做什么用的" class="headerlink" title="既然 promise 是一个构造函数/类，那么它 new 时可以传递哪些参数，这些参数又是做什么用的"></a>既然 promise 是一个构造函数/类，那么它 new 时可以传递哪些参数，这些参数又是做什么用的</h3><p>executor、resolve、reject</p><p>executor执行业务逻辑（同步/异步），在适当的时机调用，resolve/reject。</p><p>如数据成功返回时，调用resolve函数，将promise实例变成成功态，并将数据告诉promise实例，promise实例拿到数据后，先暂存起来，当promise实例被手动调用.then方法时，供then方法第一个处理成功信息的函数nFullfilled使用</p><p>如数据返回失败/代码报错时，调用reject函数，将promise实例变成失败态，并将失败原因告诉promise实例，promise实例拿到失败原因后，先暂存起来，当promise实例被手动调用.then方法时，供then方法第二个处理失败信息的函数onRejected使用</p><h3 id="为了实现上述功能，每个-promise-实例应该具有哪些内部状态"><a href="#为了实现上述功能，每个-promise-实例应该具有哪些内部状态" class="headerlink" title="为了实现上述功能，每个 promise 实例应该具有哪些内部状态"></a>为了实现上述功能，每个 promise 实例应该具有哪些内部状态</h3><ol><li>用户手动调用的resolve、reject函数不需要自己声明变量，所以调用的应该是new Promise() 时， Promise函数内部作用域的变量 =&gt; constructor 中的resolve和 reject</li><li>resolve函数可以改变promise状态，每个promise都有一个状态标识，标识当前状态 =&gt; this.status</li><li>当resolve(data) / reject(reason)时，promise需要暂存外部告知的<strong>数据</strong>或<strong>失败原因</strong>，并且当外部手动调用then时，还需要用到 =&gt; this.value  this.reason</li><li>promise实例可以被手动调用then方法，处理成功时的数据或失败时的原因 =&gt; this.then()</li></ol><h3 id="当-executor-函数只有同步时：2-gt-1-resolve-‘回答正确’-throw-new-Error-‘原则性错误’"><a href="#当-executor-函数只有同步时：2-gt-1-resolve-‘回答正确’-throw-new-Error-‘原则性错误’" class="headerlink" title="当 executor 函数只有同步时：2 &gt; 1 ? resolve(‘回答正确’) : throw new Error(‘原则性错误’)"></a>当 executor 函数只有同步时：2 &gt; 1 ? resolve(‘回答正确’) : throw new Error(‘原则性错误’)</h3><p>由于executor函数会立即执行，所以如果该函数都是同步逻辑，promise状态会立即改变，数据会立即暂存，所以后面.then时，可以立即处理对应的数据。</p><h3 id="当-executor-函数存在异步时：setTimeOut-gt-resolve-‘async’-2000"><a href="#当-executor-函数存在异步时：setTimeOut-gt-resolve-‘async’-2000" class="headerlink" title="当 executor 函数存在异步时：setTimeOut(() =&gt; resolve(‘async’), 2000)"></a>当 executor 函数存在异步时：setTimeOut(() =&gt; resolve(‘async’), 2000)</h3><p>但是当executor函数中有异步逻辑时，resolve函数不会马上执行，但是.then会在 new Promise 后马上执行。但此时promise还处于pending状态，所以我们需要在原型的then方法中，当状态是pending时，先将用户传来的处理数据/异常的方法暂存进一个队列，当调用resolve/reject，在从队列中遍历执行处理方法。此处使用发布订阅模式。</p><p>故promise增加onResolvedCallBacks、onRejectedCallBacks两个数组实例属性，暂存处理函数。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'——————————————————————————手写的promise——————————————————————'</span>)</span><br><span class="line"><span class="keyword">const</span> PENDING = <span class="string">'pending'</span></span><br><span class="line"><span class="keyword">const</span> FULLFILLED = <span class="string">'fullFilled'</span></span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="string">'rejected'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Promise</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(executor) &#123;</span><br><span class="line">    <span class="keyword">this</span>.value = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">this</span>.reason = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">this</span>.status = PENDING</span><br><span class="line">    <span class="comment">// 两个队列 专门存成功的和失败的 为了处理异步 发布订阅模式</span></span><br><span class="line">    <span class="keyword">this</span>.onResolvedCallBacks = []</span><br><span class="line">    <span class="keyword">this</span>.onRejectedCallBacks = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> resolve = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 只有pending状态时才可以改变promise的状态</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.status === PENDING) &#123;</span><br><span class="line">        <span class="keyword">this</span>.status = FULLFILLED</span><br><span class="line">        <span class="keyword">this</span>.value = value</span><br><span class="line">        <span class="keyword">this</span>.onResolvedCallBacks.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn())</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> reject = <span class="function">(<span class="params">reason</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.status === PENDING) &#123;</span><br><span class="line">        <span class="keyword">this</span>.status = REJECTED</span><br><span class="line">        <span class="keyword">this</span>.reason = reason</span><br><span class="line">        <span class="keyword">this</span>.onRejectedCallBacks.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn())</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 传递一个执行器 执行器会立即执行</span></span><br><span class="line">    <span class="comment">// 这里可能会发生异常</span></span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">      executor(resolve, reject)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      reject(e)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// then方法会判断当前的状态</span></span><br><span class="line">  then(onFullfilled, onRejected) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.status === FULLFILLED) &#123;</span><br><span class="line">      onFullfilled(<span class="keyword">this</span>.value)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.status === REJECTED) &#123;</span><br><span class="line">      onRejected(<span class="keyword">this</span>.reason)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 异步 pending 时调用then   resolve 需要在 then 之后执行</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.status === PENDING) &#123;</span><br><span class="line">      <span class="comment">// ** todo</span></span><br><span class="line">      <span class="keyword">this</span>.onResolvedCallBacks.push(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        onFullfilled(<span class="keyword">this</span>.value)</span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="keyword">this</span>.onRejectedCallBacks.push(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        onRejected(<span class="keyword">this</span>.reason)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="built_in">Promise</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记住四句话，学会手写一个简版promise。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
+    
+    
+      <category term="core" scheme="http://www.zbwblog.com/tags/core/"/>
+    
+      <category term="js" scheme="http://www.zbwblog.com/tags/js/"/>
+    
+      <category term="promise" scheme="http://www.zbwblog.com/tags/promise/"/>
+    
+      <category term="es6" scheme="http://www.zbwblog.com/tags/es6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>菜单权限控制</title>
     <link href="http://www.zbwblog.com/2019/10/03/%E8%8F%9C%E5%8D%95%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
     <id>http://www.zbwblog.com/2019/10/03/菜单权限控制/</id>
     <published>2019-10-02T18:02:00.000Z</published>
-    <updated>2019-10-02T18:03:46.192Z</updated>
+    <updated>2019-10-05T08:34:52.178Z</updated>
     
     <content type="html"><![CDATA[<p>如何让不同身份的用户，得到不同的菜单？<br><a id="more"></a><br><!-- toc --></p><p>菜单权限控制是值用户在访问系统时，根据用户的身份限制用户能够访问的菜单项</p><h2 id="如何实现"><a href="#如何实现" class="headerlink" title="如何实现"></a>如何实现</h2><ol><li>前端配置<strong>默认路由列表</strong>、<strong>全部权限路由列表</strong></li><li>默认路由对象一般只配置 * 和 /</li><li>服务器端定义接口，根据用户信息返回该用户的<strong>实际权限路由列表标识</strong></li><li>前端在 <code>main.js</code> 中设置路由的 <code>beforeEach</code> 钩子，在用户访问每个页面时，请求权限校验接口，拿到<strong>实际权限路由列表标识</strong></li><li>处理<strong>实际权限路由列表标识</strong>和<strong>全部权限路由列表</strong>得到<strong>实际权限路由列表</strong></li><li><p>将<strong>实际权限路由列表</strong>动态添加到<strong>默认路由列表</strong>中得到<strong>该用户真实路由列表</strong></p><p><code>router.addRoutes()</code></p><p><code>next({...to, replace:true})</code></p><p>由于addRoute  有可能不会马上成功  所以官方推荐加上replace（消除历史记录）</p></li><li><p>实际权限路由标识列表缓存在 <code>vuex</code> 中一份，减少接口调用次数</p></li></ol>]]></content>
     
@@ -34,22 +86,24 @@
       <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
     
     
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+      <category term="core" scheme="http://www.zbwblog.com/tags/core/"/>
     
       <category term="业务功能" scheme="http://www.zbwblog.com/tags/%E4%B8%9A%E5%8A%A1%E5%8A%9F%E8%83%BD/"/>
     
       <category term="权限控制" scheme="http://www.zbwblog.com/tags/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
     
+      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+    
   </entry>
   
   <entry>
-    <title>实现jwt</title>
-    <link href="http://www.zbwblog.com/2019/10/03/%E5%AE%9E%E7%8E%B0jwt/"/>
-    <id>http://www.zbwblog.com/2019/10/03/实现jwt/</id>
+    <title>jwt实现</title>
+    <link href="http://www.zbwblog.com/2019/10/03/jwt%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://www.zbwblog.com/2019/10/03/jwt实现/</id>
     <published>2019-10-02T17:17:00.000Z</published>
-    <updated>2019-10-02T17:20:01.362Z</updated>
+    <updated>2019-10-05T08:34:23.684Z</updated>
     
-    <content type="html"><![CDATA[<p>一张流程图指导jwt登录权限校验功能的实现。<br><a id="more"></a><br><!-- toc --></p><h2 id="什么是jwt"><a href="#什么是jwt" class="headerlink" title="什么是jwt"></a>什么是jwt</h2><p>jwt 全称 json web token，可以看成是基于token的登录权限控制</p><h2 id="jwt流程图"><a href="#jwt流程图" class="headerlink" title="jwt流程图"></a>jwt流程图</h2><p><img src="/assets/images/jwt流程图优化后.png" alt="jwt流程图优化后"></p><h2 id="axios-封装"><a href="#axios-封装" class="headerlink" title="axios 封装"></a>axios 封装</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AjaxRequest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.baseURL = process.env.NODE_ENV === <span class="string">'development'</span> ? <span class="string">'http://localhost:3000'</span> : <span class="string">'/'</span></span><br><span class="line">    <span class="keyword">this</span>.timeout = <span class="number">2000</span></span><br><span class="line">  &#125;</span><br><span class="line">  request(config) &#123;</span><br><span class="line">    <span class="keyword">const</span> instance = axios.create(&#123;</span><br><span class="line">      baseURL: <span class="keyword">this</span>.baseURL,</span><br><span class="line">      timeout: <span class="keyword">this</span>.timeout</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置拦截器</span></span><br><span class="line">    instance.interceptors.request.use(<span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">      config.header.Authorization = localStorage.getItem(<span class="string">'token'</span>)</span><br><span class="line">      <span class="keyword">return</span> config</span><br><span class="line">    &#125;, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    instance.interceptors.response.use(<span class="function"><span class="params">res</span> =&gt;</span> res.data, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> instance(config)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> AjaxRequest()</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>一张流程图指导jwt登录权限校验功能的实现。<br><a id="more"></a><br><!-- toc --></p><h2 id="什么是jwt"><a href="#什么是jwt" class="headerlink" title="什么是jwt"></a>什么是jwt</h2><p>jwt 全称 json web token，可以看成是基于token的登录权限控制</p><h2 id="jwt流程图"><a href="#jwt流程图" class="headerlink" title="jwt流程图"></a>jwt流程图</h2><p><img src="/assets/images/jwt流程图.png" alt="jwt流程图优化后"></p><h2 id="axios-封装"><a href="#axios-封装" class="headerlink" title="axios 封装"></a>axios 封装</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AjaxRequest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.baseURL = process.env.NODE_ENV === <span class="string">'development'</span> ? <span class="string">'http://localhost:3000'</span> : <span class="string">'/'</span></span><br><span class="line">    <span class="keyword">this</span>.timeout = <span class="number">2000</span></span><br><span class="line">  &#125;</span><br><span class="line">  request(config) &#123;</span><br><span class="line">    <span class="keyword">const</span> instance = axios.create(&#123;</span><br><span class="line">      baseURL: <span class="keyword">this</span>.baseURL,</span><br><span class="line">      timeout: <span class="keyword">this</span>.timeout</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置拦截器</span></span><br><span class="line">    instance.interceptors.request.use(<span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">      config.header.Authorization = localStorage.getItem(<span class="string">'token'</span>)</span><br><span class="line">      <span class="keyword">return</span> config</span><br><span class="line">    &#125;, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    instance.interceptors.response.use(<span class="function"><span class="params">res</span> =&gt;</span> res.data, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> instance(config)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> AjaxRequest()</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
@@ -60,11 +114,13 @@
       <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
     
     
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+      <category term="core" scheme="http://www.zbwblog.com/tags/core/"/>
     
       <category term="业务功能" scheme="http://www.zbwblog.com/tags/%E4%B8%9A%E5%8A%A1%E5%8A%9F%E8%83%BD/"/>
     
       <category term="权限控制" scheme="http://www.zbwblog.com/tags/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
+    
+      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
     
   </entry>
   
@@ -73,7 +129,7 @@
     <link href="http://www.zbwblog.com/2019/10/02/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/"/>
     <id>http://www.zbwblog.com/2019/10/02/前端模块化/</id>
     <published>2019-10-02T14:37:00.000Z</published>
-    <updated>2019-10-02T18:09:24.267Z</updated>
+    <updated>2019-10-05T08:34:23.688Z</updated>
     
     <content type="html"><![CDATA[<p>整理学习前端模块概念及模块化规范。<br><a id="more"></a><br><!-- toc --></p><h2 id="模块的基本要求"><a href="#模块的基本要求" class="headerlink" title="模块的基本要求"></a>模块的基本要求</h2><ol><li>隐藏模块内部实现，使模块的使用者无需关注模块内部实现的细节</li><li>对外定义模块的访问接口，通过接口可以调用模块功能</li></ol><h2 id="模块接口"><a href="#模块接口" class="headerlink" title="模块接口"></a>模块接口</h2><p>模块接口通常包含一组变量和函数，创建接口最简单的方式是使用js对象</p><h2 id="四种模块方式实现"><a href="#四种模块方式实现" class="headerlink" title="四种模块方式实现"></a>四种模块方式实现</h2><p>目标：实现一个util模块，外部可以调用模块的add工具方法</p><h3 id="函数模块"><a href="#函数模块" class="headerlink" title="函数模块"></a>函数模块</h3><p>使用自执行的匿名函数（IIFE）实现隐藏内部实现要求</p><p>使用闭包、对象实现对外定义模块的访问接口要求</p><p>扩展时，需要调用一个IIFE，改函数接收需要扩展的模块变量作为参数</p><p><img src="/assets/images/函数模块.png" alt="函数模块"></p><p>函数模块缺点</p><ol><li>通过模块扩展无法共享模块的私有变量</li><li>当我们开始创建模块化应用时，模块本身尝尝依赖其他模块的功能，然而函数模块模块无法实现这些依赖关系</li></ol><h3 id="AMD-和-CommonJs"><a href="#AMD-和-CommonJs" class="headerlink" title="AMD 和 CommonJs"></a>AMD 和 CommonJs</h3><p>为了弥补函数模块的缺点，AMD 与 CommonJs两大<strong>标准</strong>产生，并相互竞争。</p><h4 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h4><ol><li>ADM最流行的实现是<strong>RequireJs</strong></li><li>设计理念是明确基于浏览器</li><li>自动处理依赖，无需考虑模块引入问题</li><li>异步加载依赖模块，避免阻塞 （解决前端应用场景中向服务器请求依赖模块文件问题）</li><li>所有依赖模块加载完毕后，调用模块的工厂函数，并传入依赖模块</li><li>在同一个文件中可以定义多个模块</li><li>对外提供模块访问接口的实现方式与函数模块一致</li></ol><p><img src="/assets/images/AMD模块.png" alt="AMD模块"></p><h4 id="CommonJs"><a href="#CommonJs" class="headerlink" title="CommonJs"></a>CommonJs</h4><ol><li>每个文件，只能定义一个模块</li><li>module.exports 作为模块的公共接口</li><li>可以引入依赖模块，依赖同步加载 （由于服务器端常读磁盘文件，速度较快，与http请求速度不在同一个量级，所以使用同步加载）</li><li>变量可以定义在文件的顶部，虽然是顶部，但仍属于模块内部的局部变量</li><li>nodeJs 默认的模块标准</li></ol><p>CommonJs缺点</p><p>不显式的支持浏览器</p><p><img src="/assets/images/CommonJs.png" alt="CommonJs"></p><h3 id="UMD"><a href="#UMD" class="headerlink" title="UMD"></a>UMD</h3><p>在模块规范百家争鸣下，为实现统一的模块化标准，UMD产生了。</p><p>实现原理</p><p>先判断运行环境是否支持cjs，然后判断是否支持amd，如果都不支持，则使用函数模块方式（IIFE），生成一个全局变量。</p><h3 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h3><p>主要思想：必须显式的使用标识符导出模块，才能从外部访问模块</p><p>虽然变量可以定义在模块顶部，但是仍然只能在模块内部访问变量</p><p>目前浏览器尚未支持ES6模块，如果现在需要ES6模块，需要对代码进行编译，可以使用Traceur 或 babel 或 typescript</p><h4 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h4><table><thead><tr><th>代码</th><th>含义</th></tr></thead><tbody><tr><td>export const add = (a, b) =&gt; a + b</td><td>导出变量</td></tr><tr><td>export function add (a, b) { return a + b}</td><td>导出函数</td></tr><tr><td>export class add {}</td><td>导出类</td></tr><tr><td>export default class add {}</td><td>导出默认类</td></tr><tr><td>export default function() {}</td><td>导出默认函数</td></tr><tr><td>export default add</td><td>导出默认对象</td></tr><tr><td>export { add, delete }</td><td>导出存在的变量  命名导出</td></tr><tr><td>export { add as add1 }</td><td>使用别名导出变量</td></tr><tr><td>export default function () {} export { add }</td><td>同时使用默认导出和命名导出</td></tr></tbody></table><h4 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h4><table><thead><tr><th>代码</th><th>含义</th></tr></thead><tbody><tr><td>import add from ‘./add’</td><td>导入默认导出</td></tr><tr><td>import { add } from ‘./add’</td><td>导入命名导出</td></tr><tr><td>import * as all from ‘./add’</td><td>导入模块中声明的全部导出</td></tr><tr><td>import add, { add } from ‘./add’</td><td>同时导入默认导出和命名导出</td></tr><tr><td>import { add as add1 } from ‘./add’</td><td>通过别名导入模块中声明的全部导出，到本模块依赖两个不同模块内容，并且依赖内容命名一致时使用</td></tr></tbody></table><p><img src="/assets/images/es6模块.png" alt="es6模块"></p><h4 id="主文件进行模块管理"><a href="#主文件进行模块管理" class="headerlink" title="主文件进行模块管理"></a>主文件进行模块管理</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// util/index.js   作为中间层导出</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'shared/util'</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lang'</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./env'</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./options'</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./debug'</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./props'</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./error'</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./next-tick'</span></span><br><span class="line"><span class="keyword">export</span> &#123; defineReactive &#125; <span class="keyword">from</span> <span class="string">'../observer/index'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// a.js  作为使用方调用</span></span><br><span class="line"><span class="keyword">import</span> &#123; toArray &#125; <span class="keyword">from</span> <span class="string">'./util/index.js'</span></span><br></pre></td></tr></table></figure>]]></content>
     
@@ -87,6 +143,8 @@
     
     
       <category term="规范" scheme="http://www.zbwblog.com/tags/%E8%A7%84%E8%8C%83/"/>
+    
+      <category term="core" scheme="http://www.zbwblog.com/tags/core/"/>
     
       <category term="js" scheme="http://www.zbwblog.com/tags/js/"/>
     
@@ -123,7 +181,7 @@
     <link href="http://www.zbwblog.com/2019/10/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94http/"/>
     <id>http://www.zbwblog.com/2019/10/01/性能优化——http/</id>
     <published>2019-10-01T03:59:21.000Z</published>
-    <updated>2019-10-01T04:34:19.095Z</updated>
+    <updated>2019-10-05T08:34:33.211Z</updated>
     
     <content type="html"><![CDATA[<p>介绍压缩、缓存是如何实现的。<br><a id="more"></a><br><!-- toc --></p><h2 id="http主要优化方式"><a href="#http主要优化方式" class="headerlink" title="http主要优化方式"></a>http主要优化方式</h2><ol><li><strong>压缩</strong></li><li><strong>缓存</strong></li></ol><h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><h3 id="http压缩与uglify压缩区别"><a href="#http压缩与uglify压缩区别" class="headerlink" title="http压缩与uglify压缩区别"></a>http压缩与uglify压缩区别</h3><ol><li><p>uglify压缩js代码中的空格、空行，混淆代码指将过长变量名统一替换成简单字符</p></li><li><p>http压缩是将文件内容中重复的部分进行压缩，如html中重复的标签名，重复的部分越多，压缩质量越高</p><p>视频，音频相关的文件，压缩质量很低</p><p>压缩完是可以解压的，而不是删除内容</p></li></ol><h3 id="压缩流程"><a href="#压缩流程" class="headerlink" title="压缩流程"></a>压缩流程</h3><ol><li><p>客户端发出http请求文件时，请求头中的 <code>Accept-Encoding</code> 字段告知服务器，自身支持哪种压缩格式</p><p>例：<code>Accept-Encoding: br;q=1.0, gzip;q=0.8, *;q=0.1</code></p><p>q是权重 1最高</p></li><li><p>服务器收到请求后，根据请求头中的 <code>Accept-Encoding</code>  字段知道了客户端浏览器支持的压缩格式，如果有压缩，没有就不压缩。压缩完成后，写入文件，返回给客户端浏览器</p><p>并在 <code>response Header</code> 中返回 <code>content-encoding</code> 字段告知浏览器，文件是以什么样的格式进行压缩的，否则浏览器无法正确解析压缩过后的文件，会出现乱码</p><p>例：<code>content-encoding: gzip</code></p><p>node压缩格式一般是 <code>gzip、 deflate</code></p></li></ol><h3 id="压缩原理"><a href="#压缩原理" class="headerlink" title="压缩原理"></a>压缩原理</h3><p>压缩功能实现是使用node专用于做压缩的zlib模块，zlib模块压缩方式：</p><ol><li><p>同步压缩：等文件所有内容压缩完，在返回给客户端</p></li><li><p>流式压缩：一边压缩一边返回</p><p>实际上是借助<strong>转换流</strong>的概念，将目标文件读取出来，经过转换流压缩，在返回给客户端。</p><p><code>可读流.pipe(zlib.createGzip()).pipe(可写流)</code></p></li></ol><h3 id="压缩实战"><a href="#压缩实战" class="headerlink" title="压缩实战"></a>压缩实战</h3><ol><li>webpack 的 devServer 中的 <code>compress</code> 属性</li></ol><h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>缓存指，客户端浏览器请求服务器获取到资源后，同时会将资源复制一份缓存至本地硬盘中的一个文件内。</p><p>再次请求服务器同一资源时，会被服务器返回的信息告知从自己的缓存文件夹中获取即可。</p><p>这个交互过程实现了资源的缓存</p><h3 id="缓存的方式"><a href="#缓存的方式" class="headerlink" title="缓存的方式"></a>缓存的方式</h3><ol><li><strong>强制缓存</strong></li><li><strong>对比缓存（协商缓存）</strong></li><li><strong>指纹缓存</strong></li></ol><h3 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h3><h4 id="什么是强制缓存"><a href="#什么是强制缓存" class="headerlink" title="什么是强制缓存"></a>什么是强制缓存</h4><p>客户端发起请求，服务器在返回资源的同时，在<strong>响应中</strong>设置 <code>Cache-Control</code> 或者 <code>Expires</code> 告知客户端浏览器：<strong>10秒之内</strong>、或在<strong>规定日期之前</strong>不要再找我了，从你的缓存文件夹中取！</p><p>走强制缓存时，响应状态码为200</p><h4 id="Cache-Control-与-Expires-区别"><a href="#Cache-Control-与-Expires-区别" class="headerlink" title="Cache-Control 与 Expires 区别"></a>Cache-Control 与 Expires 区别</h4><ol><li><p>写法不同</p><p><code>Cache-Control: max-age=10</code></p><p><code>Expires: Expires: Wed, 21 Oct 2015 07:28:00 GMT</code></p></li><li><p>单位不同</p><p>Cache-Control 单位是秒，是<strong>相对时间</strong>，表示多少秒之后</p><p>Expires 单位是UTC，也就是我们所说的<strong>格林威治时间</strong>，指的是time中的<strong>世界时间标准</strong>。是绝对时间，表示过期时间是什么时候。</p></li><li><p>权重不同</p><p>因为Expires是老版本设置， 设置Cache-Control 会覆盖掉 Expires</p></li></ol><h4 id="强制缓存缺点"><a href="#强制缓存缺点" class="headerlink" title="强制缓存缺点"></a>强制缓存缺点</h4><p>服务器文件更新之后，在没有超过规定时间时，客户端浏览器仍会走缓存，访问旧文件</p><h3 id="对比缓存（协商缓存）304"><a href="#对比缓存（协商缓存）304" class="headerlink" title="对比缓存（协商缓存）304"></a>对比缓存（协商缓存）304</h3><h4 id="什么是对比缓存"><a href="#什么是对比缓存" class="headerlink" title="什么是对比缓存"></a>什么是对比缓存</h4><p>客户端请求第一次时，服务器在response中设置 <code>Last-Modified</code> ，告之客户端这个文件最新修改时间。</p><p>客户端下次再请求时，在request中会携带 <code>If-Modified-Since</code> 这个时间戳标识，服务器比较标识，如果标识不同，证明后来又被修改过，返回新文件。否则告知客户端：文件没有变化，从缓存中去取吧。</p><p>走对比缓存时，<strong>响应状态码为304</strong></p><h4 id="对比缓存缺点"><a href="#对比缓存缺点" class="headerlink" title="对比缓存缺点"></a>对比缓存缺点</h4><ol><li>反复操作文件，虽然文件内容没变，但是最后修改时间改了。客户端不会走缓存。</li><li>cdn分发时间不同，会导致得到不一样的结果</li></ol><h3 id="指纹缓存"><a href="#指纹缓存" class="headerlink" title="指纹缓存"></a>指纹缓存</h3><h4 id="什么是指纹缓存"><a href="#什么是指纹缓存" class="headerlink" title="什么是指纹缓存"></a>什么是指纹缓存</h4><p>首次接到请求后，摘要/加盐文件部分内容，生成唯一key，名为 <code>Etag</code> 传给客户端。</p><p>客户端下次再请求同一文件时，在request中加入请求头 <code>If-None-Match</code></p><p>服务器端收到后作比较，更加准确的判断文件是否被修改过，后续同对比缓存</p><p>例</p><p><code>ETag: &quot;33a64df551425fcc55e4d42a148795d9f25f89d4&quot;</code></p><p><code>If-None-Match: &quot;33a64df551425fcc55e4d42a148795d9f25f89d4&quot;</code></p><h4 id="什么是MD5"><a href="#什么是MD5" class="headerlink" title="什么是MD5"></a>什么是MD5</h4><p>MD5是一种信息摘要算法，摘取文件部分内容。</p><p>MD5本来也不是作加密使用，而是用来<strong>校验数据的完整性</strong>。</p><p>MD5不算是加密算法，因为摘要不代表全部内容，不可解密，不可反推，就是无论多大数据，经过算法运算后都是<strong>生成固定长度</strong>的数据。</p><p>相同的内容摘要的结果相同。有一点不同，摘要的结果完全不同。</p><h4 id="使用MD5"><a href="#使用MD5" class="headerlink" title="使用MD5"></a>使用MD5</h4><p><code>Crypto.createHash(&#39;md5&#39;).update(&#39;文件部分内容&#39; + random() ).digest(&#39;base64&#39;)</code></p><p>由于MD5大家都知道，很容易被猜到，所以在摘要时加一个随机数。</p><h4 id="什么是加盐"><a href="#什么是加盐" class="headerlink" title="什么是加盐"></a>什么是加盐</h4><p>使用 <code>sha1</code> <code>sha256</code> 这种加密算法，流程同MD5相同</p><h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>开启所有类型缓存，只要有一个失效，就算失效。</p><p>先<strong>强制缓存（200）</strong>——再对比缓存和指纹缓存（两者有一个失效就算过期）</p><p>那么<strong>问题来了</strong>，这样设置时，在强制缓存下，缓存没过期时，服务器端更改了文件，客户端不一样拿不到最新的文件吗。</p><p>我们所说的缓存多用于静态资源和图片（static文件夹），对于经常改编的js逻辑，在正式生产环境打包时，会生成不同的hash值。</p><p>由于index.html文件不会被缓存，所以该文件中引入的js文件即时打包生成带有最新的hash值的js。所以请求会指向新的URI，不会走缓存。</p><h3 id="常见问题总结"><a href="#常见问题总结" class="headerlink" title="常见问题总结"></a>常见问题总结</h3><ol><li><p>缓存设置操作只能在服务器端进行，客户端浏览器能做什么？</p><p>前端并不能做什么。缓存这件事，让服务器端去搞。</p></li><li>首页index.html即使没有加hash戳也是不会被缓存的，防止出现断网时仍能访问页面的情况</li><li>浏览器network上，有一个小按钮，可以禁用所有缓存</li><li>关于 <code>Cache-Control</code> 响应头的值，当服务器设置为 <code>no-cache</code> 时，代表每次请求会都访问服务器，但是也会走缓存。当值为 <code>no-store</code> 才表示所有的请求，都不会走缓存</li><li>在进行指纹缓存时，node服务器端多使用 <code>Crypto</code> 第三方模块</li><li><p>服务器端设置各种响应头标识（<code>Last-Modified等</code>）当前文件最新状态，那客户端浏览器第二次发给服务器时，需要手动把这个标识设置到请求头吗？</p><p>不需要，浏览器会携带</p></li></ol><p><img src="/assets/images/性能优化—http.png" alt="http"></p>]]></content>
     
@@ -137,6 +195,8 @@
     
     
       <category term="http" scheme="http://www.zbwblog.com/tags/http/"/>
+    
+      <category term="core" scheme="http://www.zbwblog.com/tags/core/"/>
     
       <category term="性能优化" scheme="http://www.zbwblog.com/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     
@@ -214,9 +274,33 @@
       <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
     
     
+      <category term="npm" scheme="http://www.zbwblog.com/tags/npm/"/>
+    
       <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
     
-      <category term="npm" scheme="http://www.zbwblog.com/tags/npm/"/>
+  </entry>
+  
+  <entry>
+    <title>vue项目搭建</title>
+    <link href="http://www.zbwblog.com/2019/09/24/vue%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/"/>
+    <id>http://www.zbwblog.com/2019/09/24/vue项目搭建/</id>
+    <published>2019-09-24T15:01:00.000Z</published>
+    <updated>2019-10-01T04:56:46.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>从0搭建一个vue项目，你需要知道哪些东西。<br><a id="more"></a><br><!-- toc --></p><h2 id="搭建模板"><a href="#搭建模板" class="headerlink" title="搭建模板"></a>搭建模板</h2><p><a href="https://juejin.im/book/5b23a5aef265da59716fda09" target="_blank" rel="noopener">掘金小册——Vue 项目构建与开发入门</a></p><p><img src="/assets/images/vue单页应用基础配置.jpg" alt="环境区分"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从0搭建一个vue项目，你需要知道哪些东西。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
+    
+    
+      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+    
+      <category term="项目架构" scheme="http://www.zbwblog.com/tags/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
@@ -243,30 +327,6 @@
       <category term="前端工程化" scheme="http://www.zbwblog.com/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/"/>
     
       <category term="webpack" scheme="http://www.zbwblog.com/tags/webpack/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vue项目搭建</title>
-    <link href="http://www.zbwblog.com/2019/09/24/vue%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/"/>
-    <id>http://www.zbwblog.com/2019/09/24/vue项目搭建/</id>
-    <published>2019-09-24T15:01:00.000Z</published>
-    <updated>2019-10-01T04:56:46.638Z</updated>
-    
-    <content type="html"><![CDATA[<p>从0搭建一个vue项目，你需要知道哪些东西。<br><a id="more"></a><br><!-- toc --></p><h2 id="搭建模板"><a href="#搭建模板" class="headerlink" title="搭建模板"></a>搭建模板</h2><p><a href="https://juejin.im/book/5b23a5aef265da59716fda09" target="_blank" rel="noopener">掘金小册——Vue 项目构建与开发入门</a></p><p><img src="/assets/images/vue单页应用基础配置.jpg" alt="环境区分"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;从0搭建一个vue项目，你需要知道哪些东西。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
-    
-    
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
-    
-      <category term="项目架构" scheme="http://www.zbwblog.com/tags/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
@@ -312,11 +372,11 @@
       <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
     
     
+      <category term="gulp" scheme="http://www.zbwblog.com/tags/gulp/"/>
+    
       <category term="自动化构建" scheme="http://www.zbwblog.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA/"/>
     
       <category term="前端工程化" scheme="http://www.zbwblog.com/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/"/>
-    
-      <category term="gulp" scheme="http://www.zbwblog.com/tags/gulp/"/>
     
   </entry>
   
@@ -467,64 +527,6 @@
       <category term="插件" scheme="http://www.zbwblog.com/tags/%E6%8F%92%E4%BB%B6/"/>
     
       <category term="webpack" scheme="http://www.zbwblog.com/tags/webpack/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码检查和格式化</title>
-    <link href="http://www.zbwblog.com/2019/07/07/%E4%BB%A3%E7%A0%81%E6%A3%80%E6%9F%A5%E5%92%8C%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
-    <id>http://www.zbwblog.com/2019/07/07/代码检查和格式化/</id>
-    <published>2019-07-07T14:01:33.000Z</published>
-    <updated>2019-10-01T04:56:46.640Z</updated>
-    
-    <content type="html"><![CDATA[<p>了解各种代码检查工具。<br><a id="more"></a><br><!-- toc --></p><h2 id="1-格式化相关的工具有哪些"><a href="#1-格式化相关的工具有哪些" class="headerlink" title="1. 格式化相关的工具有哪些"></a>1. 格式化相关的工具有哪些</h2><ul><li>EditorConfig</li><li>Prettier</li><li>Eslint</li><li>Tslint</li><li>Vetur（vsCode插件）</li><li>编辑器默认</li></ul><h2 id="2-工具介绍"><a href="#2-工具介绍" class="headerlink" title="2. 工具介绍"></a>2. 工具介绍</h2><h3 id="2-1-EditorConfig"><a href="#2-1-EditorConfig" class="headerlink" title="2.1. EditorConfig"></a>2.1. EditorConfig</h3><p><a href="https://editorconfig.org/" target="_blank" rel="noopener">官网</a></p><p>EditorConfig有助于为跨越各种编辑器和IDE的同一项目的多个开发人员维护一致的编码样式。 EditorConfig项目由用于定义编码样式的文件格式和一组文本编辑器插件组成，这些插件使编辑器能够读取文件格式并遵循定义的样式。 EditorConfig文件易于阅读，与版本控制系统配合使用。</p><p>配置文件命名：<code>.editorconfig</code></p><p>使用前置条件：</p><ol><li>安装 <code>editorconfig</code> 第三方包于 <code>node_modules</code></li><li>在根目录下配置 <code>.editorconfig</code> 文件</li><li>编辑器开启支持 <code>editorconfig</code> 配置（如vscode就是安装EditorConfig for VS Code扩展插件）</li></ol><p>示例：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// editorconfig有些格式化生效条件是在保存时</span></span><br><span class="line"><span class="comment">// 未格式化状态</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num1, num2</span>) </span>&#123; \s\s</span><br><span class="line">  <span class="keyword">return</span> num1 + num2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 保存后，格式化完毕后状态：清空多余空白，末尾增加换行</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num1 + num2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>此后编辑器默认格式化程序，会按照editorconfig配置格式化，在保存时也会走相关配置。</p><h3 id="2-2-Prettier"><a href="#2-2-Prettier" class="headerlink" title="2.2. Prettier"></a>2.2. Prettier</h3><p><a href="https://github.com/prettier/prettier" target="_blank" rel="noopener">官网</a></p><p>Prettier是一个固执己见的代码格式化程序。它通过解析您的代码并使用自己的规则重新打印它来实施一致的样式，这些规则考虑到了最大的行长度，必要时包装代码。</p><p>它删除所有原始样式，并确保所有输出的代码符合一致的样式。</p><p>Prettier 在整个代码库中强制执行一致的代码样式（即不会影响AST的代码格式），因为它通过解析它来忽略原始样式*并使用自己的规则重新打印解析的AST，该规则采用最大行长度考虑到，必要时包装代码。</p><p>配置文件命名：<code>.prettierrc</code></p><p>示例：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由于长度满足，它适合一行，所以它将保持原样。</span></span><br><span class="line">foo(arg1, arg2, arg3, arg4);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 长度不满足，它不适合一行，所以格式化</span></span><br><span class="line">foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());</span><br><span class="line"></span><br><span class="line"><span class="comment">// Prettier格式化结果</span></span><br><span class="line">foo(</span><br><span class="line">  reallyLongArg(),</span><br><span class="line">  omgSoManyParameters(),</span><br><span class="line">  IShouldRefactorThis(),</span><br><span class="line">  isThereSeriouslyAnotherOne()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在对象文字中打印括号之间的空格。</span></span><br><span class="line">&#123;<span class="attr">foo</span>: bar&#125;  =&gt; &#123; <span class="attr">foo</span>: bar &#125;</span><br></pre></td></tr></table></figure><p><strong>美化</strong>语法书写格式</p><p>只关注<strong>格式化</strong>，并<strong>不具有eslint检查语法等能力</strong>，只关心格式化文件(最大长度、混合标签和空格、引用样式等)，包括JavaScript · Flow · TypeScript · CSS · SCSS · Less · JSX · Vue · GraphQL · JSON · Markdown</p><h3 id="2-3-Eslint"><a href="#2-3-Eslint" class="headerlink" title="2.3. Eslint"></a>2.3. Eslint</h3><p>ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install eslint --save-dev</span><br><span class="line"></span><br><span class="line">./node_modules/.bin/eslint --init</span><br><span class="line"></span><br><span class="line">./node_modules/.bin/eslint yourfile.js</span><br></pre></td></tr></table></figure><p>配置文件命名：<code>.eslintrc.js</code></p><p><strong>检查</strong>语法书写是否<strong>错误</strong></p><p>eslint 检查出的多为代码<strong>错误或优化</strong>，因此需要<strong>手动修正</strong></p><p>开启编辑器相关插件后（ESLint），则会提示相关语法错误，如变量定义未使用，const变量被修改</p><p>![示例/assets/images/images/eslint-example.png)</p><h3 id="2-4-Tslint"><a href="#2-4-Tslint" class="headerlink" title="2.4. Tslint"></a>2.4. Tslint</h3><p>TSLint是一种可扩展的静态分析工具，可检查TypeScript代码的可读性，可维护性和功能性错误。 它在现代编辑器和构建系统中得到广泛支持，可以使用您自己的lint规则，配置和格式化程序进行自定义。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yarn global add tslint typescript</span><br><span class="line"></span><br><span class="line">cd path/to/project</span><br><span class="line"></span><br><span class="line">tslint --init</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以tslint.json配置为规范，检查src/**/*.ts文件</span></span><br><span class="line">tslint -c tslint.json <span class="string">'src/**/*.ts'</span></span><br></pre></td></tr></table></figure><p>同理eslint</p><h3 id="2-5-Vetur"><a href="#2-5-Vetur" class="headerlink" title="2.5. Vetur"></a>2.5. Vetur</h3><p><a href="https://vuejs.github.io/vetur/formatting.html#formatters" target="_blank" rel="noopener">官网</a></p><p>可以格式化html、标准css（有分号 、大括号的那种）、标准js（有分号 、双引号的那种）、vue文件。</p><p>但是！格式化的标准js文件不符合ESlint规范，会给你加上双引号、分号等，像这样。<br>Vetur只有一个“整个文档格式化程序”，不能格式化任意范围。因此，只有Format Document命令可用。该Format Selection命令不起作用。</p><p>这些格式化程序可用：<br>prettier：对于css / scss / less / js / ts。<br>prettier-eslint：对于js。跑prettier和eslint –fix。<br>prettyhtml：对于HTML。<br>stylus-supremacy：对于手写笔。<br>vscode-typescript：对于js / ts。VS Code的js / ts格式化程序相同。</p><p>Vetur捆绑了格式化程序。当Vetur观察到格式化程序的本地安装时，它更喜欢使用本地版本。</p><p>您可以在VS Code config中选择每种语言的默认格式化程序vetur.format.defaultFormatter。 设置语言的格式化程序以none禁用该语言的格式化程序。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;了解各种代码检查工具。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
-    
-    
-      <category term="静态代码检查" scheme="http://www.zbwblog.com/tags/%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E6%A3%80%E6%9F%A5/"/>
-    
-      <category term="eslint" scheme="http://www.zbwblog.com/tags/eslint/"/>
-    
-      <category term="tslint" scheme="http://www.zbwblog.com/tags/tslint/"/>
-    
-      <category term="prettier" scheme="http://www.zbwblog.com/tags/prettier/"/>
-    
-      <category term="editorConfig" scheme="http://www.zbwblog.com/tags/editorConfig/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>单元测试：jest（三）</title>
-    <link href="http://www.zbwblog.com/2019/06/21/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%89%EF%BC%89/"/>
-    <id>http://www.zbwblog.com/2019/06/21/单元测试（三）/</id>
-    <published>2019-06-21T14:50:11.000Z</published>
-    <updated>2019-10-01T04:02:49.321Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用jest测试vue组件<br><a id="more"></a><br><br></p><p><img src="http://blog-assert.oss-cn-beijing.aliyuncs.com/%E5%86%85%E5%AE%B9/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/vue%E6%B5%8B%E8%AF%95.png" alt="aaa"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;使用jest测试vue组件&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
-    
-    
-      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
-    
-      <category term="jest" scheme="http://www.zbwblog.com/tags/jest/"/>
-    
-      <category term="自动化测试" scheme="http://www.zbwblog.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="单元测试" scheme="http://www.zbwblog.com/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   

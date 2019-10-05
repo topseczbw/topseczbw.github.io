@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hero never die">
     <meta name="baidu-site-verification" content="inFbtzgH0n" />
-    <title>关于package.json配置项 - hero never die</title>
+    <title>jwt实现 - hero never die</title>
     <meta name="author" content="无畏">
     
     
@@ -16,19 +16,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"解读package.json配置项。\nbrowserslist配置项是什么browserslist是package.json包描述文件中的一个配置项，用于配置浏览器类型\n12345\"browserslist\": [    \"&gt; 1%\", // 表示包含所有使用率 &gt; 1% 的浏览器    \"last 2 versions\", // 表示包含浏览器最新的两个版本    \"not ie &lt;= 8\" // 表示不包含 ie8 及以下版本]\n为什么会存在主要作用是用于在不同的前端工具之间共享目标浏览器和 Node.js 的版本\n比如像 autoprefixer 这样的插件需要把你写的 css 样式适配不同的浏览器，那么这里要针对哪些浏览器呢，就是上面配置中所包含的。\n而如果写在 autoprefixer 的配置中，那么会存在一个问题，万一其他第三方插件也需要浏览器的包含范围用于实现其特定的功能，那么就又得在其配置中设置一遍，这样就无法得以共用。所以在 package.json 中配置 browserslist 的属性使得所有工具都会自动找到目标浏览器。\n当然，你也可以单独写在 .browserslistrc 的文件中：\n至于它是如何去衡量浏览器的使用率和版本的，数据都是来源于 Can I Use。你也可以访问 browserl.ist/ 去搜索配置项所包含的浏览器列表，比如搜索 last 2 versions 会得到你想要的结果，或者在项目终端运行如下命令查看：\n有哪些应用场景autoprefixer、babel、postcss\n","dateCreated":"2019-09-25T22:11:00+08:00","dateModified":"2019-10-01T12:38:26+08:00","datePublished":"2019-09-25T22:11:00+08:00","description":"解读package.json配置项。","headline":"关于package.json配置项","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/25/关于package.json/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/25/关于package.json/","keywords":"npm, node","thumbnailUrl":"cover.png"}</script>
-    <meta name="description" content="解读package.json配置项。">
-<meta name="keywords" content="npm,node">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"一张流程图指导jwt登录权限校验功能的实现。\n什么是jwtjwt 全称 json web token，可以看成是基于token的登录权限控制\njwt流程图\naxios 封装123456789101112131415161718192021222324class AjaxRequest &#123;  constructor() &#123;    this.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'    this.timeout = 2000  &#125;  request(config) &#123;    const instance = axios.create(&#123;      baseURL: this.baseURL,      timeout: this.timeout    &#125;)    // 设置拦截器    instance.interceptors.request.use((config) =&gt; &#123;      config.header.Authorization = localStorage.getItem('token')      return config    &#125;, err =&gt; Promise.reject(err))    instance.interceptors.response.use(res =&gt; res.data, err =&gt; Promise.reject(err))    return instance(config)  &#125;&#125;export default new AjaxRequest()\n","dateCreated":"2019-10-03T01:17:00+08:00","dateModified":"2019-10-05T16:34:23+08:00","datePublished":"2019-10-03T01:17:00+08:00","description":"一张流程图指导jwt登录权限校验功能的实现。","headline":"jwt实现","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/10/03/jwt实现/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/10/03/jwt实现/","keywords":"core, 业务功能, 权限控制, vue","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="一张流程图指导jwt登录权限校验功能的实现。">
+<meta name="keywords" content="core,业务功能,权限控制,vue">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="关于package.json配置项">
-<meta property="og:url" content="http://www.zbwblog.com/2019/09/25/关于package.json/index.html">
+<meta property="og:title" content="jwt实现">
+<meta property="og:url" content="http://www.zbwblog.com/2019/10/03/jwt实现/index.html">
 <meta property="og:site_name" content="hero never die">
-<meta property="og:description" content="解读package.json配置项。">
+<meta property="og:description" content="一张流程图指导jwt登录权限校验功能的实现。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-10-01T04:38:26.126Z">
+<meta property="og:image" content="http://www.zbwblog.com/assets/images/jwt流程图.png">
+<meta property="og:updated_time" content="2019-10-05T08:34:23.684Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于package.json配置项">
-<meta name="twitter:description" content="解读package.json配置项。">
+<meta name="twitter:title" content="jwt实现">
+<meta name="twitter:description" content="一张流程图指导jwt登录权限校验功能的实现。">
+<meta name="twitter:image" content="http://www.zbwblog.com/assets/images/jwt流程图.png">
     
     
         
@@ -38,8 +40,8 @@
     
     
     
-        <meta property="og:image" content="http://www.zbwblog.com/2019/09/25/关于package.json/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/25/关于package.json/cover.png" />
+        <meta property="og:image" content="http://www.zbwblog.com/2019/10/03/jwt实现/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/10/03/jwt实现/cover.png" />
     
     
     <!--STYLES-->
@@ -193,12 +195,12 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/09/25/关于package.json/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/10/03/jwt实现/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            关于package.json配置项
+            jwt实现
         </h1>
     
     
@@ -217,15 +219,10 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>解读package.json配置项。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#browserslist配置项"><span class="toc-text">browserslist配置项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#是什么"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么会存在"><span class="toc-text">为什么会存在</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有哪些应用场景"><span class="toc-text">有哪些应用场景</span></a></li></ol></li></ol><p></p>
-<h2 id="browserslist配置项"><a href="#browserslist配置项" class="headerlink" title="browserslist配置项"></a>browserslist配置项</h2><h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>browserslist是package.json包描述文件中的一个配置项，用于配置浏览器类型</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"browserslist"</span>: [</span><br><span class="line">    <span class="string">"&gt; 1%"</span>, <span class="comment">// 表示包含所有使用率 &gt; 1% 的浏览器</span></span><br><span class="line">    <span class="string">"last 2 versions"</span>, <span class="comment">// 表示包含浏览器最新的两个版本</span></span><br><span class="line">    <span class="string">"not ie &lt;= 8"</span> <span class="comment">// 表示不包含 ie8 及以下版本</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<h3 id="为什么会存在"><a href="#为什么会存在" class="headerlink" title="为什么会存在"></a>为什么会存在</h3><p>主要作用是用于在不同的前端工具之间共享目标浏览器和 Node.js 的版本</p>
-<p>比如像 autoprefixer 这样的插件需要把你写的 css 样式适配不同的浏览器，那么这里要针对哪些浏览器呢，就是上面配置中所包含的。</p>
-<p>而如果写在 autoprefixer 的配置中，那么会存在一个问题，万一其他第三方插件也需要浏览器的包含范围用于实现其特定的功能，那么就又得在其配置中设置一遍，这样就无法得以共用。所以在 package.json 中配置 browserslist 的属性使得所有工具都会自动找到目标浏览器。</p>
-<p>当然，你也可以单独写在 .browserslistrc 的文件中：</p>
-<p>至于它是如何去衡量浏览器的使用率和版本的，数据都是来源于 Can I Use。你也可以访问 browserl.ist/ 去搜索配置项所包含的浏览器列表，比如搜索 last 2 versions 会得到你想要的结果，或者在项目终端运行如下命令查看：</p>
-<h3 id="有哪些应用场景"><a href="#有哪些应用场景" class="headerlink" title="有哪些应用场景"></a>有哪些应用场景</h3><p>autoprefixer、babel、postcss</p>
+            <p>一张流程图指导jwt登录权限校验功能的实现。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是jwt"><span class="toc-text">什么是jwt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jwt流程图"><span class="toc-text">jwt流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#axios-封装"><span class="toc-text">axios 封装</span></a></li></ol><p></p>
+<h2 id="什么是jwt"><a href="#什么是jwt" class="headerlink" title="什么是jwt"></a>什么是jwt</h2><p>jwt 全称 json web token，可以看成是基于token的登录权限控制</p>
+<h2 id="jwt流程图"><a href="#jwt流程图" class="headerlink" title="jwt流程图"></a>jwt流程图</h2><p><img src="/assets/images/jwt流程图.png" alt="jwt流程图优化后"></p>
+<h2 id="axios-封装"><a href="#axios-封装" class="headerlink" title="axios 封装"></a>axios 封装</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AjaxRequest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.baseURL = process.env.NODE_ENV === <span class="string">'development'</span> ? <span class="string">'http://localhost:3000'</span> : <span class="string">'/'</span></span><br><span class="line">    <span class="keyword">this</span>.timeout = <span class="number">2000</span></span><br><span class="line">  &#125;</span><br><span class="line">  request(config) &#123;</span><br><span class="line">    <span class="keyword">const</span> instance = axios.create(&#123;</span><br><span class="line">      baseURL: <span class="keyword">this</span>.baseURL,</span><br><span class="line">      timeout: <span class="keyword">this</span>.timeout</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置拦截器</span></span><br><span class="line">    instance.interceptors.request.use(<span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">      config.header.Authorization = localStorage.getItem(<span class="string">'token'</span>)</span><br><span class="line">      <span class="keyword">return</span> config</span><br><span class="line">    &#125;, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    instance.interceptors.response.use(<span class="function"><span class="params">res</span> =&gt;</span> res.data, err =&gt; <span class="built_in">Promise</span>.reject(err))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> instance(config)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> AjaxRequest()</span><br></pre></td></tr></table></figure>
 
             
 
@@ -240,7 +237,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/node/">node</a> <a class="tag tag--primary tag--small t-link" href="/tags/npm/">npm</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/core/">core</a> <a class="tag tag--primary tag--small t-link" href="/tags/vue/">vue</a> <a class="tag tag--primary tag--small t-link" href="/tags/业务功能/">业务功能</a> <a class="tag tag--primary tag--small t-link" href="/tags/权限控制/">权限控制</a>
 
             </div>
         
@@ -251,7 +248,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/28/使用vue-cli3/" data-tooltip="使用vue-cli3" aria-label="上一篇: 使用vue-cli3">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/03/菜单权限控制/" data-tooltip="菜单权限控制" aria-label="上一篇: 菜单权限控制">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -260,7 +257,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/24/vue项目搭建/" data-tooltip="vue项目搭建" aria-label="下一篇: vue项目搭建">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/02/前端模块化/" data-tooltip="前端模块化" aria-label="下一篇: 前端模块化">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -345,7 +342,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/28/使用vue-cli3/" data-tooltip="使用vue-cli3" aria-label="上一篇: 使用vue-cli3">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/03/菜单权限控制/" data-tooltip="菜单权限控制" aria-label="上一篇: 菜单权限控制">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -354,7 +351,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/24/vue项目搭建/" data-tooltip="vue项目搭建" aria-label="下一篇: vue项目搭建">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/02/前端模块化/" data-tooltip="前端模块化" aria-label="下一篇: 前端模块化">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
