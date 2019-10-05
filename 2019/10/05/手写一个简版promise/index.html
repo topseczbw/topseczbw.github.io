@@ -16,16 +16,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"记住四句话，学会手写一个简版promise。\npromise 是什么promise是一个构造函数/类\npromise 存在的价值解决并发问题，多个异步任务的执行结果\n解决链式问题，第二个接口依赖于第一个接口，解决回调地狱问题\npromise 特点\n每次new一个promise实例时，都需要传递一个执行器函数executor，并且执行器函数会立即执行\n\n执行器函数有两个参数 resolve reject\n\n每个promise都有一个状态标识，有三种状态类型：\npending =&gt; resolve 成功了\npending =&gt; reject 失败了\n\n状态可以改变，一旦改变不可以再次更改\n一旦成功了，不能再变成失败，一旦失败了，不能再变成成功 （什么时候可以改变状态呢？ ）\n\n如果执行器函数在执行时，抛出异常如 throw new Error(&#39;自定义错误&#39;) ，那promise应该变成失败状态，会被.then时的 onRejected 处理错误的函数接收\n\n\n如何手写一个简版 promise既然 promise 是一个构造函数/类，那么它 new 时可以传递哪些参数，这些参数又是做什么用的executor、resolve、reject\nexecutor执行业务逻辑（同步/异步），在适当的时机调用，resolve/reject。\n如数据成功返回时，调用resolve函数，将promise实例变成成功态，并将数据告诉promise实例，promise实例拿到数据后，先暂存起来，当promise实例被手动调用.then方法时，供then方法第一个处理成功信息的函数nFullfilled使用\n如数据返回失败/代码报错时，调用reject函数，将promise实例变成失败态，并将失败原因告诉promise实例，promise实例拿到失败原因后，先暂存起来，当promise实例被手动调用.then方法时，供then方法第二个处理失败信息的函数onRejected使用\n为了实现上述功能，每个 promise 实例应该具有哪些内部状态\n用户手动调用的resolve、reject函数不需要自己声明变量，所以调用的应该是new Promise() 时， Promise函数内部作用域的变量 =&gt; constructor 中的resolve和 reject\nresolve函数可以改变promise状态，每个promise都有一个状态标识，标识当前状态 =&gt; this.status\n当resolve(data) / reject(reason)时，promise需要暂存外部告知的数据或失败原因，并且当外部手动调用then时，还需要用到 =&gt; this.value  this.reason\npromise实例可以被手动调用then方法，处理成功时的数据或失败时的原因 =&gt; this.then()\n\n当 executor 函数只有同步时：2 &gt; 1 ? resolve(‘回答正确’) : throw new Error(‘原则性错误’)由于executor函数会立即执行，所以如果该函数都是同步逻辑，promise状态会立即改变，数据会立即暂存，所以后面.then时，可以立即处理对应的数据。\n当 executor 函数存在异步时：setTimeOut(() =&gt; resolve(‘async’), 2000)但是当executor函数中有异步逻辑时，resolve函数不会马上执行，但是.then会在 new Promise 后马上执行。但此时promise还处于pending状态，所以我们需要在原型的then方法中，当状态是pending时，先将用户传来的处理数据/异常的方法暂存进一个队列，当调用resolve/reject，在从队列中遍历执行处理方法。此处使用发布订阅模式。\n故promise增加onResolvedCallBacks、onRejectedCallBacks两个数组实例属性，暂存处理函数。\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960console.log('——————————————————————————手写的promise——————————————————————')const PENDING = 'pending'const FULLFILLED = 'fullFilled'const REJECTED = 'rejected'class Promise &#123;  constructor(executor) &#123;    this.value = undefined;    this.reason = undefined;    this.status = PENDING    // 两个队列 专门存成功的和失败的 为了处理异步 发布订阅模式    this.onResolvedCallBacks = []    this.onRejectedCallBacks = []    let resolve = (value) =&gt; &#123;      // 只有pending状态时才可以改变promise的状态      if (this.status === PENDING) &#123;        this.status = FULLFILLED        this.value = value        this.onResolvedCallBacks.forEach(fn =&gt; fn())      &#125;    &#125;    let reject = (reason) =&gt; &#123;      if (this.status === PENDING) &#123;        this.status = REJECTED        this.reason = reason        this.onRejectedCallBacks.forEach(fn =&gt; fn())      &#125;    &#125;    // 传递一个执行器 执行器会立即执行    // 这里可能会发生异常    try&#123;      executor(resolve, reject)    &#125; catch (e) &#123;      reject(e)    &#125;  &#125;  // then方法会判断当前的状态  then(onFullfilled, onRejected) &#123;    if (this.status === FULLFILLED) &#123;      onFullfilled(this.value)    &#125;    if (this.status === REJECTED) &#123;      onRejected(this.reason)    &#125;    // 异步 pending 时调用then   resolve 需要在 then 之后执行    if (this.status === PENDING) &#123;      // ** todo      this.onResolvedCallBacks.push(() =&gt; &#123;        onFullfilled(this.value)      &#125;)      this.onRejectedCallBacks.push(() =&gt; &#123;        onRejected(this.reason)      &#125;)    &#125;  &#125;&#125;module.exports = Promise\n","dateCreated":"2019-10-04T02:20:00+08:00","dateModified":"2019-10-05T16:33:31+08:00","datePublished":"2019-10-04T02:20:00+08:00","description":"记住四句话，学会手写一个简版promise。","headline":"手写一个简版promise","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/10/04/手写一个简版promise/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/10/04/手写一个简版promise/","keywords":"core, js, promise, es6","thumbnailUrl":"cover.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"记住四句话，学会手写一个简版promise。\npromise 是什么promise是一个构造函数/类\npromise 存在的价值解决并发问题，多个异步任务的执行结果\n解决链式问题，第二个接口依赖于第一个接口，解决回调地狱问题\npromise 特点\n每次new一个promise实例时，都需要传递一个执行器函数executor，并且执行器函数会立即执行\n\n执行器函数有两个参数 resolve reject\n\n每个promise都有一个状态标识，有三种状态类型：\npending =&gt; resolve 成功了\npending =&gt; reject 失败了\n\n状态可以改变，一旦改变不可以再次更改\n一旦成功了，不能再变成失败，一旦失败了，不能再变成成功 （什么时候可以改变状态呢？ ）\n\n如果执行器函数在执行时，抛出异常如 throw new Error(&#39;自定义错误&#39;) ，那promise应该变成失败状态，会被.then时的 onRejected 处理错误的函数接收\n\n\n如何手写一个简版 promise既然 promise 是一个构造函数/类，那么它 new 时可以传递哪些参数，这些参数又是做什么用的executor、resolve、reject\nexecutor执行业务逻辑（同步/异步），在适当的时机调用，resolve/reject。\n如数据成功返回时，调用resolve函数，将promise实例变成成功态，并将数据告诉promise实例，promise实例拿到数据后，先暂存起来，当promise实例被手动调用.then方法时，供then方法第一个处理成功信息的函数nFullfilled使用\n如数据返回失败/代码报错时，调用reject函数，将promise实例变成失败态，并将失败原因告诉promise实例，promise实例拿到失败原因后，先暂存起来，当promise实例被手动调用.then方法时，供then方法第二个处理失败信息的函数onRejected使用\n为了实现上述功能，每个 promise 实例应该具有哪些内部状态\n用户手动调用的resolve、reject函数不需要自己声明变量，所以调用的应该是new Promise() 时， Promise函数内部作用域的变量 =&gt; constructor 中的resolve和 reject\nresolve函数可以改变promise状态，每个promise都有一个状态标识，标识当前状态 =&gt; this.status\n当resolve(data) / reject(reason)时，promise需要暂存外部告知的数据或失败原因，并且当外部手动调用then时，还需要用到 =&gt; this.value  this.reason\npromise实例可以被手动调用then方法，处理成功时的数据或失败时的原因 =&gt; this.then()\n\n当 executor 函数只有同步时：2 &gt; 1 ? resolve(‘回答正确’) : throw new Error(‘原则性错误’)由于executor函数会立即执行，所以如果该函数都是同步逻辑，promise状态会立即改变，数据会立即暂存，所以后面.then时，可以立即处理对应的数据。\n当 executor 函数存在异步时：setTimeOut(() =&gt; resolve(‘async’), 2000)但是当executor函数中有异步逻辑时，resolve函数不会马上执行，但是.then会在 new Promise 后马上执行。但此时promise还处于pending状态，所以我们需要在原型的then方法中，当状态是pending时，先将用户传来的处理数据/异常的方法暂存进一个队列，当调用resolve/reject，在从队列中遍历执行处理方法。此处使用发布订阅模式。\n故promise增加onResolvedCallBacks、onRejectedCallBacks两个数组实例属性，暂存处理函数。\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960console.log('——————————————————————————手写的promise——————————————————————')const PENDING = 'pending'const FULLFILLED = 'fullFilled'const REJECTED = 'rejected'class Promise &#123;  constructor(executor) &#123;    this.value = undefined;    this.reason = undefined;    this.status = PENDING    // 两个队列 专门存成功的和失败的 为了处理异步 发布订阅模式    this.onResolvedCallBacks = []    this.onRejectedCallBacks = []    let resolve = (value) =&gt; &#123;      // 只有pending状态时才可以改变promise的状态      if (this.status === PENDING) &#123;        this.status = FULLFILLED        this.value = value        this.onResolvedCallBacks.forEach(fn =&gt; fn())      &#125;    &#125;    let reject = (reason) =&gt; &#123;      if (this.status === PENDING) &#123;        this.status = REJECTED        this.reason = reason        this.onRejectedCallBacks.forEach(fn =&gt; fn())      &#125;    &#125;    // 传递一个执行器 执行器会立即执行    // 这里可能会发生异常    try&#123;      executor(resolve, reject)    &#125; catch (e) &#123;      reject(e)    &#125;  &#125;  // then方法会判断当前的状态  then(onFullfilled, onRejected) &#123;    if (this.status === FULLFILLED) &#123;      onFullfilled(this.value)    &#125;    if (this.status === REJECTED) &#123;      onRejected(this.reason)    &#125;    // 异步 pending 时调用then   resolve 需要在 then 之后执行    if (this.status === PENDING) &#123;      // ** todo      this.onResolvedCallBacks.push(() =&gt; &#123;        onFullfilled(this.value)      &#125;)      this.onRejectedCallBacks.push(() =&gt; &#123;        onRejected(this.reason)      &#125;)    &#125;  &#125;&#125;module.exports = Promise\n","dateCreated":"2019-10-05T02:20:00+08:00","dateModified":"2019-10-05T16:45:25+08:00","datePublished":"2019-10-05T02:20:00+08:00","description":"记住四句话，学会手写一个简版promise。","headline":"手写一个简版promise","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/10/05/手写一个简版promise/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/10/05/手写一个简版promise/","keywords":"core, js, promise, es6","thumbnailUrl":"cover.png"}</script>
     <meta name="description" content="记住四句话，学会手写一个简版promise。">
 <meta name="keywords" content="core,js,promise,es6">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="手写一个简版promise">
-<meta property="og:url" content="http://www.zbwblog.com/2019/10/04/手写一个简版promise/index.html">
+<meta property="og:url" content="http://www.zbwblog.com/2019/10/05/手写一个简版promise/index.html">
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="记住四句话，学会手写一个简版promise。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-10-05T08:33:31.406Z">
+<meta property="og:updated_time" content="2019-10-05T08:45:25.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="手写一个简版promise">
 <meta name="twitter:description" content="记住四句话，学会手写一个简版promise。">
@@ -38,8 +38,8 @@
     
     
     
-        <meta property="og:image" content="http://www.zbwblog.com/2019/10/04/手写一个简版promise/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/10/04/手写一个简版promise/cover.png" />
+        <meta property="og:image" content="http://www.zbwblog.com/2019/10/05/手写一个简版promise/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/10/05/手写一个简版promise/cover.png" />
     
     
     <!--STYLES-->
@@ -193,7 +193,7 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/10/04/手写一个简版promise/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/10/05/手写一个简版promise/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
@@ -274,8 +274,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/04/管理一个npm包/" data-tooltip="管理一个npm包" aria-label="上一篇: 管理一个npm包">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -284,7 +283,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/03/菜单权限控制/" data-tooltip="菜单权限控制" aria-label="下一篇: 菜单权限控制">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/04/管理一个npm包/" data-tooltip="管理一个npm包" aria-label="下一篇: 管理一个npm包">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -368,8 +367,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/04/管理一个npm包/" data-tooltip="管理一个npm包" aria-label="上一篇: 管理一个npm包">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -378,7 +376,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/03/菜单权限控制/" data-tooltip="菜单权限控制" aria-label="下一篇: 菜单权限控制">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/04/管理一个npm包/" data-tooltip="管理一个npm包" aria-label="下一篇: 管理一个npm包">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>

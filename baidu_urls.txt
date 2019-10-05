@@ -1,5 +1,5 @@
+http://www.zbwblog.com/2019/10/05/手写一个简版promise/
 http://www.zbwblog.com/2019/10/04/管理一个npm包/
-http://www.zbwblog.com/2019/10/04/手写一个简版promise/
 http://www.zbwblog.com/2019/10/03/菜单权限控制/
 http://www.zbwblog.com/2019/10/03/jwt实现/
 http://www.zbwblog.com/2019/10/02/前端模块化/
