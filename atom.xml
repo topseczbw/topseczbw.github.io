@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.zbwblog.com/"/>
-  <updated>2019-11-04T10:01:28.415Z</updated>
+  <updated>2019-11-04T09:43:58.669Z</updated>
   <id>http://www.zbwblog.com/</id>
   
   <author>
@@ -15,104 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>占位技能树</title>
-    <link href="http://www.zbwblog.com/2019/11/04/%E5%8D%A0%E4%BD%8D%E6%8A%80%E8%83%BD%E6%A0%91/"/>
-    <id>http://www.zbwblog.com/2019/11/04/占位技能树/</id>
-    <published>2019-11-04T09:42:00.000Z</published>
-    <updated>2019-11-04T10:01:28.415Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
-    
-    
-      <category term="git" scheme="http://www.zbwblog.com/tags/git/"/>
-    
-      <category term="js基础" scheme="http://www.zbwblog.com/tags/js%E5%9F%BA%E7%A1%80/"/>
-    
-      <category term="http" scheme="http://www.zbwblog.com/tags/http/"/>
-    
-      <category term="hexo" scheme="http://www.zbwblog.com/tags/hexo/"/>
-    
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
-    
-      <category term="gulp" scheme="http://www.zbwblog.com/tags/gulp/"/>
-    
-      <category term="iframe" scheme="http://www.zbwblog.com/tags/iframe/"/>
-    
-      <category term="node" scheme="http://www.zbwblog.com/tags/node/"/>
-    
-      <category term="webpack" scheme="http://www.zbwblog.com/tags/webpack/"/>
-    
-      <category term="jest" scheme="http://www.zbwblog.com/tags/jest/"/>
-    
-      <category term="单元测试" scheme="http://www.zbwblog.com/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="前端监控" scheme="http://www.zbwblog.com/tags/%E5%89%8D%E7%AB%AF%E7%9B%91%E6%8E%A7/"/>
-    
-      <category term="rollup" scheme="http://www.zbwblog.com/tags/rollup/"/>
-    
-      <category term="正则表达式" scheme="http://www.zbwblog.com/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    
-      <category term="设计模式" scheme="http://www.zbwblog.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-      <category term="性能优化" scheme="http://www.zbwblog.com/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-      <category term="artTemplate" scheme="http://www.zbwblog.com/tags/artTemplate/"/>
-    
-      <category term="angular" scheme="http://www.zbwblog.com/tags/angular/"/>
-    
-      <category term="underscore" scheme="http://www.zbwblog.com/tags/underscore/"/>
-    
-      <category term="函数式编程" scheme="http://www.zbwblog.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
-    
-      <category term="vue源码" scheme="http://www.zbwblog.com/tags/vue%E6%BA%90%E7%A0%81/"/>
-    
-      <category term="MathJax" scheme="http://www.zbwblog.com/tags/MathJax/"/>
-    
-      <category term="lodash" scheme="http://www.zbwblog.com/tags/lodash/"/>
-    
-      <category term="koa" scheme="http://www.zbwblog.com/tags/koa/"/>
-    
-      <category term="e2e测试" scheme="http://www.zbwblog.com/tags/e2e%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="svg" scheme="http://www.zbwblog.com/tags/svg/"/>
-    
-      <category term="vim" scheme="http://www.zbwblog.com/tags/vim/"/>
-    
-      <category term="cypress" scheme="http://www.zbwblog.com/tags/cypress/"/>
-    
-      <category term="typescript" scheme="http://www.zbwblog.com/tags/typescript/"/>
-    
-      <category term="spy-debugger" scheme="http://www.zbwblog.com/tags/spy-debugger/"/>
-    
-      <category term="移动端调试" scheme="http://www.zbwblog.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%B0%83%E8%AF%95/"/>
-    
-      <category term="Yeoman" scheme="http://www.zbwblog.com/tags/Yeoman/"/>
-    
-      <category term="elementUI" scheme="http://www.zbwblog.com/tags/elementUI/"/>
-    
-      <category term="DevOps" scheme="http://www.zbwblog.com/tags/DevOps/"/>
-    
-      <category term="Markdown" scheme="http://www.zbwblog.com/tags/Markdown/"/>
-    
-      <category term="CI/CO" scheme="http://www.zbwblog.com/tags/CI-CO/"/>
-    
-      <category term="jwt" scheme="http://www.zbwblog.com/tags/jwt/"/>
-    
-      <category term="数据结构" scheme="http://www.zbwblog.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-      <category term="算法" scheme="http://www.zbwblog.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="ssr" scheme="http://www.zbwblog.com/tags/ssr/"/>
-    
-      <category term="express" scheme="http://www.zbwblog.com/tags/express/"/>
-    
-  </entry>
   
   <entry>
     <title>0.1+0.2为什么不等于0.3</title>
@@ -601,6 +503,30 @@
       <category term="移动端" scheme="http://www.zbwblog.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/"/>
     
       <category term="调试" scheme="http://www.zbwblog.com/tags/%E8%B0%83%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>BEM规范</title>
+    <link href="http://www.zbwblog.com/2019/09/08/BEM%E8%A7%84%E8%8C%83/"/>
+    <id>http://www.zbwblog.com/2019/09/08/BEM规范/</id>
+    <published>2019-09-08T03:46:00.000Z</published>
+    <updated>2019-10-01T04:48:11.762Z</updated>
+    
+    <content type="html"><![CDATA[<p>强迫症患者还在为css命名发愁吗？<br><a id="more"></a><br><!-- toc --></p><p>CSS 的命名规范又叫做BEM规范，为的是结束混乱的命名方式，达到一个语义化的CSS命名方式。 BEM是三个单词的缩写：Block（块）代表更高级别的抽象或组件，Element（元素） Block的后代，以及Modifier（修饰） 不同状态的修饰符。</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"form form--theme-xmas form--simple"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"form__input"</span> <span class="attr">type</span>=<span class="string">"text"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span></span></span><br><span class="line"><span class="tag">    <span class="attr">class</span>=<span class="string">"form__submit form__submit--disabled"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">"submit"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.form</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form--theme-xmas</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form--simple</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form__input</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form__submit</span> &#123; &#125;</span><br><span class="line"><span class="selector-class">.form__submit--disabled</span> &#123; &#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;强迫症患者还在为css命名发愁吗？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
+    
+    
+      <category term="css" scheme="http://www.zbwblog.com/tags/css/"/>
+    
+      <category term="规范" scheme="http://www.zbwblog.com/tags/%E8%A7%84%E8%8C%83/"/>
     
   </entry>
   
