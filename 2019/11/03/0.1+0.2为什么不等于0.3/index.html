@@ -16,7 +16,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"每天一道面试题。\n我们都知道计算机运算时只能识别二进制，即所有运算中的数字都是有无数个0和1组成的。\n2进制与10进制之间转换2——&gt;10: parseInt(11, 2)  // 3\n10——&gt;2: 10.toString(2)   // ‘1010’\n整数之间的进制转换还是比较简单的，那么小数呢?\n0.5转成二进制0.5 = n2^-1 + m2^-2 + …\n左右两边同时乘2\n1 = n2^0 + m2^-1 + …\n由于从2^0开始，才会有整数部分，此时我们就可以看出\n1 = n*2^0\nn = 1\n所以，得到结果：十进制的0.5转换成二进制后为2^-1，那么0.1转换成二进制是什么呢\n0.1转换成二进制是什么0.1 = n2^-1 + m2^-2 + …\n0.2 = n2^0 + m2^-1 + …   // 由于左边没有整数，所以 n=0, 此时最后结果的首位推导出为0\n0.4 = … + a2^0 + b2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为00\n0.8 = … + a2^0 + b2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为000\n1.6 = … + a2^0 + b2^-1 + …  // 由于左边有整数，所以此时 a = 1, 最后结果推导出为0001\n0.6  2 = …+ b2^0 + c*2^1 + …  // 由于左边有整数，所以此时 b = 1, 最后结果推导出为00011\n如此推导，得到0.1的二进制表示为：00011001100110011…\n由上可以知道，0.1的二进制结果，是无穷尽的小数，计算机内会对最后的结果，在一定的小数位时，四舍五入。\n计算机计算0.1的二进制时就已经准确了，那么计算0.2，以及最后相加的结果与0.3相比较，就会出现0.1 + 0.2 != 0.3的情况\n结论0.1+0.2不等于0.3是因为计算机将小数转化为2进制时，由于部分小数无穷尽，进行运算时计算机会四舍五入，无法得到期待结果所对应的2进制表示\n","dateCreated":"2019-11-03T17:42:00+08:00","dateModified":"2020-01-18T00:17:55+08:00","datePublished":"2019-11-03T17:42:00+08:00","description":"每天一道面试题。","headline":"0.1+0.2为什么不等于0.3","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/","keywords":"面试, js基础","thumbnailUrl":"cover.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"每天一道面试题。\n计算机运算时只能识别二进制数值，即所有运算中的数字都是有无数个0和1组成的。\n0.1+0.2运算之前也是先分别将十进制小数转成二进制后，进行加法运算，将得到的二进制数与十进制小数0.3转成二进制数进行比较。\n由于十进制小数0.1和0.2转成二进制后无穷尽，根据双精度浮点数规则，计算机会将其截断，四舍五入，所以相加得到的二进制数会0.3直接转成二进制数大一些。\n所以会出现0.1+0.2为什么不等于0.3。\n核心十进制小数如何转化为二进制数值\n二级制数值相加规则，满2进1\n2进制与10进制之间转换2——&gt;10: parseInt(11, 2)  // 3\n10——&gt;2: 10.toString(2)   // ‘1010’\n整数之间的进制转换还是比较简单的，那么小数呢?\n0.5转成二进制0.5 = n2^-1 + m2^-2 + …\n左右两边同时乘2\n1 = n2^0 + m2^-1 + …\n由于从2^0开始，才会有整数部分，此时我们就可以看出\n1 = n*2^0\nn = 1\n所以，得到结果：十进制的0.5转换成二进制后为2^-1，那么0.1转换成二进制是什么呢\n0.1转换成二进制是什么0.1 = n2^-1 + m2^-2 + …\n0.2 = n2^0 + m2^-1 + …   // 由于左边没有整数，所以 n=0, 此时最后结果的首位推导出为0\n0.4 = … + a2^0 + b2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为00\n0.8 = … + a2^0 + b2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为000\n1.6 = … + a2^0 + b2^-1 + …  // 由于左边有整数，所以此时 a = 1, 最后结果推导出为0001\n0.6  2 = …+ b2^0 + c*2^1 + …  // 由于左边有整数，所以此时 b = 1, 最后结果推导出为00011\n如此推导，得到0.1的二进制表示为：00011001100110011…\n由上可以知道，0.1的二进制结果，是无穷尽的小数，计算机内会对最后的结果，在一定的小数位时，四舍五入。\n计算机计算0.1的二进制时就已经准确了，那么计算0.2，以及最后相加的结果与0.3相比较，就会出现0.1 + 0.2 != 0.3的情况\n结论0.1+0.2不等于0.3是因为计算机将小数转化为2进制时，由于部分小数无穷尽，进行运算时计算机会四舍五入，无法得到期待结果所对应的2进制表示\n","dateCreated":"2019-11-03T17:42:00+08:00","dateModified":"2020-01-31T15:06:00+08:00","datePublished":"2019-11-03T17:42:00+08:00","description":"每天一道面试题。","headline":"0.1+0.2为什么不等于0.3","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/","keywords":"面试, js基础","thumbnailUrl":"cover.png"}</script>
     <meta name="description" content="每天一道面试题。">
 <meta name="keywords" content="面试,js基础">
 <meta property="og:type" content="blog">
@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="每天一道面试题。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2020-01-17T16:17:55.795Z">
+<meta property="og:updated_time" content="2020-01-31T07:06:00.304Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="0.1+0.2为什么不等于0.3">
 <meta name="twitter:description" content="每天一道面试题。">
@@ -217,8 +217,13 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>每天一道面试题。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2进制与10进制之间转换"><span class="toc-text">2进制与10进制之间转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-5转成二进制"><span class="toc-text">0.5转成二进制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1转换成二进制是什么"><span class="toc-text">0.1转换成二进制是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol><p></p>
-<p>我们都知道计算机运算时只能识别二进制，即所有运算中的数字都是有无数个0和1组成的。</p>
+            <p>每天一道面试题。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#核心"><span class="toc-text">核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2进制与10进制之间转换"><span class="toc-text">2进制与10进制之间转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-5转成二进制"><span class="toc-text">0.5转成二进制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1转换成二进制是什么"><span class="toc-text">0.1转换成二进制是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol><p></p>
+<p>计算机运算时只能识别二进制数值，即所有运算中的数字都是有无数个0和1组成的。</p>
+<p>0.1+0.2运算之前也是先分别将十进制小数转成二进制后，进行加法运算，将得到的二进制数与十进制小数0.3转成二进制数进行比较。</p>
+<p>由于十进制小数0.1和0.2转成二进制后无穷尽，根据双精度浮点数规则，计算机会将其截断，四舍五入，所以相加得到的二进制数会0.3直接转成二进制数大一些。</p>
+<p>所以会出现0.1+0.2为什么不等于0.3。</p>
+<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>十进制小数如何转化为二进制数值</p>
+<p>二级制数值相加规则，满2进1</p>
 <h2 id="2进制与10进制之间转换"><a href="#2进制与10进制之间转换" class="headerlink" title="2进制与10进制之间转换"></a>2进制与10进制之间转换</h2><p>2——&gt;10: parseInt(11, 2)  // 3</p>
 <p>10——&gt;2: 10.toString(2)   // ‘1010’</p>
 <p>整数之间的进制转换还是比较简单的，那么小数呢?</p>
