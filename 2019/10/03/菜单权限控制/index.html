@@ -16,9 +16,9 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"如何让不同身份的用户，得到不同的菜单？\n菜单权限控制是值用户在访问系统时，根据用户的身份限制用户能够访问的菜单项\n如何实现\n前端配置默认路由列表、全部权限路由列表\n默认路由对象一般只配置 * 和 /\n服务器端定义接口，根据用户信息返回该用户的实际权限路由列表标识\n前端在 main.js 中设置路由的 beforeEach 钩子，在用户访问每个页面时，请求权限校验接口，拿到实际权限路由列表标识\n处理实际权限路由列表标识和全部权限路由列表得到实际权限路由列表\n将实际权限路由列表动态添加到默认路由列表中得到该用户真实路由列表\nrouter.addRoutes()\nnext({...to, replace:true})\n由于addRoute  有可能不会马上成功  所以官方推荐加上replace（消除历史记录）\n\n实际权限路由标识列表缓存在 vuex 中一份，减少接口调用次数\n\n\n","dateCreated":"2019-10-03T02:02:00+08:00","dateModified":"2019-11-04T17:40:17+08:00","datePublished":"2019-10-03T02:02:00+08:00","description":"如何让不同身份的用户，得到不同的菜单？","headline":"菜单权限控制","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/10/03/菜单权限控制/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/10/03/菜单权限控制/","keywords":"面试, 业务功能, 权限控制, vue","thumbnailUrl":"cover.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"如何让不同身份的用户，得到不同的菜单？\n菜单权限控制是值用户在访问系统时，根据用户的身份限制用户能够访问的菜单项\n如何实现\n前端配置默认路由列表、全部权限路由列表\n默认路由对象一般只配置 * 和 /\n服务器端定义接口，根据用户信息返回该用户的实际权限路由列表标识\n前端在 main.js 中设置路由的 beforeEach 钩子，在用户访问每个页面时，请求权限校验接口，拿到实际权限路由列表标识\n处理实际权限路由列表标识和全部权限路由列表得到实际权限路由列表\n将实际权限路由列表动态添加到默认路由列表中得到该用户真实路由列表\nrouter.addRoutes()\nnext({...to, replace:true})\n由于addRoute  有可能不会马上成功  所以官方推荐加上replace（消除历史记录）\n\n实际权限路由标识列表缓存在 vuex 中一份，减少接口调用次数\n\n\n","dateCreated":"2019-10-03T02:02:00+08:00","dateModified":"2019-11-04T17:40:17+08:00","datePublished":"2019-10-03T02:02:00+08:00","description":"如何让不同身份的用户，得到不同的菜单？","headline":"菜单权限控制","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/10/03/菜单权限控制/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/10/03/菜单权限控制/","keywords":"面试, vue, 业务功能, 权限控制","thumbnailUrl":"cover.png"}</script>
     <meta name="description" content="如何让不同身份的用户，得到不同的菜单？">
-<meta name="keywords" content="面试,业务功能,权限控制,vue">
+<meta name="keywords" content="面试,vue,业务功能,权限控制">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="菜单权限控制">
 <meta property="og:url" content="http://www.zbwblog.com/2019/10/03/菜单权限控制/index.html">
@@ -277,7 +277,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -371,7 +371,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
