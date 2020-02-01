@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hero never die">
     <meta name="baidu-site-verification" content="inFbtzgH0n" />
-    <title>0.1+0.2为什么不等于0.3 - hero never die</title>
+    <title>深拷贝与浅拷贝 - hero never die</title>
     <meta name="author" content="无畏">
     
     
@@ -16,18 +16,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"学习一道面试题。\n计算机运算时只能识别二进制数值，即所有运算中的数字都是有无数个0和1组成的。\n0.1+0.2运算之前也是先分别将十进制小数转成二进制后，进行加法运算，将得到的二进制数与十进制小数0.3转成二进制数进行比较。\n由于十进制小数0.1和0.2转成二进制后无穷尽，根据双精度浮点数规则，计算机会将其截断，四舍五入，所以相加得到的二进制数会0.3直接转成二进制数大一些。\n所以会出现0.1+0.2为什么不等于0.3。\n核心十进制小数如何转化为二进制数值\n二级制数值相加规则，满2进1\n2进制与10进制之间转换2——&gt;10: parseInt(11, 2)  // 3\n10——&gt;2: 10.toString(2)   // ‘1010’\n整数之间的进制转换还是比较简单的，那么小数呢?\n0.5转成二进制0.5 = n2^-1 + m2^-2 + …\n左右两边同时乘2\n1 = n2^0 + m2^-1 + …\n由于从2^0开始，才会有整数部分，此时我们就可以看出\n1 = n*2^0\nn = 1\n所以，得到结果：十进制的0.5转换成二进制后为2^-1，那么0.1转换成二进制是什么呢\n0.1转换成二进制是什么0.1 = n2^-1 + m2^-2 + …\n0.2 = n2^0 + m2^-1 + …   // 由于左边没有整数，所以 n=0, 此时最后结果的首位推导出为0\n0.4 = … + a2^0 + b2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为00\n0.8 = … + a2^0 + b2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为000\n1.6 = … + a2^0 + b2^-1 + …  // 由于左边有整数，所以此时 a = 1, 最后结果推导出为0001\n0.6  2 = …+ b2^0 + c*2^1 + …  // 由于左边有整数，所以此时 b = 1, 最后结果推导出为00011\n如此推导，得到0.1的二进制表示为：00011001100110011…\n由上可以知道，0.1的二进制结果，是无穷尽的小数，计算机内会对最后的结果，在一定的小数位时，四舍五入。\n计算机计算0.1的二进制时就已经准确了，那么计算0.2，以及最后相加的结果与0.3相比较，就会出现0.1 + 0.2 != 0.3的情况\n结论0.1+0.2不等于0.3是因为计算机将小数转化为2进制时，由于部分小数无穷尽，进行运算时计算机会四舍五入，无法得到期待结果所对应的2进制表示\n","dateCreated":"2019-11-03T17:42:00+08:00","dateModified":"2020-02-01T18:03:27+08:00","datePublished":"2019-11-03T17:42:00+08:00","description":"学习一道面试题。","headline":"0.1+0.2为什么不等于0.3","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/","keywords":"面试, js基础","thumbnailUrl":"cover.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"学习一道面试题。\n浅拷贝有哪些\n…对象的展开运算符\n数组的slice方法\nObject.create()\n\n深拷贝有哪些\nJSON.parse(JSON.stringify(obj))\n\nJSON.parse(JSON.stringify(obj)) 有哪些不足\n无法拷贝函数\n无法拷贝对正则、日期对象\n无法拷贝undefined\n对于存在循环引用的对象，报错\n\n如何实现一个深拷贝\n传入参数不合法时，如null\n如果是正则、日期对象如何处理\n如果是普通数值类型如何处理\n当传入参数是数组、对象、函数时，如何优雅地处理，\n存在循环引用时，如何处理\n\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354const info = &#123;  name: \"zbw\",  address: &#123;    province: \"河北\",    city: \"定州\"  &#125;,  birthday: new Date(),  sex: undefined,  say() &#123;    console.log(\"hello\");  &#125;&#125;;info.o = info;// const a = JSON.parse(JSON.stringify(info));// console.log(a);function cloneDeep(obj, hash = new WeakMap()) &#123;  // 1  if (obj == null) return obj;  // 2  if (obj instanceof Date) return new Date(obj);  if (obj instanceof RegExp) return new RegExp(obj);  // 3 由于操作函数的行为一般只是执行，不涉及到修改。故返回即可，再此只对对象和数组做处理  if (typeof obj !== \"object\") return obj;  // 5  if (hash.get(obj)) return hash.get(obj);  // 4  const result = new obj.constructor();  // 5 克隆后，使用弱引用WeakMap以对象作为key，将值存起来  // 下面执行过过程中遇到存在属性值是父对象，产生循环引用的问题时  // 如果在map映射中找到了，则直接返回即可  hash.set(obj, result);  for (let key in obj) &#123;    if (obj.hasOwnProperty(key)) &#123;      result[key] = cloneDeep(obj[key], hash);    &#125;  &#125;  return result;&#125;const result = cloneDeep(info);result.address.province = \"北京\";result.birthday = new Date(12312331312312);console.log(result);console.log(info);\n","dateCreated":"2019-11-05T17:49:00+08:00","dateModified":"2020-02-01T18:04:05+08:00","datePublished":"2019-11-05T17:49:00+08:00","description":"学习一道面试题。","headline":"深拷贝与浅拷贝","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/11/05/深拷贝与浅拷贝/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/11/05/深拷贝与浅拷贝/","keywords":"面试, js基础","thumbnailUrl":"cover.png"}</script>
     <meta name="description" content="学习一道面试题。">
 <meta name="keywords" content="面试,js基础">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="0.1+0.2为什么不等于0.3">
-<meta property="og:url" content="http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/index.html">
+<meta property="og:title" content="深拷贝与浅拷贝">
+<meta property="og:url" content="http://www.zbwblog.com/2019/11/05/深拷贝与浅拷贝/index.html">
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="学习一道面试题。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2020-02-01T10:03:27.209Z">
+<meta property="og:updated_time" content="2020-02-01T10:04:05.228Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="0.1+0.2为什么不等于0.3">
+<meta name="twitter:title" content="深拷贝与浅拷贝">
 <meta name="twitter:description" content="学习一道面试题。">
     
     
@@ -38,8 +38,8 @@
     
     
     
-        <meta property="og:image" content="http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/cover.png" />
+        <meta property="og:image" content="http://www.zbwblog.com/2019/11/05/深拷贝与浅拷贝/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/11/05/深拷贝与浅拷贝/cover.png" />
     
     
     <!--STYLES-->
@@ -193,12 +193,12 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/11/03/0.1+0.2为什么不等于0.3/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/11/05/深拷贝与浅拷贝/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            0.1+0.2为什么不等于0.3
+            深拷贝与浅拷贝
         </h1>
     
     
@@ -217,33 +217,29 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>学习一道面试题。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#核心"><span class="toc-text">核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2进制与10进制之间转换"><span class="toc-text">2进制与10进制之间转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-5转成二进制"><span class="toc-text">0.5转成二进制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1转换成二进制是什么"><span class="toc-text">0.1转换成二进制是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol><p></p>
-<p>计算机运算时只能识别二进制数值，即所有运算中的数字都是有无数个0和1组成的。</p>
-<p>0.1+0.2运算之前也是先分别将十进制小数转成二进制后，进行加法运算，将得到的二进制数与十进制小数0.3转成二进制数进行比较。</p>
-<p>由于十进制小数0.1和0.2转成二进制后无穷尽，根据双精度浮点数规则，计算机会将其截断，四舍五入，所以相加得到的二进制数会0.3直接转成二进制数大一些。</p>
-<p>所以会出现0.1+0.2为什么不等于0.3。</p>
-<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>十进制小数如何转化为二进制数值</p>
-<p>二级制数值相加规则，满2进1</p>
-<h2 id="2进制与10进制之间转换"><a href="#2进制与10进制之间转换" class="headerlink" title="2进制与10进制之间转换"></a>2进制与10进制之间转换</h2><p>2——&gt;10: parseInt(11, 2)  // 3</p>
-<p>10——&gt;2: 10.toString(2)   // ‘1010’</p>
-<p>整数之间的进制转换还是比较简单的，那么小数呢?</p>
-<h2 id="0-5转成二进制"><a href="#0-5转成二进制" class="headerlink" title="0.5转成二进制"></a>0.5转成二进制</h2><p>0.5 = n<em>2^-1 + m</em>2^-2 + …</p>
-<p>左右两边同时乘2</p>
-<p>1 = n<em>2^0 + m</em>2^-1 + …</p>
-<p>由于从2^0开始，才会有整数部分，此时我们就可以看出</p>
-<p>1 = n*2^0</p>
-<p>n = 1</p>
-<p>所以，得到结果：十进制的0.5转换成二进制后为2^-1，那么0.1转换成二进制是什么呢</p>
-<h2 id="0-1转换成二进制是什么"><a href="#0-1转换成二进制是什么" class="headerlink" title="0.1转换成二进制是什么"></a>0.1转换成二进制是什么</h2><p>0.1 = n<em>2^-1 + m</em>2^-2 + …</p>
-<p>0.2 = n<em>2^0 + m</em>2^-1 + …   // 由于左边没有整数，所以 n=0, 此时最后结果的首位推导出为0</p>
-<p>0.4 = … + a<em>2^0 + b</em>2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为00</p>
-<p>0.8 = … + a<em>2^0 + b</em>2^-1 + …  // 由于左边仍没有整数，所以此时最后结果推导出为000</p>
-<p>1.6 = … + a<em>2^0 + b</em>2^-1 + …  // 由于左边有整数，所以此时 a = 1, 最后结果推导出为0001</p>
-<p>0.6 <em> 2 = …+ b</em>2^0 + c*2^1 + …  // 由于左边有整数，所以此时 b = 1, 最后结果推导出为00011</p>
-<p>如此推导，得到0.1的二进制表示为：00011001100110011…</p>
-<p>由上可以知道，0.1的二进制结果，是无穷尽的小数，计算机内会对最后的结果，在一定的小数位时，四舍五入。</p>
-<p>计算机计算0.1的二进制时就已经准确了，那么计算0.2，以及最后相加的结果与0.3相比较，就会出现0.1 + 0.2 != 0.3的情况</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>0.1+0.2不等于0.3是因为计算机将小数转化为2进制时，由于部分小数无穷尽，进行运算时计算机会四舍五入，无法得到期待结果所对应的2进制表示</p>
+            <p>学习一道面试题。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#浅拷贝有哪些"><span class="toc-text">浅拷贝有哪些</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深拷贝有哪些"><span class="toc-text">深拷贝有哪些</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON-parse-JSON-stringify-obj-有哪些不足"><span class="toc-text">JSON.parse(JSON.stringify(obj)) 有哪些不足</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何实现一个深拷贝"><span class="toc-text">如何实现一个深拷贝</span></a></li></ol><p></p>
+<h2 id="浅拷贝有哪些"><a href="#浅拷贝有哪些" class="headerlink" title="浅拷贝有哪些"></a>浅拷贝有哪些</h2><ul>
+<li>…对象的展开运算符</li>
+<li>数组的slice方法</li>
+<li>Object.create()</li>
+</ul>
+<h2 id="深拷贝有哪些"><a href="#深拷贝有哪些" class="headerlink" title="深拷贝有哪些"></a>深拷贝有哪些</h2><ul>
+<li>JSON.parse(JSON.stringify(obj))</li>
+</ul>
+<h2 id="JSON-parse-JSON-stringify-obj-有哪些不足"><a href="#JSON-parse-JSON-stringify-obj-有哪些不足" class="headerlink" title="JSON.parse(JSON.stringify(obj)) 有哪些不足"></a>JSON.parse(JSON.stringify(obj)) 有哪些不足</h2><ul>
+<li>无法拷贝函数</li>
+<li>无法拷贝对正则、日期对象</li>
+<li>无法拷贝undefined</li>
+<li>对于存在循环引用的对象，报错</li>
+</ul>
+<h2 id="如何实现一个深拷贝"><a href="#如何实现一个深拷贝" class="headerlink" title="如何实现一个深拷贝"></a>如何实现一个深拷贝</h2><ol>
+<li>传入参数不合法时，如null</li>
+<li>如果是正则、日期对象如何处理</li>
+<li>如果是普通数值类型如何处理</li>
+<li>当传入参数是数组、对象、函数时，如何优雅地处理，</li>
+<li>存在循环引用时，如何处理</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> info = &#123;</span><br><span class="line">  name: <span class="string">"zbw"</span>,</span><br><span class="line">  address: &#123;</span><br><span class="line">    province: <span class="string">"河北"</span>,</span><br><span class="line">    city: <span class="string">"定州"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  birthday: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">  sex: <span class="literal">undefined</span>,</span><br><span class="line">  say() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"hello"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">info.o = info;</span><br><span class="line"></span><br><span class="line"><span class="comment">// const a = JSON.parse(JSON.stringify(info));</span></span><br><span class="line"><span class="comment">// console.log(a);</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cloneDeep</span>(<span class="params">obj, hash = new WeakMap(</span>)) </span>&#123;</span><br><span class="line">  <span class="comment">// 1</span></span><br><span class="line">  <span class="keyword">if</span> (obj == <span class="literal">null</span>) <span class="keyword">return</span> obj;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2</span></span><br><span class="line">  <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> <span class="built_in">Date</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Date</span>(obj);</span><br><span class="line">  <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> <span class="built_in">RegExp</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">RegExp</span>(obj);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3 由于操作函数的行为一般只是执行，不涉及到修改。故返回即可，再此只对对象和数组做处理</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> obj !== <span class="string">"object"</span>) <span class="keyword">return</span> obj;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 5</span></span><br><span class="line">  <span class="keyword">if</span> (hash.get(obj)) <span class="keyword">return</span> hash.get(obj);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 4</span></span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">new</span> obj.constructor();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 5 克隆后，使用弱引用WeakMap以对象作为key，将值存起来</span></span><br><span class="line">  <span class="comment">// 下面执行过过程中遇到存在属性值是父对象，产生循环引用的问题时</span></span><br><span class="line">  <span class="comment">// 如果在map映射中找到了，则直接返回即可</span></span><br><span class="line">  hash.set(obj, result);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">    <span class="keyword">if</span> (obj.hasOwnProperty(key)) &#123;</span><br><span class="line">      result[key] = cloneDeep(obj[key], hash);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> result = cloneDeep(info);</span><br><span class="line">result.address.province = <span class="string">"北京"</span>;</span><br><span class="line">result.birthday = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">12312331312312</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br><span class="line"><span class="built_in">console</span>.log(info);</span><br></pre></td></tr></table></figure>
 
             
 
@@ -268,8 +264,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/05/深拷贝与浅拷贝/" data-tooltip="深拷贝与浅拷贝" aria-label="上一篇: 深拷贝与浅拷贝">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -278,7 +273,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/05/手写一个简版promise/" data-tooltip="手写一个简版promise" aria-label="下一篇: 手写一个简版promise">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/03/0.1+0.2为什么不等于0.3/" data-tooltip="0.1+0.2为什么不等于0.3" aria-label="下一篇: 0.1+0.2为什么不等于0.3">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -362,8 +357,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/05/深拷贝与浅拷贝/" data-tooltip="深拷贝与浅拷贝" aria-label="上一篇: 深拷贝与浅拷贝">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -372,7 +366,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/10/05/手写一个简版promise/" data-tooltip="手写一个简版promise" aria-label="下一篇: 手写一个简版promise">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/03/0.1+0.2为什么不等于0.3/" data-tooltip="0.1+0.2为什么不等于0.3" aria-label="下一篇: 0.1+0.2为什么不等于0.3">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
