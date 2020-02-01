@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hero never die">
     <meta name="baidu-site-verification" content="inFbtzgH0n" />
-    <title>ajax交互数据格式 - hero never die</title>
+    <title>typeof与instanceof - hero never die</title>
     <meta name="author" content="无畏">
     
     
@@ -16,19 +16,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"总结前后端常用数据交互格式。\n表单格式content-type:application/x-www-form-urlencoded\n格式为：`name=zbw&amp;sex=1&amp;email=569119225@qq.com` 字符串\n示例：\n123456789101112131415let xhr = new XMLHttpRequest()xhr.onreadystatechange = function() &#123;  if(xhr.readyState == 4 &amp;&amp; xhr.status == 200)&#123;    console.log(xhr.response)  &#125;&#125;xhr.open('POST', '/api/entrance/login')const data = 'email=xxxx&amp;password=xxxxx&amp;verifyCode=344&amp;key=123'xhr.setRequestHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");xhr.send(data)\nformData格式content-type:multipart/form-data\n一般用于传输文件、图片。\n示例：\n123456789101112131415let data = new FormData()data.append('srcId', 2)data.append('uId', uId)data.append('envId', envId)data.append('cntrId', cntrId)data.append('dataJson', JSON.stringify(dataJson))axios.post(  url,  data,  &#123;    headers: &#123;      'Content-Type': 'multipart/form-data'    &#125;  &#125;)\njson格式content-type:application/json\n示例：\n1234567891011axios.post(  url,  &#123;    name: 'zbw',    sex: 1  &#125;,  &#123;    headers: &#123;      'Content-Type': 'application/json'    &#125;  &#125;)\n","dateCreated":"2019-09-23T22:05:00+08:00","dateModified":"2019-10-01T12:33:32+08:00","datePublished":"2019-09-23T22:05:00+08:00","description":"总结前后端常用数据交互格式。","headline":"ajax交互数据格式","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/09/23/ajax交互数据格式/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/09/23/ajax交互数据格式/","keywords":"http, ajax","thumbnailUrl":"cover.png"}</script>
-    <meta name="description" content="总结前后端常用数据交互格式。">
-<meta name="keywords" content="http,ajax">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"学习一道面试题。\ntypeof 用于判断原始数据类型：number、string、null、undefined、boolean、symbol、以及function\ninstanceof 用于判断引用数据类型： Regexp、Object、Array\ntypeof\n当数据是方法时，返回’function’\n当数据是正则时，返回’object’\ntypeof null ==== ‘object’\n\ninstanceofinstanceof 只能校验某个对象是否是某个类的实例\ninstanceof原理例如: A instanceof B\n取A.proto与B.prototype比较\n如果相等，则返回true\n如果不相等，则继续取A.proto.proto与B.prototype比较。直至左边为null\n即沿着原型链的继承关系一直找，如果发现来同一个原型对象，则返回true，否则返回false\n实现一个instanceof12345678910111213141516function instanceOf(A, B) &#123;  B = B.prototype;  A = A.__proto__;  while (true) &#123;    if (A === null) return false;    if (A === B) return true;    A = A.__proto__;  &#125;&#125;console.log(instanceOf(\"zbw\", String));console.log(instanceOf(\"zbw\", Object));console.log(instanceOf(\"zbw\", Array));\n判断数据类型其他方法\nObject.prototype.toString.call\ninstance.constructor\n\n","dateCreated":"2019-11-14T19:01:00+08:00","dateModified":"2020-02-01T19:02:54+08:00","datePublished":"2019-11-14T19:01:00+08:00","description":"学习一道面试题。","headline":"typeof与instanceof","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/11/14/typeof与instanceof/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/11/14/typeof与instanceof/","keywords":"面试, js基础","thumbnailUrl":"cover.png"}</script>
+    <meta name="description" content="学习一道面试题。">
+<meta name="keywords" content="面试,js基础">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="ajax交互数据格式">
-<meta property="og:url" content="http://www.zbwblog.com/2019/09/23/ajax交互数据格式/index.html">
+<meta property="og:title" content="typeof与instanceof">
+<meta property="og:url" content="http://www.zbwblog.com/2019/11/14/typeof与instanceof/index.html">
 <meta property="og:site_name" content="hero never die">
-<meta property="og:description" content="总结前后端常用数据交互格式。">
+<meta property="og:description" content="学习一道面试题。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-10-01T04:33:32.726Z">
+<meta property="og:updated_time" content="2020-02-01T11:02:54.182Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ajax交互数据格式">
-<meta name="twitter:description" content="总结前后端常用数据交互格式。">
+<meta name="twitter:title" content="typeof与instanceof">
+<meta name="twitter:description" content="学习一道面试题。">
     
     
         
@@ -38,8 +38,8 @@
     
     
     
-        <meta property="og:image" content="http://www.zbwblog.com/2019/09/23/ajax交互数据格式/cover.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/09/23/ajax交互数据格式/cover.png" />
+        <meta property="og:image" content="http://www.zbwblog.com/2019/11/14/typeof与instanceof/cover.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://www.zbwblog.com/2019/11/14/typeof与instanceof/cover.png" />
     
     
     <!--STYLES-->
@@ -193,12 +193,12 @@
             
         <div class="post-header-cover
                     text-left
-                    post-header-cover--partial" style="background-image:url('/2019/09/23/ajax交互数据格式/cover.png');" data-behavior="5">
+                    post-header-cover--partial" style="background-image:url('/2019/11/14/typeof与instanceof/cover.png');" data-behavior="5">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            ajax交互数据格式
+            typeof与instanceof
         </h1>
     
     
@@ -217,18 +217,25 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>总结前后端常用数据交互格式。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#表单格式"><span class="toc-text">表单格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#formData格式"><span class="toc-text">formData格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#json格式"><span class="toc-text">json格式</span></a></li></ol><p></p>
-<h2 id="表单格式"><a href="#表单格式" class="headerlink" title="表单格式"></a>表单格式</h2><p><code>content-type:application/x-www-form-urlencoded</code></p>
-<p>格式为：<a href="mailto:`name=zbw&amp;sex=1&amp;email=569119225@qq.com" target="_blank" rel="noopener">`name=zbw&amp;sex=1&amp;email=569119225@qq.com</a>` 字符串</p>
-<p>示例：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line"></span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(xhr.readyState == <span class="number">4</span> &amp;&amp; xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(xhr.response)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">xhr.open(<span class="string">'POST'</span>, <span class="string">'/api/entrance/login'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> data = <span class="string">'email=xxxx&amp;password=xxxxx&amp;verifyCode=344&amp;key=123'</span></span><br><span class="line"></span><br><span class="line">xhr.setRequestHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line"></span><br><span class="line">xhr.send(data)</span><br></pre></td></tr></table></figure>
-<h2 id="formData格式"><a href="#formData格式" class="headerlink" title="formData格式"></a>formData格式</h2><p><code>content-type:multipart/form-data</code></p>
-<p>一般用于传输文件、图片。</p>
-<p>示例：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = <span class="keyword">new</span> FormData()</span><br><span class="line">data.append(<span class="string">'srcId'</span>, <span class="number">2</span>)</span><br><span class="line">data.append(<span class="string">'uId'</span>, uId)</span><br><span class="line">data.append(<span class="string">'envId'</span>, envId)</span><br><span class="line">data.append(<span class="string">'cntrId'</span>, cntrId)</span><br><span class="line">data.append(<span class="string">'dataJson'</span>, <span class="built_in">JSON</span>.stringify(dataJson))</span><br><span class="line"></span><br><span class="line">axios.post(</span><br><span class="line">  url,</span><br><span class="line">  data,</span><br><span class="line">  &#123;</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'multipart/form-data'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="json格式"><a href="#json格式" class="headerlink" title="json格式"></a>json格式</h2><p><code>content-type:application/json</code></p>
-<p>示例：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">axios.post(</span><br><span class="line">  url,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">'zbw'</span>,</span><br><span class="line">    sex: <span class="number">1</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+            <p>学习一道面试题。<br><a id="more"></a><br></p><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof"><span class="toc-text">typeof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#instanceof"><span class="toc-text">instanceof</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#instanceof原理"><span class="toc-text">instanceof原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现一个instanceof"><span class="toc-text">实现一个instanceof</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断数据类型其他方法"><span class="toc-text">判断数据类型其他方法</span></a></li></ol><p></p>
+<p>typeof 用于判断原始数据类型：number、string、null、undefined、boolean、symbol、以及function</p>
+<p>instanceof 用于判断引用数据类型： Regexp、Object、Array</p>
+<h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><ul>
+<li>当数据是方法时，返回’function’</li>
+<li>当数据是正则时，返回’object’</li>
+<li>typeof null ==== ‘object’</li>
+</ul>
+<h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>instanceof 只能校验某个对象是否是某个类的实例</p>
+<h3 id="instanceof原理"><a href="#instanceof原理" class="headerlink" title="instanceof原理"></a>instanceof原理</h3><p>例如: <code>A instanceof B</code></p>
+<p>取A.<strong>proto</strong>与B.prototype比较</p>
+<p>如果相等，则返回true</p>
+<p>如果不相等，则继续取A.<strong>proto</strong>.<strong>proto</strong>与B.prototype比较。直至左边为null</p>
+<p>即沿着原型链的继承关系一直找，如果发现来同一个原型对象，则返回true，否则返回false</p>
+<h3 id="实现一个instanceof"><a href="#实现一个instanceof" class="headerlink" title="实现一个instanceof"></a>实现一个instanceof</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">instanceOf</span>(<span class="params">A, B</span>) </span>&#123;</span><br><span class="line">  B = B.prototype;</span><br><span class="line">  A = A.__proto__;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (A === <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (A === B) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    A = A.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">String</span>));</span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">Object</span>));</span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">Array</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="判断数据类型其他方法"><a href="#判断数据类型其他方法" class="headerlink" title="判断数据类型其他方法"></a>判断数据类型其他方法</h2><ol>
+<li>Object.prototype.toString.call</li>
+<li>instance.constructor</li>
+</ol>
 
             
 
@@ -243,7 +250,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/ajax/">ajax</a> <a class="tag tag--primary tag--small t-link" href="/tags/http/">http</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/js基础/">js基础</a> <a class="tag tag--primary tag--small t-link" href="/tags/面试/">面试</a>
 
             </div>
         
@@ -253,8 +260,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/24/关于webpack配置常见问题/" data-tooltip="关于webpack配置常见问题" aria-label="上一篇: 关于webpack配置常见问题">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -263,7 +269,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/使用gulp构建一个模板项目/" data-tooltip="使用gulp构建一个模板项目" aria-label="下一篇: 使用gulp构建一个模板项目">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/10/new、call、apply、bind原理/" data-tooltip="new、call、apply、bind原理" aria-label="下一篇: new、call、apply、bind原理">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -347,8 +353,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/24/关于webpack配置常见问题/" data-tooltip="关于webpack配置常见问题" aria-label="上一篇: 关于webpack配置常见问题">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -357,7 +362,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/22/使用gulp构建一个模板项目/" data-tooltip="使用gulp构建一个模板项目" aria-label="下一篇: 使用gulp构建一个模板项目">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/10/new、call、apply、bind原理/" data-tooltip="new、call、apply、bind原理" aria-label="下一篇: new、call、apply、bind原理">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>

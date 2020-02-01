@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.zbwblog.com/"/>
-  <updated>2020-02-01T10:37:42.649Z</updated>
+  <updated>2020-02-01T11:02:54.182Z</updated>
   <id>http://www.zbwblog.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>typeof与instanceof</title>
+    <link href="http://www.zbwblog.com/2019/11/14/typeof%E4%B8%8Einstanceof/"/>
+    <id>http://www.zbwblog.com/2019/11/14/typeof与instanceof/</id>
+    <published>2019-11-14T11:01:00.000Z</published>
+    <updated>2020-02-01T11:02:54.182Z</updated>
+    
+    <content type="html"><![CDATA[<p>学习一道面试题。<br><a id="more"></a><br><!-- toc --></p><p>typeof 用于判断原始数据类型：number、string、null、undefined、boolean、symbol、以及function</p><p>instanceof 用于判断引用数据类型： Regexp、Object、Array</p><h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><ul><li>当数据是方法时，返回’function’</li><li>当数据是正则时，返回’object’</li><li>typeof null ==== ‘object’</li></ul><h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>instanceof 只能校验某个对象是否是某个类的实例</p><h3 id="instanceof原理"><a href="#instanceof原理" class="headerlink" title="instanceof原理"></a>instanceof原理</h3><p>例如: <code>A instanceof B</code></p><p>取A.<strong>proto</strong>与B.prototype比较</p><p>如果相等，则返回true</p><p>如果不相等，则继续取A.<strong>proto</strong>.<strong>proto</strong>与B.prototype比较。直至左边为null</p><p>即沿着原型链的继承关系一直找，如果发现来同一个原型对象，则返回true，否则返回false</p><h3 id="实现一个instanceof"><a href="#实现一个instanceof" class="headerlink" title="实现一个instanceof"></a>实现一个instanceof</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">instanceOf</span>(<span class="params">A, B</span>) </span>&#123;</span><br><span class="line">  B = B.prototype;</span><br><span class="line">  A = A.__proto__;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (A === <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (A === B) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    A = A.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">String</span>));</span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">Object</span>));</span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">Array</span>));</span><br></pre></td></tr></table></figure><h2 id="判断数据类型其他方法"><a href="#判断数据类型其他方法" class="headerlink" title="判断数据类型其他方法"></a>判断数据类型其他方法</h2><ol><li>Object.prototype.toString.call</li><li>instance.constructor</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;学习一道面试题。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
+    
+    
+      <category term="面试" scheme="http://www.zbwblog.com/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="js基础" scheme="http://www.zbwblog.com/tags/js%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>new、call、apply、bind原理</title>
@@ -160,11 +184,11 @@
     
       <category term="面试" scheme="http://www.zbwblog.com/tags/%E9%9D%A2%E8%AF%95/"/>
     
+      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+    
       <category term="业务功能" scheme="http://www.zbwblog.com/tags/%E4%B8%9A%E5%8A%A1%E5%8A%9F%E8%83%BD/"/>
     
       <category term="权限控制" scheme="http://www.zbwblog.com/tags/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
-    
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
     
   </entry>
   
@@ -188,11 +212,11 @@
     
       <category term="面试" scheme="http://www.zbwblog.com/tags/%E9%9D%A2%E8%AF%95/"/>
     
+      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+    
       <category term="业务功能" scheme="http://www.zbwblog.com/tags/%E4%B8%9A%E5%8A%A1%E5%8A%9F%E8%83%BD/"/>
     
       <category term="权限控制" scheme="http://www.zbwblog.com/tags/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
-    
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
     
   </entry>
   
@@ -353,6 +377,30 @@
   </entry>
   
   <entry>
+    <title>vue项目搭建</title>
+    <link href="http://www.zbwblog.com/2019/09/24/vue%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/"/>
+    <id>http://www.zbwblog.com/2019/09/24/vue项目搭建/</id>
+    <published>2019-09-24T15:01:00.000Z</published>
+    <updated>2019-10-01T04:56:46.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>从0搭建一个vue项目，你需要知道哪些东西。<br><a id="more"></a><br><!-- toc --></p><h2 id="搭建模板"><a href="#搭建模板" class="headerlink" title="搭建模板"></a>搭建模板</h2><p><a href="https://juejin.im/book/5b23a5aef265da59716fda09" target="_blank" rel="noopener">掘金小册——Vue 项目构建与开发入门</a></p><p><img src="/assets/images/vue单页应用基础配置.jpg" alt="环境区分"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从0搭建一个vue项目，你需要知道哪些东西。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
+    
+    
+      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
+    
+      <category term="项目架构" scheme="http://www.zbwblog.com/tags/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
     <title>关于webpack配置常见问题</title>
     <link href="http://www.zbwblog.com/2019/09/24/%E5%85%B3%E4%BA%8Ewebpack%E9%85%8D%E7%BD%AE%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
     <id>http://www.zbwblog.com/2019/09/24/关于webpack配置常见问题/</id>
@@ -375,30 +423,6 @@
       <category term="前端工程化" scheme="http://www.zbwblog.com/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/"/>
     
       <category term="webpack" scheme="http://www.zbwblog.com/tags/webpack/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vue项目搭建</title>
-    <link href="http://www.zbwblog.com/2019/09/24/vue%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/"/>
-    <id>http://www.zbwblog.com/2019/09/24/vue项目搭建/</id>
-    <published>2019-09-24T15:01:00.000Z</published>
-    <updated>2019-10-01T04:56:46.638Z</updated>
-    
-    <content type="html"><![CDATA[<p>从0搭建一个vue项目，你需要知道哪些东西。<br><a id="more"></a><br><!-- toc --></p><h2 id="搭建模板"><a href="#搭建模板" class="headerlink" title="搭建模板"></a>搭建模板</h2><p><a href="https://juejin.im/book/5b23a5aef265da59716fda09" target="_blank" rel="noopener">掘金小册——Vue 项目构建与开发入门</a></p><p><img src="/assets/images/vue单页应用基础配置.jpg" alt="环境区分"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;从0搭建一个vue项目，你需要知道哪些东西。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
-    
-    
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
-    
-      <category term="项目架构" scheme="http://www.zbwblog.com/tags/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
@@ -505,28 +529,6 @@
       <category term="前端监控" scheme="http://www.zbwblog.com/tags/%E5%89%8D%E7%AB%AF%E7%9B%91%E6%8E%A7/"/>
     
       <category term="阿里云" scheme="http://www.zbwblog.com/tags/%E9%98%BF%E9%87%8C%E4%BA%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vue实战技巧</title>
-    <link href="http://www.zbwblog.com/2019/09/22/vue%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/"/>
-    <id>http://www.zbwblog.com/2019/09/22/vue实战技巧/</id>
-    <published>2019-09-22T07:52:00.000Z</published>
-    <updated>2019-10-01T04:48:11.765Z</updated>
-    
-    <content type="html"><![CDATA[<p>在vue开发中你不知道的黑科技。<br><a id="more"></a><br><!-- toc --></p><h2 id="provide-与-inject"><a href="#provide-与-inject" class="headerlink" title="provide 与 inject"></a>provide 与 inject</h2><ol><li><p>是什么？</p><p>是vue中的一种依赖注入的概念api，由父级或祖先级向子级注入数据，子级接收，实现跨越无数层级组件间通讯。</p></li><li><p>为什么存在？</p><p>简化vue跨多层级组件通讯</p><p>开发独立组件时，代替 <code>vuex</code> 在顶层组件管理状态</p></li><li><p>注意</p><p>注入的数据并不是可响应的，这是刻意为之的，并且不能修改，会报错：避免直接改变注入的值（基本数据类型和引用数据类型的地址），因为只要提供的组件重新呈现，更改就会被覆盖。</p><p>但是！ <code>如果你传入了一个可监听的对象，那么其对象的属性还是可响应的。</code></p><p> 也就是说引用数据类型的属性是可以改变的，并且可以出发响应式变化，利用这一点，我们可以做很多事情。如利用入口模块向下注入核心数据对象，各子模块接收后粒度化拆分功能修改核心数据对象。</p><p><code>prop</code> 同理，<code>vue</code> 虽然宣扬单向数据流，但是这种类似于 <code>Angular</code> 数据双向绑定概念的操作，拆分核心对象数据到各个粒度化子组件修改，会让你的代码撸到爽到飞起。</p></li><li><p>在哪里可以使用</p><p>父级组件和子级组件产生了一种隐形的耦合关系，父级不知道最终将数据传给谁，子级不知道数据是从哪里获取到的，因此只建议在封闭度高的高阶组件和组件库中使用，不建议在应用代码中使用。</p><p>由于传入的基本类型数据不可响应，更推荐注入对象的形式。常用于初始化项目（组件）使用的配置，比如年部学科，这些东西一般不会发生变化，子组件又不定时需要。最重要的是，不依赖于vuex，因此成为开发独立插件组件的首选。</p></li><li><p>示例</p> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父级、祖先级组件</span></span><br><span class="line">provide() &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    List: <span class="keyword">this</span>.List,</span><br><span class="line">    type: <span class="keyword">this</span>.type</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line">inject: &#123;</span><br><span class="line"><span class="comment">// 类型</span></span><br><span class="line">  type: &#123;</span><br><span class="line">    <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="comment">// 列表</span></span><br><span class="line">  list: &#123;</span><br><span class="line">      <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol><h2 id="动态组件"><a href="#动态组件" class="headerlink" title="动态组件"></a>动态组件</h2><ol><li><p>是什么</p><p>在某个位置，动态切换，加载不同的组件。</p></li><li><p>为什么存在</p><p>避免出现大量的 <code>v-if</code> , 更优雅处理业务逻辑。</p></li><li><p>注意</p><p>使用动态组件时，通常会重新创建不同的组件，但是当切换的是同一个组件的时候，如单选题组件和多选题组件，由于公用的是一个组件，vue内部会自动处理，不会再重新创建这个组件，不重新创建组件内的状态就无法清空，引发问题，此时需要加一个key作为唯一标识，保证组件重新创建。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> COMPONENT_CONFIG = &#123;</span><br><span class="line">  [QS_LOGIC_ID_MAP.SINGLE_CHOICE]: <span class="string">'Choice'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.MULTIPLE_CHOICE]: <span class="string">'Choice'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.FILL_BLANKS]: <span class="string">'FillBlank'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.RESOLVE_ANSWER]: <span class="string">'ResolveQs'</span>,</span><br><span class="line">  [QS_LOGIC_ID_MAP.COMPLEX]: <span class="string">'Complex'</span></span><br><span class="line">&#125;</span><br><span class="line">computed: &#123;</span><br><span class="line">  <span class="comment">// 当前逻辑题型</span></span><br><span class="line">  currentLogicId() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.mainData.logicQuesTypeId</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 当前组件</span></span><br><span class="line">  currentComponent() &#123;</span><br><span class="line">    <span class="keyword">return</span> COMPONENT_CONFIG[<span class="keyword">this</span>.currentLogicId]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&lt;component :is=<span class="string">"currentComponent"</span> :main-data=<span class="string">"mainData"</span> :key=<span class="string">"currentLogicId"</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/component&gt;</span></span><br></pre></td></tr></table></figure></li><li><p>在哪里可以使用</p><p>如根据不同的题型id，切换不同的录题组件。</p></li><li><p>示例</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// currentComponent 是已注册组件的名字 或 一个组件的选项对象</span></span><br><span class="line">&lt;component :is=<span class="string">"currentComponent"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span></span><br></pre></td></tr></table></figure></li></ol><h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p>   watch监听值/引用地址的变化</p><h3 id="immediate属性"><a href="#immediate属性" class="headerlink" title="immediate属性"></a>immediate属性</h3><ol><li><p>是什么？</p><p>让所监听数据初次赋值时就触发 <code>handler</code> ，而非纯异步监听：只有改变时才出发 <code>handler</code></p></li><li><p>为什么存在？</p><p>在一些特定的应用场景中，我们试图监听 <code>prop</code> ，而不仅仅是本组件中的状态，但父组件对子组件 <code>prop</code> 的初次赋值我们是监听不到的，所以 <code>immediate</code> 诞生了。</p></li><li><p>在哪里可以使用？</p><p>监听 <code>prop</code></p></li><li><p>示例</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  mainData: &#123;</span><br><span class="line">    type: <span class="built_in">Object</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">watch: &#123;</span><br><span class="line">  mainData: &#123;</span><br><span class="line">    deep: <span class="literal">true</span>,</span><br><span class="line">      <span class="comment">// 保证父组件初始化是对mainData（null）赋值后，子组件立即响应</span></span><br><span class="line">      immediate: <span class="literal">true</span>,</span><br><span class="line">        handler: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="keyword">this</span>.$emit(<span class="string">'update'</span>, <span class="keyword">this</span>.mainData)</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol><h2 id="关于控制组件状态"><a href="#关于控制组件状态" class="headerlink" title="关于控制组件状态"></a>关于控制组件状态</h2><ol><li><p>背景</p><p>我们经常说<strong>粒度化</strong>，指将<strong>复杂的功能拆解到不同子模块处理。</strong></p><p>经过使用vue了一段时间后，我们发现，由于父组件prop传进来的<strong>值/引用地址</strong>在<strong>无法在子组件中直接改变</strong>，于是我们会经常使用prop去初始化子组件中的状态/data，然后去<strong>随心所欲</strong>操作这份数据。</p><p>有<strong>两种方式</strong>，可以实现以上目标，一是直接在data中使用prop赋予默认值，二是在created钩子中，有一个初始化状态方法 <code>initStatus(slefData)</code> 。</p><p>我<strong>更推荐后者</strong>，因为也许有一天我们会遇到<strong>父组件需要重置子组件内部状态</strong>的场景，比如<strong>换一题</strong>这样的功能。</p><p><strong>换一题功能的两种解决方案</strong></p><ol><li>深度监听试题数据，试题数据发生变化后，重新调用子组件内的 <code>iniSelfData</code> 方法，自己刷新自己。但实际上这是消耗性能，并且不合理的操作。</li><li>考虑到<strong>性能**</strong>，我们既不希望一个庞大的组件<strong>重新创建</strong>，又不想要<strong>上一题留下的冗余的状态</strong>。那么此时我们就可以拿到子组件实例，在获取到下一题数据后，用新的核心数据，去重新调用子组件内部 <code>initSatus(slefData)</code> 方法，达到<strong>优雅更新子组件状态</strong>的目的。这种操作子组件对外提供一个<strong>接口</strong> 即 <code>initStatus</code> 方法，<strong>将重置组件状态的控制权交给父组件</strong>，这样的设计更加<strong>合情合理</strong>。</li></ol></li><li><p>注意</p><p>我知道很多时候我们需要在 <code>created</code> 钩子函数中异步调接口获取数据初始化。</p><p>但是<strong>千万不要</strong>写出 <code>async created(){}</code> 这样的钩子函数，因为它会将整<strong>个创建函数变成异步函数</strong>。</p><p>随之带来的是内部的 <code>initStatus(slefData)</code> 函数也变成了异步，但实际上我们需要的是同步。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不好的写法</span></span><br><span class="line"><span class="keyword">async</span> created() &#123;</span><br><span class="line">  <span class="comment">// 初始化组件内部，一些由用户操作而改变的状态</span></span><br><span class="line">  initStatus()</span><br><span class="line"><span class="comment">// 初始化数据</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> requestFn()</span><br><span class="line">  handlerData(data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 好的写法</span></span><br><span class="line"><span class="keyword">async</span> getData() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> requestFn()</span><br><span class="line">&#125;</span><br><span class="line">created() &#123;</span><br><span class="line">  <span class="comment">// 初始化组件内部，一些由用户操作而改变的状态</span></span><br><span class="line">  initStatus()</span><br><span class="line"><span class="comment">// 初始化数据</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> getData()</span><br><span class="line">  handlerData(data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>技巧</p><p><strong>重置组件状态</strong>：<code>Object.assign(this.$data, this.$options.data())</code></p></li></ol><h2 id="v-show-与-v-if"><a href="#v-show-与-v-if" class="headerlink" title="v-show 与 v-if"></a>v-show 与 v-if</h2><h3 id="v-show-与-v-if-有什么区别"><a href="#v-show-与-v-if-有什么区别" class="headerlink" title="v-show 与 v-if 有什么区别"></a>v-show 与 v-if 有什么区别</h3><p>   v-show 控制元素是否 <code>display: none</code> ，从样式的角度控制元素隐藏显示</p><p>   v-if 控制元素的dom是否存在，通过生成、移除dom元素控制元素隐藏显示</p><h3 id="v-show-与-v-if-实战技巧"><a href="#v-show-与-v-if-实战技巧" class="headerlink" title="v-show 与 v-if 实战技巧"></a>v-show 与 v-if 实战技巧</h3><ol><li><p>状态控制</p><p>场景：填写表单</p><p>当我们填写表单时，我们可以使用v-show省去写一系列的回显逻辑。</p><p>但与此同时，场景中可能存在取消操作，重置为初始状态，由于v-show不会重置组件、元素状态，所以我们可以在v-show为true时，先保留一份数据的备份，当用户点击取消时，我们使用备份的数据将状态还原。</p></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在vue开发中你不知道的黑科技。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术积累" scheme="http://www.zbwblog.com/categories/%E6%8A%80%E6%9C%AF%E7%A7%AF%E7%B4%AF/"/>
-    
-    
-      <category term="vue" scheme="http://www.zbwblog.com/tags/vue/"/>
     
   </entry>
   

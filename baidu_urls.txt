@@ -1,3 +1,4 @@
+http://www.zbwblog.com/2019/11/14/typeof与instanceof/
 http://www.zbwblog.com/2019/11/10/new、call、apply、bind原理/
 http://www.zbwblog.com/2019/11/05/深拷贝与浅拷贝/
 http://www.zbwblog.com/2019/11/03/0.1+0.2为什么不等于0.3/
@@ -7,4 +8,3 @@ http://www.zbwblog.com/2019/10/03/菜单权限控制/
 http://www.zbwblog.com/2019/10/03/jwt实现/
 http://www.zbwblog.com/2019/10/02/前端模块化/
 http://www.zbwblog.com/2019/10/01/使用postMessage+iframe开发插件式服务/
-http://www.zbwblog.com/2019/10/01/性能优化——http/
