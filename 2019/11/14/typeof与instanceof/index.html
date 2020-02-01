@@ -16,7 +16,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"学习一道面试题。\ntypeof 用于判断原始数据类型：number、string、null、undefined、boolean、symbol、以及function\ninstanceof 用于判断引用数据类型： Regexp、Object、Array\ntypeof\n当数据是方法时，返回’function’\n当数据是正则时，返回’object’\ntypeof null ==== ‘object’\n\ninstanceofinstanceof 只能校验某个对象是否是某个类的实例\ninstanceof是如何运作的例如: A instanceof B\n取A.proto与B.prototype比较\n如果相等，则返回true\n如果不相等，则继续取A.proto.proto与B.prototype比较。直至左边为null\n即沿着原型链的继承关系一直找，如果发现来同一个原型对象，则返回true，否则返回false\n实现一个instanceof12345678910111213141516function instanceOf(A, B) &#123;  B = B.prototype;  A = A.__proto__;  while (true) &#123;    if (A === null) return false;    if (A === B) return true;    A = A.__proto__;  &#125;&#125;console.log(instanceOf(\"zbw\", String));console.log(instanceOf(\"zbw\", Object));console.log(instanceOf(\"zbw\", Array));\ninstanceof本质instanceof本质其实是调用类（方法）的静态方法[Symbol.hasInstance]对值进行校验\n如何实现让instanceof可以校验基本数据类型123456789class ValidateStr &#123;  static [Symbol.hasInstance](x) &#123;    return typeof x === \"string\";  &#125;&#125;// 以下两种是等价的console.log(ValidateStr[Symbol.hasInstance](\"hello\"));console.log(\"hello\" instanceof ValidateStr);\n判断数据类型其他方法\nObject.prototype.toString.call\ninstance.constructor\n\n","dateCreated":"2019-11-14T19:01:00+08:00","dateModified":"2020-02-01T19:10:47+08:00","datePublished":"2019-11-14T19:01:00+08:00","description":"学习一道面试题。","headline":"typeof与instanceof","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/11/14/typeof与instanceof/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/11/14/typeof与instanceof/","keywords":"面试, js基础","thumbnailUrl":"cover.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"无畏","sameAs":[],"image":"avatar.png"},"articleBody":"学习一道面试题。\ntypeof 用于判断原始数据类型：number、string、null、undefined、boolean、symbol、以及function\ninstanceof 用于判断引用数据类型： Regexp、Object、Array\ntypeof\n当数据是方法时，返回’function’\n当数据是正则时，返回’object’\ntypeof null ==== ‘object’\n\ninstanceofinstanceof 只能校验某个对象是否是某个类的实例\ninstanceof是如何运作的例如: A instanceof B\n取A.__proto__与B.prototype比较\n如果相等，则返回true\n如果不相等，则继续取A.__proto__.__proto__与B.prototype比较。直至左边为null\n即沿着原型链的继承关系一直找，如果发现来同一个原型对象，则返回true，否则返回false\n实现一个instanceof12345678910111213141516function instanceOf(A, B) &#123;  B = B.prototype;  A = A.__proto__;  while (true) &#123;    if (A === null) return false;    if (A === B) return true;    A = A.__proto__;  &#125;&#125;console.log(instanceOf(\"zbw\", String));console.log(instanceOf(\"zbw\", Object));console.log(instanceOf(\"zbw\", Array));\ninstanceof本质instanceof本质其实是调用类（方法）的静态方法[Symbol.hasInstance]对值进行校验\n如何实现让instanceof可以校验基本数据类型123456789class ValidateStr &#123;  static [Symbol.hasInstance](x) &#123;    return typeof x === \"string\";  &#125;&#125;// 以下两种是等价的console.log(ValidateStr[Symbol.hasInstance](\"hello\"));console.log(\"hello\" instanceof ValidateStr);\n判断数据类型其他方法\nObject.prototype.toString.call\ninstance.constructor\n\n","dateCreated":"2019-11-14T19:01:00+08:00","dateModified":"2020-02-01T19:34:30+08:00","datePublished":"2019-11-14T19:01:00+08:00","description":"学习一道面试题。","headline":"typeof与instanceof","image":[null,"cover.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://www.zbwblog.com/2019/11/14/typeof与instanceof/"},"publisher":{"@type":"Organization","name":"无畏","sameAs":[],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://www.zbwblog.com/2019/11/14/typeof与instanceof/","keywords":"面试, js基础","thumbnailUrl":"cover.png"}</script>
     <meta name="description" content="学习一道面试题。">
 <meta name="keywords" content="面试,js基础">
 <meta property="og:type" content="blog">
@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="hero never die">
 <meta property="og:description" content="学习一道面试题。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2020-02-01T11:10:47.168Z">
+<meta property="og:updated_time" content="2020-02-01T11:34:30.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="typeof与instanceof">
 <meta name="twitter:description" content="学习一道面试题。">
@@ -227,9 +227,9 @@
 </ul>
 <h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>instanceof 只能校验某个对象是否是某个类的实例</p>
 <h3 id="instanceof是如何运作的"><a href="#instanceof是如何运作的" class="headerlink" title="instanceof是如何运作的"></a>instanceof是如何运作的</h3><p>例如: <code>A instanceof B</code></p>
-<p>取A.<strong>proto</strong>与B.prototype比较</p>
+<p>取<code>A.__proto__</code>与<code>B.prototype</code>比较</p>
 <p>如果相等，则返回true</p>
-<p>如果不相等，则继续取A.<strong>proto</strong>.<strong>proto</strong>与B.prototype比较。直至左边为null</p>
+<p>如果不相等，则继续取<code>A.__proto__.__proto__</code>与<code>B.prototype</code>比较。直至左边为null</p>
 <p>即沿着原型链的继承关系一直找，如果发现来同一个原型对象，则返回true，否则返回false</p>
 <h3 id="实现一个instanceof"><a href="#实现一个instanceof" class="headerlink" title="实现一个instanceof"></a>实现一个instanceof</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">instanceOf</span>(<span class="params">A, B</span>) </span>&#123;</span><br><span class="line">  B = B.prototype;</span><br><span class="line">  A = A.__proto__;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (A === <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (A === B) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    A = A.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">String</span>));</span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">Object</span>));</span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(<span class="string">"zbw"</span>, <span class="built_in">Array</span>));</span><br></pre></td></tr></table></figure>
 <h3 id="instanceof本质"><a href="#instanceof本质" class="headerlink" title="instanceof本质"></a>instanceof本质</h3><p>instanceof本质其实是调用类（方法）的静态方法<code>[Symbol.hasInstance]</code>对值进行校验</p>
@@ -281,7 +281,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -374,7 +374,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
